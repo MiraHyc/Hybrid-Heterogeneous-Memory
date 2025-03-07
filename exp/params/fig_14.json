@@ -1,5 +1,5 @@
 {
-    "methods": ["SMART", "Sherman"],
+    "methods": ["SMART"],
     "workload_names": ["YCSB E", "e"],
     "target_epoch": 9,
     "client_num": [2, 8],

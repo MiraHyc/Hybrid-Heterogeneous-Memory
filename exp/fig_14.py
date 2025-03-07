@@ -65,6 +65,7 @@ def main(cmd: CMDManager, tp: LogParser):
 
             CLEAR_MEMC = f"{env_cmd} && /bin/bash ../script/restartMemc.sh"
             SPLIT_WORKLOADS = f"{env_cmd} && python3 {ycsb_dir}/split_workload.py {workload_name} {key_type} {CN_num} {client_num_per_CN}"
+            # added py pz. added numactl --cpunodebind=0 --membind=0
             YCSB_TEST = f"{env_cmd} && ./ycsb_test {CN_num} {client_num_per_CN} 2 {key_type} {workload_name}"
             KILL_PROCESS = f"{env_cmd} && killall -9 ycsb_test"
 
