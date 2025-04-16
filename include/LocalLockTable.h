@@ -67,6 +67,20 @@ struct LocalLockNode {
 
 class LocalLockTable {
 public:
+  // added by pz
+  // NUMA 感知的内存分配
+  void* operator new(size_t size) {
+    const int numa_node = 1;
+    void* mem = numa_alloc_onnode(size, numa_node);
+    // void* mem = malloc(size);
+    // if (!mem) throw std::bad_alloc();
+    return mem;
+  }
+
+  void operator delete(void* ptr) {
+    numa_free(ptr, sizeof(LocalLockTable));
+  }
+
   LocalLockTable() {}
 
   // read-delegation

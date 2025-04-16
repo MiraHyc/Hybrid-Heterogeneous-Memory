@@ -94,6 +94,9 @@ public:
   // 读取当前根节点
   InternalEntry get_root_ptr(CoroContext *cxt, int coro_id);
 
+  // 获取 index cache 信息
+  void get_index_cache_state();
+
 private:
   // 协程调度相关
   void coro_worker(CoroYield &yield, RequstGen *gen, WorkFunc work_func, int coro_id);
@@ -135,6 +138,7 @@ private:
                            std::vector<ScanContext>& res);
   // 获取硬件锁地址
   void get_on_chip_lock_addr(const GlobalAddress &leaf_addr, GlobalAddress &lock_addr, uint64_t &mask);
+
 #ifdef TREE_TEST_ROWEX_ART
   void lock_node(const GlobalAddress &node_addr, CoroContext *cxt, int coro_id);
   void unlock_node(const GlobalAddress &node_addr, CoroContext *cxt, int coro_id);
@@ -165,5 +169,7 @@ private:
   GlobalAddress root_ptr_ptr; // the address which stores root pointer;
 };
 
+extern void treecpp_allocate_on_numa();
+extern void treecpp_free_numa();
 
 #endif // _TREE_H_

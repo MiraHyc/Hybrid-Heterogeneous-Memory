@@ -11,7 +11,8 @@
 #include <vector>
 #include <atomic>
 #include <mutex>
-
+#include "utils.h"
+#include "consts.h"
 
 double cache_miss[MAX_APP_THREAD];
 double cache_hit[MAX_APP_THREAD];
@@ -31,10 +32,115 @@ uint64_t latency[MAX_APP_THREAD][MAX_CORO_NUM][LATENCY_WINDOWS];
 volatile bool need_stop = false;
 uint64_t retry_cnt[MAX_APP_THREAD][MAX_FLAG_NUM];
 
+// double* cache_miss;
+// double* cache_hit;
+// uint64_t* lock_fail;
+// uint64_t* write_handover_num;
+// uint64_t* try_write_op;
+// uint64_t* read_handover_num;
+// uint64_t* try_read_op;
+// uint64_t* read_leaf_retry;
+// uint64_t* leaf_cache_invalid;
+// uint64_t* try_read_leaf;
+// uint64_t* read_node_repair;
+// uint64_t* try_read_node;
+// uint64_t** read_node_type;
+// uint64_t*** latency;
+// volatile bool need_stop = false;
+// uint64_t** retry_cnt;
+
 thread_local CoroCall Tree::worker[MAX_CORO_NUM];
 thread_local CoroCall Tree::master;
 thread_local CoroQueue Tree::busy_waiting_queue;
 
+// void treecpp_allocate_on_numa() {
+//     cache_miss = (double*)numa_alloc_onnode(sizeof(double) * MAX_APP_THREAD, NUMA_NODE);
+//     cache_hit = (double*)numa_alloc_onnode(sizeof(double) * MAX_APP_THREAD, NUMA_NODE);
+//     lock_fail = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     write_handover_num = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     try_write_op = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     read_handover_num = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     try_read_op = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     read_leaf_retry = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     leaf_cache_invalid = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     try_read_leaf = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     read_node_repair = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+//     try_read_node = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_APP_THREAD, NUMA_NODE);
+
+//     // 清零所有一维数组
+//     memset(cache_miss, 0, sizeof(double) * MAX_APP_THREAD);
+//     memset(cache_hit, 0, sizeof(double) * MAX_APP_THREAD);
+//     memset(lock_fail, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(write_handover_num, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(try_write_op, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(read_handover_num, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(try_read_op, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(read_leaf_retry, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(leaf_cache_invalid, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(try_read_leaf, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(read_node_repair, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+//     memset(try_read_node, 0, sizeof(uint64_t) * MAX_APP_THREAD);
+
+//     // 分配二维数组 read_node_type[MAX_APP_THREAD][MAX_NODE_TYPE_NUM]
+//     read_node_type = (uint64_t**)numa_alloc_onnode(sizeof(uint64_t*) * MAX_APP_THREAD, NUMA_NODE);
+//     for (int i = 0; i < MAX_APP_THREAD; i++) {
+//         read_node_type[i] = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_NODE_TYPE_NUM, NUMA_NODE);
+//         memset(read_node_type[i], 0, sizeof(uint64_t) * MAX_NODE_TYPE_NUM);
+//     }
+
+//     // 分配三维数组 latency[MAX_APP_THREAD][MAX_CORO_NUM][LATENCY_WINDOWS]
+//     latency = (uint64_t***)numa_alloc_onnode(sizeof(uint64_t**) * MAX_APP_THREAD, NUMA_NODE);
+//     for (int i = 0; i < MAX_APP_THREAD; i++) {
+//         latency[i] = (uint64_t**)numa_alloc_onnode(sizeof(uint64_t*) * MAX_CORO_NUM, NUMA_NODE);
+//         for (int j = 0; j < MAX_CORO_NUM; j++) {
+//             latency[i][j] = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * LATENCY_WINDOWS, NUMA_NODE);
+//             memset(latency[i][j], 0, sizeof(uint64_t) * LATENCY_WINDOWS);
+//         }
+//     }
+
+//     // 分配 retry_cnt[MAX_APP_THREAD][MAX_FLAG_NUM]
+//     retry_cnt = (uint64_t**)numa_alloc_onnode(sizeof(uint64_t*) * MAX_APP_THREAD, NUMA_NODE);
+//     for (int i = 0; i < MAX_APP_THREAD; i++) {
+//         retry_cnt[i] = (uint64_t*)numa_alloc_onnode(sizeof(uint64_t) * MAX_FLAG_NUM, NUMA_NODE);
+//         memset(retry_cnt[i], 0, sizeof(uint64_t) * MAX_FLAG_NUM);
+//     }
+
+// }
+
+
+// void treecpp_free_numa() {
+//     numa_free(cache_miss, sizeof(double) * MAX_APP_THREAD);
+//     numa_free(cache_hit, sizeof(double) * MAX_APP_THREAD);
+//     numa_free(lock_fail, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(write_handover_num, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(try_write_op, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(read_handover_num, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(try_read_op, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(read_leaf_retry, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(leaf_cache_invalid, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(try_read_leaf, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(read_node_repair, sizeof(uint64_t) * MAX_APP_THREAD);
+//     numa_free(try_read_node, sizeof(uint64_t) * MAX_APP_THREAD);
+
+//     for (int i = 0; i < MAX_APP_THREAD; i++) {
+//         numa_free(read_node_type[i], sizeof(uint64_t) * MAX_NODE_TYPE_NUM);
+//     }
+//     numa_free(read_node_type, sizeof(uint64_t*) * MAX_APP_THREAD);
+
+//     for (int i = 0; i < MAX_APP_THREAD; i++) {
+//         for (int j = 0; j < MAX_CORO_NUM; j++) {
+//             numa_free(latency[i][j], sizeof(uint64_t) * LATENCY_WINDOWS);
+//         }
+//         numa_free(latency[i], sizeof(uint64_t*) * MAX_CORO_NUM);
+//     }
+//     numa_free(latency, sizeof(uint64_t**) * MAX_APP_THREAD);
+
+//     for (int i = 0; i < MAX_APP_THREAD; i++) {
+//         numa_free(retry_cnt[i], sizeof(uint64_t) * MAX_FLAG_NUM);
+//     }
+//     numa_free(retry_cnt, sizeof(uint64_t*) * MAX_APP_THREAD);
+
+// }
 
 Tree::Tree(DSM *dsm, uint16_t tree_id) : dsm(dsm), tree_id(tree_id) {
   // 确保 DSM 已经注册
@@ -50,6 +156,7 @@ Tree::Tree(DSM *dsm, uint16_t tree_id) : dsm(dsm), tree_id(tree_id) {
 #endif
 
   // 初始化本地锁表
+  // added py pz 占用 700 MB private 内存, 需要重载 LocalLockTable 类的 new 和 delete 方法
   local_lock_table = new LocalLockTable();
 
   // 获取存储根节点指针的全局地址（GlobalAddress）。

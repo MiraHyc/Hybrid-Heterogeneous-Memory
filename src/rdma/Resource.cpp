@@ -1,4 +1,7 @@
 #include "Rdma.h"
+#include <numa.h>
+#include <numaif.h>
+#include "consts.h"
 
 bool createContext(RdmaContext *context, uint8_t port, int gidIndex,
                    uint8_t devIndex) {
@@ -167,7 +170,8 @@ ibv_mr *createMemoryRegionOnChip(uint64_t mm, uint64_t mmSize,
   }
 
   // init zero
-  char *buffer = (char *)malloc(mmSize);
+  // added py pz 
+  char *buffer = (char *)numa_alloc_onnode(mmSize, NUMA_NODE);
   memset(buffer, 0, mmSize);
 
   struct ibv_exp_memcpy_dm_attr cpy_attr;
@@ -178,7 +182,8 @@ ibv_mr *createMemoryRegionOnChip(uint64_t mm, uint64_t mmSize,
   cpy_attr.dm_offset = 0;
   ibv_exp_memcpy_dm(dm, &cpy_attr);
 
-  free(buffer);
+  // free(buffer);
+  numa_free(buffer, mmSize);
 
   return mr;
 }

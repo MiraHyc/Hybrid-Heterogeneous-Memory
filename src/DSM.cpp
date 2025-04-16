@@ -8,6 +8,8 @@
 
 #include <algorithm>
 #include <fstream>
+// added by pz
+#include "SpecialPrint.h"
 
 thread_local int DSM::thread_id = -1;
 thread_local ThreadConnection *DSM::iCon = nullptr;
@@ -41,17 +43,27 @@ DSM::DSM(const DSMConfig &conf)
 
   // warmup
   memset((char *)baseAddr, 0, conf.dsmSize * define::GB);
-  memset((char *)cache.data, 0, cache.size * define::GB);
+  memset((char *)cache.data, 0, cache.size * define ::GB);
 
+  Debug::notifyInfo("192.180.0.189 init DSM.");
+
+  // added by pz
+  // Debug::notifyInfo("My node id: %d", myNodeID);
+  // SpecialPrint::blueBold("My node id: %d", myNodeID);
+
+  // added by pz
+  // 让 192.168.0.189 固定只作为计算结点CN，不作为内存结点MN (注释if语句 )
   initRDMAConnection();
-  if (myNodeID < MEMORY_NODE_NUM) {  // start memory server
-    for (int i = 0; i < NR_DIRECTORY; ++i) {
-      dirAgent[i] =
-          new Directory(dirCon[i], remoteInfo, MEMORY_NODE_NUM, i, myNodeID);
-    }
-    Debug::notifyInfo("Memory server %d start up", myNodeID);
-  }
+  // if (myNodeID < MEMORY_NODE_NUM) {  // start memory server
+  //   for (int i = 0; i < NR_DIRECTORY; ++i) {
+  //     dirAgent[i] =
+  //         new Directory(dirCon[i], remoteInfo, MEMORY_NODE_NUM, i, myNodeID);
+  //   }
+  //   Debug::notifyInfo("Memory server %d start up", myNodeID);
+  // }
   keeper->barrier("DSM-init");
+
+  SpecialPrint::greenBold("DSM function done.");
 }
 
 DSM::~DSM() { hugePageFree((void *)baseAddr, conf.dsmSize * define::GB); }
@@ -128,6 +140,7 @@ void DSM::initRDMAConnection() {
 
   keeper = new DSMKeeper(thCon, dirCon, remoteInfo, conf.machineNR);
   myNodeID = keeper->getMyNodeID();
+  SpecialPrint::greenBold("initRDMAConnection function done.");
 }
 
 void DSM::read(char *buffer, GlobalAddress gaddr, size_t size, bool signal,

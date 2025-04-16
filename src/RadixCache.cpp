@@ -6,6 +6,8 @@
 #include <set>
 #include <queue>
 
+#include "SpecialPrint.h"
+
 
 RadixCache::RadixCache(int cache_size, DSM *dsm) : cache_size(cache_size), dsm(dsm) {
   free_manager = new FreeMemManager(define::MB * cache_size);
@@ -370,9 +372,13 @@ void RadixCache::_safely_delete(CacheHeader* cache_hdr) {
 }
 
 void RadixCache::statistics() {
-  std::cout << " ----- [IndexCache]: " << " cache size=" << cache_size << " MB"
-                                       << " free_size=" << free_manager->remain_size() / define::MB << " MB" 
-                                       << " node_cnt=" << node_queue->unsafe_size() << " ----- " << std::endl;
+  // std::cout << " ----- [IndexCache(192.168.0.189)]: " << " cache size=" << cache_size << " MB"
+  //                                      << " free_size=" << free_manager->remain_size() / define::MB << " MB" 
+  //                                      << " node_cnt=" << node_queue->unsafe_size() << " ----- " << std::endl;
+  SpecialPrint::greenBold(("[IndexCache(192.168.0.189]: cache size=" + std::to_string(cache_size) + " MB"
+                                       + " free_size=" + std::to_string(free_manager->remain_size() / define::MB) + " MB"
+                                       + " node_cnt=" + std::to_string(node_queue->unsafe_size())).c_str());
+  // return ;
   std::map<int, int64_t> cnt;
   uint64_t kp_cnt = 0;
   for (auto node_iter = node_queue->unsafe_begin(); node_iter != node_queue->unsafe_end(); ++ node_iter) {
@@ -390,7 +396,15 @@ void RadixCache::statistics() {
     }
   }
   for (const auto& e : cnt) {
-    std::cout << "depth=" << e.first << " cnt=" << e.second << std::endl;
+    // std::cout << "depth=" << e.first << " cnt=" << e.second << std::endl;
   }
-  printf("consumed cache size = %.3lf MB\n", (double)cache_size - (double)free_manager->remain_size() / define::MB);
+  // printf("consumed cache size = %.3lf MB\n", (double)cache_size - (double)free_manager->remain_size() / define::MB);
+}
+
+
+// added by pz
+void RadixCache::get_state(){
+  SpecialPrint::greenBold(("[IndexCache(192.168.0.189]: cache size=" + std::to_string(cache_size) + " MB"
+                                       + " free_size=" + std::to_string(free_manager->remain_size() / define::MB) + " MB"
+                                       + " node_cnt=" + std::to_string(node_queue->unsafe_size())).c_str());
 }

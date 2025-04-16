@@ -11,6 +11,12 @@
 #include <fstream>
 #include <random>
 
+#include "SpecialPrint.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include "utils.h"
+#include "consts.h"
+
 #ifdef LONG_TEST_EPOCH
   #define TEST_EPOCH 40
   #define TIME_INTERVAL 1
@@ -49,6 +55,20 @@ extern uint64_t read_node_repair[MAX_APP_THREAD];
 extern uint64_t try_read_node[MAX_APP_THREAD];
 extern uint64_t read_node_type[MAX_APP_THREAD][MAX_NODE_TYPE_NUM];
 extern uint64_t retry_cnt[MAX_APP_THREAD][MAX_FLAG_NUM];
+// extern double* cache_miss;
+// extern double* cache_hit;
+// extern uint64_t* lock_fail;
+// extern uint64_t* write_handover_num;
+// extern uint64_t* try_write_op;
+// extern uint64_t* read_handover_num;
+// extern uint64_t* try_read_op;
+// extern uint64_t* read_leaf_retry;
+// extern uint64_t* leaf_cache_invalid;
+// extern uint64_t* try_read_leaf;
+// extern uint64_t* read_node_repair;
+// extern uint64_t* try_read_node;
+// extern uint64_t** read_node_type;
+// extern uint64_t** retry_cnt;
 
 int kThreadCount;
 int kNodeCount;
@@ -150,6 +170,9 @@ void work_func(Tree *tree, const Request& r, CoroContext *ctx, int coro_id) {
     std::map<Key, Value> ret;
     tree->range_query(r.k, r.k + r.range_size, ret);
   }
+  // added by pz
+  //tree->statistics();
+  
 }
 
 
@@ -204,10 +227,11 @@ void thread_load(int id) {
 
 
 void thread_run(int id) {
-  int core_id = 16 + id;
-  //bindCore(core_id);
+  // added by pz
+  int core_id = 16+ id;
+  bindCore(core_id);
   printf("Binding thread %d to core ID: %d\n", id, core_id);
-  bindCore(id * 2 + 1);  // bind to CPUs in NUMA that close to mlx5_2
+ // bindCore(id * 2 + 1);  // bind to CPUs in NUMA that close to mlx5_2
   dsm->registerThread();
   uint64_t my_id = kThreadCount * dsm->getMyNodeID() + id;
 
@@ -233,6 +257,7 @@ void thread_run(int id) {
   std::string op;
   int cnt = 0;
   if (!kIsStr) {  // int workloads
+    SpecialPrint::blueBold("int workloads\n");
     int range_size = 0;
     uint64_t int_k;
     while(trans_in >> op >> int_k) {
@@ -257,6 +282,7 @@ void thread_run(int id) {
     }
   }
   else {
+    SpecialPrint::blueBold("string workloads\n");
     std::string str_k;
     std::string line;
     while (std::getline(trans_in, line)) {
@@ -388,31 +414,37 @@ void save_latency(int epoch_id) {
 }
 
 int main(int argc, char *argv[]) {
-
   parse_args(argc, argv);
 
+  // treecpp_allocate_on_numa();
   DSMConfig config;
   assert(kNodeCount >= MEMORY_NODE_NUM);
   config.machineNR = kNodeCount;
   config.threadNR = kThreadCount;
   dsm = DSM::getInstance(config);
-  int main_core_id = 16 + kThreadCount;
- // bindCore(main_core_id);
+  SpecialPrint::greenBold("DSM instance created."); 
+  // added py pz 主线程绑定到的cpu核心编号
+  //int main_core_id = kThreadCount;
+  int main_core_id = 35;
+  printf("kThreadCount %d, main_core_id %d\n", kThreadCount, main_core_id);
+  bindCore(main_core_id);
   printf("Binding main thread to core ID: %d\n", main_core_id);
-  bindCore(kThreadCount * 2 + 1);
+  //bindCore(kThreadCount * 2 + 1);
   if (rm_write_conflict) {
     dsm->loadKeySpace(ycsb_load_path, kIsStr);
   }
   dsm->registerThread();
-  tree = new Tree(dsm);
+  tree = new Tree(dsm); // 这个函数占用了 Private 内存
   dsm->barrier("benchmark");
 
   for (int i = 0; i < kThreadCount; i ++) {
     th[i] = std::thread(thread_run, i);
   }
-
+  // 临界区, 不要在这里加代码
   while (!ready.load())
     ;
+  
+
   timespec s, e;
   uint64_t pre_tp = 0;
   int count = 0;
@@ -472,7 +504,8 @@ int main(int argc, char *argv[]) {
       read_node_repair_cnt += read_node_repair[i];
     }
 
-    uint64_t read_node_type_cnt[MAX_NODE_TYPE_NUM];
+    // uint64_t read_node_type_cnt[MAX_NODE_TYPE_NUM];
+    uint64_t *read_node_type_cnt = (uint64_t *)numa_alloc_onnode(sizeof(uint64_t) * MAX_NODE_TYPE_NUM, NUMA_NODE);
     memset(read_node_type_cnt, 0, sizeof(uint64_t) * MAX_NODE_TYPE_NUM);
     for (int i = 0; i < MAX_NODE_TYPE_NUM; ++i) {
       for (int j = 0; j < MAX_APP_THREAD; ++j) {
@@ -480,7 +513,8 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    uint64_t all_retry_cnt[MAX_FLAG_NUM];
+    // uint64_t all_retry_cnt[MAX_FLAG_NUM];
+    uint64_t *all_retry_cnt = (uint64_t *)numa_alloc_onnode(sizeof(uint64_t) * MAX_FLAG_NUM, NUMA_NODE);
     memset(all_retry_cnt, 0, sizeof(uint64_t) * MAX_FLAG_NUM);
     for (int i = 0; i < MAX_FLAG_NUM; ++i) {
       for (int j = 0; j < MAX_APP_THREAD; ++j) {
@@ -540,6 +574,7 @@ int main(int argc, char *argv[]) {
   tree->statistics();
   printf("[END]\n");
   dsm->barrier("fin");
+  // treecpp_free_numa();
 
   return 0;
 }

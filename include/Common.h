@@ -90,7 +90,7 @@ constexpr uint64_t GB = 1024ull * MB;
 constexpr uint16_t kCacheLineSize = 64;
 
 // Remote Allocation
-constexpr uint64_t dsmSize           = 64;        // GB  [CONFIG]
+constexpr uint64_t dsmSize           = 20;        // GB  [CONFIG]
 constexpr uint64_t cxlSize           = 0;
 constexpr uint64_t kChunkSize        = 16 * MB;   // B
 
@@ -103,8 +103,8 @@ constexpr int64_t kPerCoroRdmaBuf    = kPerThreadRdmaBuf / MAX_CORO_NUM;
 constexpr int kIndexCacheSize = 25;
 
 // KV
-constexpr uint32_t keyLen = 8;
-constexpr uint32_t simulatedValLen = 8;
+constexpr uint32_t keyLen = 32;
+constexpr uint32_t simulatedValLen = 32;
 constexpr uint32_t allocAlignLeafSize = ROUND_UP(keyLen + simulatedValLen + 8 + 2, ALLOC_ALLIGN_BIT);
 
 // Tree
