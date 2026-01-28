@@ -1,0 +1,884 @@
+[94mCOMMAND="cd /home/zjh/SMART && sed -i 's/^constexpr uint32_t keyLen = .*/constexpr uint32_t keyLen = 32;/g' ./include/Common.h && sed -i 's/^constexpr uint32_t simulatedValLen =.*/constexpr uint32_t simulatedValLen = 8;/g' ./include/Common.h && sed -i 's/^constexpr int kIndexCacheSize = .*/constexpr int kIndexCacheSize = 25;/g' ./include/Common.h && sed -i 's/^#define MEMORY_NODE_NUM .*/#define MEMORY_NODE_NUM 1/g' ./include/Common.h && mkdir -p build && cd build && cmake -DSTATIC_MN_IP=off -DENABLE_CACHE=on -DLONG_TEST_EPOCH=off -DSHORT_TEST_EPOCH=off -DMIDDLE_TEST_EPOCH=off -DART_INDEXED_CACHE=on  -DHOMOGENEOUS_INTERNAL_NODE=on  -DLOCK_FREE_INTERNAL_NODE=on  -DUPDATE_IN_PLACE_LEAF_NODE=on  -DREAR_EMBEDDED_LOCK=on  -DREAD_DELEGATION=on  -DWRITE_COMBINING=on  .. && make clean && make -j"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] -- Configuring done
+[CN 192.168.0.229 OUTPUT] -- Generating done
+[CN 192.168.0.229 OUTPUT] -- Build files have been written to: /home/zjh/SMART/build
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target SMART[0m
+[CN 192.168.0.229 OUTPUT] [  4%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/AbstractMessageConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [  8%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Operation.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 12%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RdmaCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 16%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DirectoryConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 20%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/ThreadConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 24%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSM.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Directory.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 32%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Common.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 36%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RawMessageConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Resource.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Debug.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSMKeeper.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Keeper.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 56%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/StateTrans.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/NormalCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RadixCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 68%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Tree.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Utility.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/src/RadixCache.cpp:10:0[m[K:
+[CN 192.168.0.229 OUTPUT] /home/zjh/SMART/include/NumaObjectPool.h: In instantiation of ‘[01m[KNumaObjectPool<T>::NumaObjectPool(int, int) [with T = CacheEntry][m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/src/RadixCache.cpp:13:75:[m[K   required from here
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:13:9:[m[K [01;35m[Kwarning: [m[K‘[01m[KNumaObjectPool<CacheEntry>::capacity[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] int [01;35m[Kcapacity[m[K;
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:12:22:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::atomic<int> NumaObjectPool<CacheEntry>::cur_idx[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<int> [01;35m[Kcur_idx[m[K;
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:20:5:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] [01;35m[KNumaObjectPool[m[K(int total_objects, int numa_node)
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [ 76%] [32m[1mLinking CXX static library libSMART.a[0m
+[CN 192.168.0.229 OUTPUT] [ 76%] Built target SMART
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target zipfian_test[0m
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target redundant_test[0m
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target ycsb_test[0m
+[CN 192.168.0.229 OUTPUT] [ 80%] [32mBuilding CXX object CMakeFiles/redundant_test.dir/test/redundant_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/zipfian_test.dir/test/zipfian_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 88%] [32mBuilding CXX object CMakeFiles/ycsb_test.dir/test/ycsb_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:[m[K In constructor ‘[01m[KLocalCache::LocalCache(int)[m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:71:25:[m[K [01;35m[Kwarning: [m[K‘[01m[KLocalCache::cur_size[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<size_t> [01;35m[Kcur_size[m[K; // 当前大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:70:18:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kconst size_t LocalCache::capacity[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] const size_t [01;35m[Kcapacity[m[K; // 哈希表桶的大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:10:14:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] explicit [01;35m[KLocalCache[m[K(const int cache_size_mb) : LOCAL_CACHE_SIZE_MB(cache_size_mb), cur_size(0), capacity(LOCAL_CACHE_SIZE_MB * 1024 * 1024 / sizeof(Node)) {
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [ 92%] [32m[1mLinking CXX executable redundant_test[0m
+[CN 192.168.0.229 OUTPUT] [ 92%] Built target redundant_test
+[CN 192.168.0.229 OUTPUT] [ 96%] [32m[1mLinking CXX executable zipfian_test[0m
+[CN 192.168.0.229 OUTPUT] [ 96%] Built target zipfian_test
+[CN 192.168.0.229 OUTPUT] [100%] [32m[1mLinking CXX executable ycsb_test[0m
+[CN 192.168.0.229 OUTPUT] [100%] Built target ycsb_test
+[CN 192.168.0.228 OUTPUT] -- Configuring done
+[CN 192.168.0.228 OUTPUT] -- Generating done
+[CN 192.168.0.228 OUTPUT] -- Build files have been written to: /home/zjh/SMART/build
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target SMART[0m
+[CN 192.168.0.228 OUTPUT] [  4%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/AbstractMessageConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [  8%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Common.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 12%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSM.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 16%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSMKeeper.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 20%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Debug.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/ThreadConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Directory.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 32%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Keeper.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 36%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DirectoryConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 40%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Resource.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 48%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/NormalCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RadixCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RawMessageConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 56%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/StateTrans.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 60%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RdmaCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Operation.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 68%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Tree.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Utility.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 76%] [32m[1mLinking CXX static library libSMART.a[0m
+[CN 192.168.0.228 OUTPUT] [ 76%] Built target SMART
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target zipfian_test[0m
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target redundant_test[0m
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target ycsb_test[0m
+[CN 192.168.0.228 OUTPUT] [ 80%] [32mBuilding CXX object CMakeFiles/redundant_test.dir/test/redundant_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/zipfian_test.dir/test/zipfian_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 88%] [32mBuilding CXX object CMakeFiles/ycsb_test.dir/test/ycsb_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 92%] [32m[1mLinking CXX executable redundant_test[0m
+[CN 192.168.0.228 OUTPUT] [ 92%] Built target redundant_test
+[CN 192.168.0.228 OUTPUT] [ 96%] [32m[1mLinking CXX executable zipfian_test[0m
+[CN 192.168.0.228 OUTPUT] [ 96%] Built target zipfian_test
+[CN 192.168.0.228 OUTPUT] [100%] [32m[1mLinking CXX executable ycsb_test[0m
+[CN 192.168.0.228 OUTPUT] [100%] Built target ycsb_test
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c email 2 8"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = email
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 8
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+[CN 192.168.0.229 OUTPUT] 0 468750
+[CN 192.168.0.229 OUTPUT] 468750 937500
+[CN 192.168.0.229 OUTPUT] 937500 1406250
+[CN 192.168.0.229 OUTPUT] 1406250 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2343750
+[CN 192.168.0.229 OUTPUT] 2343750 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3281250
+[CN 192.168.0.229 OUTPUT] 3281250 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4218750
+[CN 192.168.0.229 OUTPUT] 4218750 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5156250
+[CN 192.168.0.229 OUTPUT] 5156250 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6093750
+[CN 192.168.0.229 OUTPUT] 6093750 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7031250
+[CN 192.168.0.229 OUTPUT] 7031250 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[CN 192.168.0.229 OUTPUT] 0 468750
+[CN 192.168.0.229 OUTPUT] 468750 937500
+[CN 192.168.0.229 OUTPUT] 937500 1406250
+[CN 192.168.0.229 OUTPUT] 1406250 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2343750
+[CN 192.168.0.229 OUTPUT] 2343750 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3281250
+[CN 192.168.0.229 OUTPUT] 3281250 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4218750
+[CN 192.168.0.229 OUTPUT] 4218750 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5156250
+[CN 192.168.0.229 OUTPUT] 5156250 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6093750
+[CN 192.168.0.229 OUTPUT] 6093750 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7031250
+[CN 192.168.0.229 OUTPUT] 7031250 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = email
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 8
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+[CN 192.168.0.228 OUTPUT] 0 468750
+[CN 192.168.0.228 OUTPUT] 468750 937500
+[CN 192.168.0.228 OUTPUT] 937500 1406250
+[CN 192.168.0.228 OUTPUT] 1406250 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2343750
+[CN 192.168.0.228 OUTPUT] 2343750 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3281250
+[CN 192.168.0.228 OUTPUT] 3281250 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4218750
+[CN 192.168.0.228 OUTPUT] 4218750 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5156250
+[CN 192.168.0.228 OUTPUT] 5156250 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6093750
+[CN 192.168.0.228 OUTPUT] 6093750 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7031250
+[CN 192.168.0.228 OUTPUT] 7031250 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[CN 192.168.0.228 OUTPUT] 0 468750
+[CN 192.168.0.228 OUTPUT] 468750 937500
+[CN 192.168.0.228 OUTPUT] 937500 1406250
+[CN 192.168.0.228 OUTPUT] 1406250 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2343750
+[CN 192.168.0.228 OUTPUT] 2343750 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3281250
+[CN 192.168.0.228 OUTPUT] 3281250 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4218750
+[CN 192.168.0.228 OUTPUT] 4218750 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5156250
+[CN 192.168.0.228 OUTPUT] 5156250 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6093750
+[CN 192.168.0.228 OUTPUT] 6093750 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7031250
+[CN 192.168.0.228 OUTPUT] 7031250 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 email c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 email c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 8, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f4500cc6000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 8, main_core_id 16
+[CN 192.168.0.229 OUTPUT] Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mlocal cache used 100 MB. capacity = 2621440
+[0m
+[CN 192.168.0.229 OUTPUT] Binding thread 6 to core ID: 23
+Binding thread 5 to core ID: 22
+Binding thread 7 to core ID: 24
+[CN 192.168.0.229 OUTPUT] I am 14
+I am loader 14
+[CN 192.168.0.229 OUTPUT] I am 15
+I am loader 15
+[CN 192.168.0.229 OUTPUT] I am 13
+I am loader 13
+Binding thread 4 to core ID: 21
+Binding thread 2 to core ID: 19
+Binding thread 3 to core ID: 20
+[CN 192.168.0.229 OUTPUT] I am 12
+I am loader 12
+[CN 192.168.0.229 OUTPUT] I am 11
+I am loader 11
+[CN 192.168.0.229 OUTPUT] I am 10
+I am loader 10
+[CN 192.168.0.229 OUTPUT] Binding thread 1 to core ID: 18
+Binding thread 0 to core ID: 17
+I am 9
+[CN 192.168.0.229 OUTPUT] I am loader 9
+I am 8
+I am loader 8
+[CN 192.168.0.229 OUTPUT] thread 11: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       10 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       12 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       11 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       13 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        8 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 4: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 trans entries loaded.
+thread 3: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        9 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       15 load finish
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       14 load finish
+[0m
+[192.168.0.189 CN]: [1;34mstring workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 9s
+[CN 192.168.0.229 OUTPUT] total 3749998,  retry1 0,  retry2 229541,  retry3 6,  retry4 10150,  retry5 2,  retry6 2389262,  retry7 0,  retry8 0,  retry9 6,  retry10 1,  retry11 1
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 11.6744
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 12.7016
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 12.6571
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 12.6959
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 12.6997
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 12.6631
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 12.6748
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 12.6570
+[CN 192.168.0.229 OUTPUT] total 0,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 0,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 12.6828
+[CN 192.168.0.229 OUTPUT] thread 2 exit.
+thread 5 exit.
+thread 6 exit.
+thread 7 exit.
+[CN 192.168.0.229 OUTPUT] thread 1 exit.
+thread 3 exit.
+thread 4 exit.
+thread 0 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.229 OUTPUT] Thread 4 joined.
+[CN 192.168.0.229 OUTPUT] Thread 5 joined.
+Thread 6 joined.
+Thread 7 joined.
+[CN 192.168.0.229 OUTPUT] ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=627276 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=13
+depth=3 cnt=35
+depth=4 cnt=34
+depth=5 cnt=35
+depth=6 cnt=101
+depth=7 cnt=489
+depth=8 cnt=1028
+depth=9 cnt=976
+depth=10 cnt=860
+depth=11 cnt=841
+depth=12 cnt=831
+depth=13 cnt=1000
+depth=14 cnt=1016
+depth=15 cnt=1084
+depth=16 cnt=971
+depth=17 cnt=878
+depth=18 cnt=651
+depth=19 cnt=482
+depth=20 cnt=364
+depth=21 cnt=246
+depth=22 cnt=163
+depth=23 cnt=90
+depth=24 cnt=37
+depth=25 cnt=20
+depth=26 cnt=10
+depth=27 cnt=11
+depth=28 cnt=11
+depth=29 cnt=10
+depth=30 cnt=7
+depth=31 cnt=2
+depth=32 cnt=1
+consumed cache size = 25.000 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~$ 
+zjh@s200:~$ cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 email c
+kNodeCount 2, kThreadCount 8, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[4mshared memory size: 20GB, 0x7f75e0200000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 6 to core ID: 7
+Binding thread 7 to core ID: 8
+Binding thread 5 to core ID: 6
+I am 6
+I am loader 6
+I am 7
+I am loader 7
+I am 5
+I am loader 5
+Binding thread 4 to core ID: 5
+Binding thread 2 to core ID: 3
+Binding thread 3 to core ID: 4
+Binding thread 1 to core ID: 2
+I am 4
+I am loader 4
+I am 3
+I am loader 3
+I am 2
+I am loader 2
+I am 1
+I am loader 1
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+thread 7: 100000 load entries loaded.
+thread 6: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 5: 100000 load entries loaded.
+thread 3: 100000 load entries loaded.
+thread 4: 100000 load entries loaded.
+thread 2: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 6: 200000 load entries loaded.
+thread 7: 200000 load entries loaded.
+thread 3: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 5: 200000 load entries loaded.
+thread 4: 200000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 6: 300000 load entries loaded.
+thread 7: 300000 load entries loaded.
+thread 3: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 4: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 5: 300000 load entries loaded.
+thread 6: 400000 load entries loaded.
+thread 3: 400000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 7: 400000 load entries loaded.
+thread 5: 400000 load entries loaded.
+thread 4: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+loader 6 load finish
+thread 6: 100000 trans entries loaded.
+thread 6: 200000 trans entries loaded.
+thread 6: 300000 trans entries loaded.
+thread 6: 400000 trans entries loaded.
+loader 2 load finish
+loader 3 load finish
+thread 2: 100000 trans entries loaded.
+loader 5 load finish
+loader 7 load finish
+thread 3: 100000 trans entries loaded.
+loader 1 load finish
+loader 4 load finish
+loader 0 load finish
+thread 2: 200000 trans entries loaded.
+thread 5: 100000 trans entries loaded.
+thread 7: 100000 trans entries loaded.
+thread 3: 200000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+thread 4: 100000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 5: 200000 trans entries loaded.
+thread 7: 200000 trans entries loaded.
+thread 3: 300000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 4: 200000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 5: 300000 trans entries loaded.
+thread 7: 300000 trans entries loaded.
+thread 3: 400000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 4: 300000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 5: 400000 trans entries loaded.
+thread 7: 400000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+node 0 finish
+warmup time 9s
+0, throughput 0.0000
+epoch 1 passed!
+cluster throughput 0.000 Mops
+cache hit rate: 0.959366
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: -nan
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.177475
+read node repair rate: 0.004085
+read invalid node rate: 0.002259
+node_type1 1820537   node_type2 849701   node_type3 748630   node_type4 676793   node_type5 119577   node_type6 0   node_type7 0   
+
+0, throughput 0.5846
+epoch 2 passed!
+cluster throughput 12.258 Mops
+cache hit rate: 0.905087
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.011173
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000067
+read node repair rate: 0.000312
+read invalid node rate: 0.000032
+node_type1 498224   node_type2 205443   node_type3 182155   node_type4 181390   node_type5 30441   node_type6 0   node_type7 0   
+
+0, throughput 0.6943
+epoch 3 passed!
+cluster throughput 13.395 Mops
+cache hit rate: 0.887270
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010137
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 242687   node_type2 103099   node_type3 96821   node_type4 110207   node_type5 21969   node_type6 0   node_type7 0   
+
+0, throughput 0.6582
+epoch 4 passed!
+cluster throughput 13.315 Mops
+cache hit rate: 0.876205
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008860
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 225310   node_type2 96448   node_type3 93882   node_type4 114748   node_type5 25764   node_type6 0   node_type7 0   
+
+0, throughput 0.6193
+epoch 5 passed!
+cluster throughput 13.314 Mops
+cache hit rate: 0.850408
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009518
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 226721   node_type2 97565   node_type3 97346   node_type4 127037   node_type5 32053   node_type6 0   node_type7 0   
+
+0, throughput 0.5813
+epoch 6 passed!
+cluster throughput 13.280 Mops
+cache hit rate: 0.852054
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009453
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 223285   node_type2 97225   node_type3 98021   node_type4 136948   node_type5 38779   node_type6 0   node_type7 0
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.5230
+epoch 7 passed!
+cluster throughput 13.186 Mops
+cache hit rate: 0.837519
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008676
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+[CN 192.168.0.228 OUTPUT] read invalid node rate: 0.000000
+node_type1 214715   node_type2 92671   node_type3 95454   node_type4 140650   node_type5 45299   node_type6 0   node_type7 0
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.5068
+epoch 8 passed!
+cluster throughput 13.180 Mops
+cache hit rate: 0.821060
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008744
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+[CN 192.168.0.228 OUTPUT] read invalid node rate: 0.000000
+node_type1 222619   node_type2 96250   node_type3 100771   node_type4 155693   node_type5 57002   node_type6 0   node_type7 0
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.4714
+epoch 9 passed!
+cluster throughput 13.127 Mops
+cache hit rate: 0.798875
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008539
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+[CN 192.168.0.228 OUTPUT] read invalid node rate: 0.000000
+node_type1 224506   node_type2 97409   node_type3 102813   node_type4 167941   node_type5 71649   node_type6 0   node_type7 0
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.4136
+epoch 10 passed!
+cluster throughput 13.095 Mops
+cache hit rate: 0.769599
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008805
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+[CN 192.168.0.228 OUTPUT] read invalid node rate: 0.000000
+node_type1 216124   node_type2 94340   node_type3 99710   node_type4 170149   node_type5 85833   node_type6 0   node_type7 0   
+
+thread 0 exit.
+thread 7 exit.
+thread 4 exit.
+thread 3 exit.
+[CN 192.168.0.228 OUTPUT] thread 6 exit.
+thread 1 exit.
+thread 5 exit.
+thread 2 exit.
+Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+Thread 4 joined.
+Thread 5 joined.
+Thread 6 joined.
+Thread 7 joined.
+ ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=635154 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=10
+depth=3 cnt=20
+depth=4 cnt=21
+depth=5 cnt=33
+depth=6 cnt=50
+depth=7 cnt=95
+depth=8 cnt=98
+depth=9 cnt=91
+depth=10 cnt=150
+depth=11 cnt=186
+depth=12 cnt=203
+depth=13 cnt=191
+depth=14 cnt=189
+depth=15 cnt=193
+depth=16 cnt=188
+depth=17 cnt=163
+depth=18 cnt=115
+depth=19 cnt=78
+depth=20 cnt=64
+depth=21 cnt=49
+depth=22 cnt=27
+depth=23 cnt=22
+depth=24 cnt=13
+depth=25 cnt=9
+depth=26 cnt=2
+consumed cache size = 25.000 MB
+[END]
+epoch_id=9 p50_lat=0.0 p99_lat=48.8
+[92m[FINISHED POINT] value_size=8 method=SMART tpt=13.127 p50_lat=0.0 p99_lat=48.8[0m
+[94mCOMMAND="cd /home/zjh/SMART && sed -i 's/^constexpr uint32_t keyLen = .*/constexpr uint32_t keyLen = 32;/g' ./include/Common.h && sed -i 's/^constexpr uint32_t simulatedValLen =.*/constexpr uint32_t simulatedValLen = 16;/g' ./include/Common.h && sed -i 's/^constexpr int kIndexCacheSize = .*/constexpr int kIndexCacheSize = 25;/g' ./include/Common.h && sed -i 's/^#define MEMORY_NODE_NUM .*/#define MEMORY_NODE_NUM 1/g' ./include/Common.h && mkdir -p build && cd build && cmake -DSTATIC_MN_IP=off -DENABLE_CACHE=on -DLONG_TEST_EPOCH=off -DSHORT_TEST_EPOCH=off -DMIDDLE_TEST_EPOCH=off -DART_INDEXED_CACHE=on  -DHOMOGENEOUS_INTERNAL_NODE=on  -DLOCK_FREE_INTERNAL_NODE=on  -DUPDATE_IN_PLACE_LEAF_NODE=on  -DREAR_EMBEDDED_LOCK=on  -DREAD_DELEGATION=on  -DWRITE_COMBINING=on  .. && make clean && make -j"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] -- Configuring done
+[CN 192.168.0.229 OUTPUT] -- Generating done
+[CN 192.168.0.229 OUTPUT] -- Build files have been written to: /home/zjh/SMART/build
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target SMART[0m
+[CN 192.168.0.229 OUTPUT] [  4%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Keeper.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [  8%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Common.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 12%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/AbstractMessageConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 16%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSM.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 20%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RadixCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Debug.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/NormalCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 32%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSMKeeper.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 36%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Directory.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 40%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DirectoryConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 44%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/ThreadConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 48%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Tree.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/StateTrans.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 56%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Operation.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 60%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Resource.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RdmaCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 68%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RawMessageConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Utility.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/src/RadixCache.cpp:10:0[m[K:
+[CN 192.168.0.229 OUTPUT] /home/zjh/SMART/include/NumaObjectPool.h: In instantiation of ‘[01m[KNumaObjectPool<T>::NumaObjectPool(int, int) [with T = CacheEntry][m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/src/RadixCache.cpp:13:75:[m[K   required from here
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:13:9:[m[K [01;35m[Kwarning: [m[K‘[01m[KNumaObjectPool<CacheEntry>::capacity[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] int [01;35m[Kcapacity[m[K;
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:12:22:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::atomic<int> NumaObjectPool<CacheEntry>::cur_idx[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<int> [01;35m[Kcur_idx[m[K;
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:20:5:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] [01;35m[KNumaObjectPool[m[K(int total_objects, int numa_node)
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [ 76%] [32m[1mLinking CXX static library libSMART.a[0m
+[CN 192.168.0.229 OUTPUT] [ 76%] Built target SMART
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target zipfian_test[0m
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target redundant_test[0m
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target ycsb_test[0m
+[CN 192.168.0.229 OUTPUT] [ 80%] [32mBuilding CXX object CMakeFiles/zipfian_test.dir/test/zipfian_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/ycsb_test.dir/test/ycsb_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 88%] [32mBuilding CXX object CMakeFiles/redundant_test.dir/test/redundant_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:[m[K In constructor ‘[01m[KLocalCache::LocalCache(int)[m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:71:25:[m[K [01;35m[Kwarning: [m[K‘[01m[KLocalCache::cur_size[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<size_t> [01;35m[Kcur_size[m[K; // 当前大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:70:18:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kconst size_t LocalCache::capacity[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] const size_t [01;35m[Kcapacity[m[K; // 哈希表桶的大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:10:14:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] explicit [01;35m[KLocalCache[m[K(const int cache_size_mb) : LOCAL_CACHE_SIZE_MB(cache_size_mb), cur_size(0), capacity(LOCAL_CACHE_SIZE_MB * 1024 * 1024 / sizeof(Node)) {
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [ 92%] [32m[1mLinking CXX executable redundant_test[0m
+[CN 192.168.0.229 OUTPUT] [ 92%] Built target redundant_test
+[CN 192.168.0.229 OUTPUT] [ 96%] [32m[1mLinking CXX executable zipfian_test[0m
+[CN 192.168.0.229 OUTPUT] [ 96%] Built target zipfian_test
+[CN 192.168.0.229 OUTPUT] [100%] [32m[1mLinking CXX executable ycsb_test[0m
+[CN 192.168.0.229 OUTPUT] [100%] Built target ycsb_test
+[CN 192.168.0.228 OUTPUT] -- Configuring done
+[CN 192.168.0.228 OUTPUT] -- Generating done
+[CN 192.168.0.228 OUTPUT] -- Build files have been written to: /home/zjh/SMART/build
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target SMART[0m
+[CN 192.168.0.228 OUTPUT] [  4%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSMKeeper.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [  8%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/AbstractMessageConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 12%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Common.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 16%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSM.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 20%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Debug.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 24%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/NormalCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Resource.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 32%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Directory.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 36%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DirectoryConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 40%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Keeper.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 44%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Tree.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 48%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RadixCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RdmaCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 56%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/StateTrans.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 60%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/ThreadConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Utility.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 68%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RawMessageConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Operation.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 76%] [32m[1mLinking CXX static library libSMART.a[0m
+[CN 192.168.0.228 OUTPUT] [ 76%] Built target SMART
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target redundant_test[0m
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target zipfian_test[0m
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target ycsb_test[0m
+[CN 192.168.0.228 OUTPUT] [ 80%] [32mBuilding CXX object CMakeFiles/redundant_test.dir/test/redundant_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/zipfian_test.dir/test/zipfian_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 88%] [32mBuilding CXX object CMakeFiles/ycsb_test.dir/test/ycsb_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 92%] [32m[1mLinking CXX executable redundant_test[0m
+[CN 192.168.0.228 OUTPUT] [ 92%] Built target redundant_test
+[CN 192.168.0.228 OUTPUT] [ 96%] [32m[1mLinking CXX executable zipfian_test[0m
+[CN 192.168.0.228 OUTPUT] [ 96%] Built target zipfian_test
+[CN 192.168.0.228 OUTPUT] [100%] [32m[1mLinking CXX executable ycsb_test[0m
+[CN 192.168.0.228 OUTPUT] [100%] Built target ycsb_test
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c email 2 8"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = email
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 8
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+[CN 192.168.0.229 OUTPUT] 0 468750
+[CN 192.168.0.229 OUTPUT] 468750 937500
+[CN 192.168.0.229 OUTPUT] 937500 1406250
+[CN 192.168.0.229 OUTPUT] 1406250 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2343750
+[CN 192.168.0.229 OUTPUT] 2343750 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3281250
+[CN 192.168.0.229 OUTPUT] 3281250 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4218750
+[CN 192.168.0.229 OUTPUT] 4218750 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5156250
+[CN 192.168.0.229 OUTPUT] 5156250 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6093750
+[CN 192.168.0.229 OUTPUT] 6093750 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7031250
+[CN 192.168.0.229 OUTPUT] 7031250 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[CN 192.168.0.229 OUTPUT] 0 468750
+[CN 192.168.0.229 OUTPUT] 468750 937500
+[CN 192.168.0.229 OUTPUT] 937500 1406250
+[CN 192.168.0.229 OUTPUT] 1406250 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2343750
+[CN 192.168.0.229 OUTPUT] 2343750 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3281250
+[CN 192.168.0.229 OUTPUT] 3281250 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4218750
+[CN 192.168.0.229 OUTPUT] 4218750 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5156250
+[CN 192.168.0.229 OUTPUT] 5156250 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6093750
+[CN 192.168.0.229 OUTPUT] 6093750 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7031250
+[CN 192.168.0.229 OUTPUT] 7031250 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = email
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 8
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+[CN 192.168.0.228 OUTPUT] 0 468750
+[CN 192.168.0.228 OUTPUT] 468750 937500
+[CN 192.168.0.228 OUTPUT] 937500 1406250
+[CN 192.168.0.228 OUTPUT] 1406250 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2343750
+[CN 192.168.0.228 OUTPUT] 2343750 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3281250
+[CN 192.168.0.228 OUTPUT] 3281250 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4218750
+[CN 192.168.0.228 OUTPUT] 4218750 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5156250
+[CN 192.168.0.228 OUTPUT] 5156250 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6093750
+[CN 192.168.0.228 OUTPUT] 6093750 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7031250
+[CN 192.168.0.228 OUTPUT] 7031250 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[CN 192.168.0.228 OUTPUT] 0 468750
+[CN 192.168.0.228 OUTPUT] 468750 937500
+[CN 192.168.0.228 OUTPUT] 937500 1406250
+[CN 192.168.0.228 OUTPUT] 1406250 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2343750
+[CN 192.168.0.228 OUTPUT] 2343750 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3281250
+[CN 192.168.0.228 OUTPUT] 3281250 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4218750
+[CN 192.168.0.228 OUTPUT] 4218750 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5156250
+[CN 192.168.0.228 OUTPUT] 5156250 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6093750
+[CN 192.168.0.228 OUTPUT] 6093750 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7031250
+[CN 192.168.0.228 OUTPUT] 7031250 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 email c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 email c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 8, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_email_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_email_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f953ce89000[0m
+[4mrdma cache size: 4GB[0m

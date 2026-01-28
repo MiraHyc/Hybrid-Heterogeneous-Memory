@@ -13,6 +13,7 @@
 #include <mutex>
 #include "utils.h"
 #include "consts.h"
+#include "SpecialPrint.h"
 
 double cache_miss[MAX_APP_THREAD];
 double cache_hit[MAX_APP_THREAD];
@@ -244,6 +245,8 @@ void Tree::insert(const Key &k, Value v, CoroContext *cxt, int coro_id, bool is_
   int debug_cnt = 0;
   // struct timespec start_time, end_time;
   // clock_gettime(CLOCK_MONOTONIC, &start_time);
+
+  // 写合并
 #ifdef TREE_ENABLE_WRITE_COMBINING
   lock_res = local_lock_table->acquire_local_write_lock(k, v, &busy_waiting_queue, cxt, coro_id);
   write_handover = (lock_res.first && !lock_res.second);
@@ -1082,7 +1085,7 @@ bool Tree::search(const Key &k, Value &v, CoroContext *cxt, int coro_id) {
   Header hdr;
   int max_num;
   
- //检查是否发生读委托
+  //检查是否发生读委托
 #ifdef TREE_ENABLE_READ_DELEGATION
   lock_res = local_lock_table->acquire_local_read_lock(k, &busy_waiting_queue, cxt, coro_id);
   read_handover = (lock_res.first && !lock_res.second);
@@ -1659,4 +1662,87 @@ void Tree::clear_debug_info() {
   memset(try_read_node, 0, sizeof(uint64_t) * MAX_APP_THREAD);
   memset(read_node_type, 0, sizeof(uint64_t) * MAX_APP_THREAD * MAX_NODE_TYPE_NUM);
   memset(retry_cnt, 0, sizeof(uint64_t) * MAX_APP_THREAD * MAX_FLAG_NUM);
+}
+
+void Tree::get_index_cache_state(){
+  index_cache->get_state();
+}
+
+
+void Tree::migrate_local_cache_to_radix_cache(const Key &k, const Value v, CoroContext *cxt,int coro_id) {
+    assert(dsm->is_register());
+
+    // 保留缓存遍历关键变量
+    GlobalAddress p_ptr;
+    InternalEntry p;
+    GlobalAddress node_ptr;
+    int depth;
+    bool from_cache = false;
+    volatile CacheEntry** entry_ptr_ptr = nullptr;
+    CacheEntry* entry_ptr = nullptr;
+    int entry_idx = -1;
+    int cache_depth = 0;
+
+    // 1. 缓存搜索路径（原insert前半逻辑）
+#ifdef TREE_ENABLE_CACHE
+    from_cache = index_cache->search_from_cache(k, entry_ptr_ptr, entry_ptr, entry_idx);
+    if (from_cache) { // 缓存命中时构建参数
+      p_ptr = GADD(entry_ptr->addr, sizeof(InternalEntry) * entry_idx);
+      p = entry_ptr->records[entry_idx];
+      node_ptr = entry_ptr->addr;
+      depth = entry_ptr->depth + 1; // +1对应原depth++逻辑
+      cache_depth = depth;
+    } 
+    else { // 缓存未命中从根开始
+      p_ptr = root_ptr_ptr;
+      p = get_root_ptr(cxt, coro_id); // 保持获取根节点逻辑
+      node_ptr = root_ptr_ptr;
+      depth = 1; // 原depth=0后++的结果
+      cache_depth = depth;
+    }
+
+    // 2. 模拟遍历路径添加缓存（关键修改部分）
+    while (true) {
+      // 终止条件：遇到叶子节点或空节点
+      if (p == InternalEntry::Null() || p.is_leaf) break;
+
+      // 读取节点数据（原insert的3.1逻辑）
+      char* page_buffer = (dsm->get_rbuf(coro_id)).get_page_buffer();
+      bool type_correct;
+      bool is_valid = read_node(p, type_correct, page_buffer, p_ptr, depth, from_cache, cxt, coro_id);
+
+      if (!is_valid) break; // 节点无效时终止
+
+      InternalPage* p_node = (InternalPage *)page_buffer;
+      Header hdr = p_node->hdr;
+
+      // 3. 关键缓存添加点（原insert的3.2缓存添加逻辑）
+      if (depth == hdr.depth) { // 深度匹配时添加
+        GlobalAddress cache_addr = GADD(p.addr(), 
+        sizeof(GlobalAddress) + sizeof(Header));
+        index_cache->add_to_cache(k, p_node, cache_addr);
+      }
+
+      // 4. 模拟向下一层遍历（原insert的3.3逻辑）
+      bool found = false;
+      int max_num = node_type_to_num(static_cast<NodeType>(hdr.node_type));
+      for (int i = 0; i < max_num; ++i) {
+        if (p_node->records[i].partial == get_partial(k, depth)) {
+          p_ptr = GADD(p.addr(), sizeof(GlobalAddress) + sizeof(Header) + i * sizeof(InternalEntry));
+          p = p_node->records[i];
+          depth++;
+          found = true;
+          break;
+        }
+      }
+      if (!found) break; // 没有匹配子节点时终止
+    }
+
+    // 5. 更新缓存统计（原insert结尾逻辑）
+    double hit_ratio = (cache_depth == 1 ? 0 : (double)cache_depth / depth);
+    cache_hit[dsm->getMyThreadID()] += hit_ratio;
+    cache_miss[dsm->getMyThreadID()] += (1 - hit_ratio);
+#endif
+
+    // 移除了所有锁/CAS/节点修改操作
 }

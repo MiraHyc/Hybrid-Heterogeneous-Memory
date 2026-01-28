@@ -68,12 +68,13 @@ def main(cmd: CMDManager, tp: LogParser):
                     cmd.one_execute(CLEAR_MEMC)
                     cmd.all_execute(KILL_PROCESS, CN_num)
                     logs = cmd.all_long_execute(YCSB_TEST, CN_num)
+                    p50_lat, p99_lat = cmd.get_cluster_lats(str(Path(project_dir) / 'us_lat'), CN_num, target_epoch)
                     tpt, _, _, _ = tp.get_statistics(logs, target_epoch)
                     break
                 except (FunctionTimedOut, Exception) as e:
                     print_WARNING(f"Error! Retry... {e}")
 
-            print_GOOD(f"[FINISHED POINT] workload={workload} method={method} client_num={CN_num*client_num_per_CN} tpt={tpt}")
+            print_GOOD(f"[FINISHED POINT] workload={workload} method={method} client_num={CN_num*client_num_per_CN} tpt={tpt} p50_lat={p50_lat} p99_lat={p99_lat}")
             plot_data['Y_data'][method].append(tpt)
     # save data
     Path(output_path).mkdir(exist_ok=True)

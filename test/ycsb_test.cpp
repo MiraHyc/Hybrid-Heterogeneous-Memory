@@ -16,6 +16,7 @@
 #include <sys/types.h>
 #include "utils.h"
 #include "consts.h"
+#include "LocalCache.h"
 
 #ifdef LONG_TEST_EPOCH
   #define TEST_EPOCH 40
@@ -101,6 +102,8 @@ std::uniform_int_distribution<Value> randval(kValueMin, kValueMax);
 Tree *tree;
 DSM *dsm;
 
+LocalCache *local_cache = nullptr;
+
 
 inline uint64_t key_hash(const Key &k) {
   return CityHash64((char *)&k, sizeof(k));
@@ -135,6 +138,7 @@ public:
       }
     }
     tp[local_thread_id][coro_id]++;
+    // printf("tp[local_thread_id][coro_id]: tp[%d][%d] = %lu\n", local_thread_id, coro_id, tp[local_thread_id][coro_id]);
     req[cur].v = randval(e);  // make value different per-epoch
     return req[cur];
   }
@@ -157,7 +161,13 @@ RequstGen *gen_func(DSM* dsm, Request* req, int req_num, int coro_id, int coro_c
   return new RequsetGenBench(dsm, req, req_num, coro_id, coro_cnt);
 }
 
+// update by pz
+int search_cnt = 0;
+int insert_cnt = 0;
+int update_cnt = 0;
+int range_query_cnt = 0;
 
+#ifndef USE_LOCAL_CACHE
 void work_func(Tree *tree, const Request& r, CoroContext *ctx, int coro_id) {
   if (r.is_search) {
     Value v;
@@ -170,11 +180,51 @@ void work_func(Tree *tree, const Request& r, CoroContext *ctx, int coro_id) {
     std::map<Key, Value> ret;
     tree->range_query(r.k, r.k + r.range_size, ret);
   }
-  // added by pz
-  //tree->statistics();
-  
-}
 
+}
+#else
+void work_func(Tree *tree, const Request& r, CoroContext *ctx, int coro_id) {
+  if (r.is_search) {
+    search_cnt++;
+    Value v;
+    auto ret = local_cache->query(r.k);
+    if(ret == nullptr){
+      tree->search(r.k, v, ctx, coro_id);
+      local_cache->insert(r.k, v, ctx, coro_id);
+    }
+    else{
+      v = *ret;
+    }
+  }
+  else if (r.is_update || r.is_insert) {
+    if (r.is_update) update_cnt++;
+    else insert_cnt++;
+    tree->insert(r.k, r.v, ctx, coro_id, r.is_update);
+    // 更新缓存
+    // local_cache->insert(r.k, r.v, ctx, coro_id);
+    if(r.is_update){
+      local_cache->insert(r.k, r.v, ctx, coro_id);
+    }
+  }
+  else {
+    range_query_cnt++;
+    std::map<Key, Value> ret;
+    // tree->range_query(r.k, r.k + r.range_size, ret);
+    for(auto k = r.k; k < r.k + r.range_size; k = k + 1){
+      Value v;
+      auto res = local_cache->query(k);
+      if(res == nullptr){
+        tree->search(k, v, ctx, coro_id);
+        local_cache->insert(k, v, ctx, coro_id);
+      }
+      else{
+        v = *res;
+      }
+      ret[k] = v;
+    }
+  }
+}
+#endif
 
 Timer bench_timer;
 std::atomic<int64_t> warmup_cnt{0};
@@ -222,13 +272,13 @@ void thread_load(int id) {
       }
     }
   }
-  printf("loader %lu load finish\n", loader_id);
+  SpecialPrint::greenBold("loader %8lu load finish\n", loader_id);
 }
 
 
 void thread_run(int id) {
   // added by pz
-  int core_id = 16+ id;
+  int core_id = id + NUMA_CPU_CORES * THREAD_NUMA_NODE + 1; // 工作线程分别绑定到第 2、3、4、... 个 cpu 核心上
   bindCore(core_id);
   printf("Binding thread %d to core ID: %d\n", id, core_id);
  // bindCore(id * 2 + 1);  // bind to CPUs in NUMA that close to mlx5_2
@@ -425,7 +475,7 @@ int main(int argc, char *argv[]) {
   SpecialPrint::greenBold("DSM instance created."); 
   // added py pz 主线程绑定到的cpu核心编号
   //int main_core_id = kThreadCount;
-  int main_core_id = 35;
+  int main_core_id = NUMA_CPU_CORES * THREAD_NUMA_NODE; // 主线程绑定到第一个 cpu 核心上
   printf("kThreadCount %d, main_core_id %d\n", kThreadCount, main_core_id);
   bindCore(main_core_id);
   printf("Binding main thread to core ID: %d\n", main_core_id);
@@ -436,6 +486,10 @@ int main(int argc, char *argv[]) {
   dsm->registerThread();
   tree = new Tree(dsm); // 这个函数占用了 Private 内存
   dsm->barrier("benchmark");
+
+#ifdef USE_LOCAL_CACHE
+  local_cache = new LocalCache(LOCAL_CACHE_CONFIG_SIZE_MB, tree); // 100MB local cache
+#endif
 
   for (int i = 0; i < kThreadCount; i ++) {
     th[i] = std::thread(thread_run, i);
@@ -450,8 +504,14 @@ int main(int argc, char *argv[]) {
   int count = 0;
 
   clock_gettime(CLOCK_REALTIME, &s);
+  int epoch_cnt = 0;
   while(!need_stop) {
+    epoch_cnt ++;
 
+    // int pre_search_cnt = search_cnt;
+    // int pre_insert_cnt = insert_cnt;
+    // int pre_update_cnt = update_cnt;
+    // int pre_range_query_cnt = range_query_cnt;
     sleep(TIME_INTERVAL);
     clock_gettime(CLOCK_REALTIME, &e);
     int microseconds = (e.tv_sec - s.tv_sec) * 1000000 +
@@ -459,10 +519,20 @@ int main(int argc, char *argv[]) {
 
     uint64_t all_tp = 0;
     for (int i = 0; i < MAX_APP_THREAD; ++i) {
-      for (int j = 0; j < kCoroCnt; ++j)
+      for (int j = 0; j < kCoroCnt; ++j){
         all_tp += tp[i][j];
+        // printf("tp[i][j]: tp[%d][%d] = %lu\n", i, j, tp[i][j]);
+      }
     }
+    // printf("all_tp: %lu\n", all_tp);
     clock_gettime(CLOCK_REALTIME, &s);
+
+    // int cur_epoch_search_cnt = search_cnt - pre_search_cnt;
+    // int cur_epoch_insert_cnt = insert_cnt - pre_insert_cnt;
+    // int cur_epoch_update_cnt = update_cnt - pre_update_cnt;
+    // int cur_epoch_range_query_cnt = range_query_cnt - pre_range_query_cnt;
+    // SpecialPrint::blue("epoch = %d, search_cnt = %d, insert_cnt = %d, update_cnt = %d, range_query_cnt = %d\n",
+    //                    epoch_cnt, cur_epoch_search_cnt, cur_epoch_insert_cnt, cur_epoch_update_cnt, cur_epoch_range_query_cnt);
 
     uint64_t cap = all_tp - pre_tp;
     pre_tp = all_tp;
@@ -504,8 +574,8 @@ int main(int argc, char *argv[]) {
       read_node_repair_cnt += read_node_repair[i];
     }
 
-    // uint64_t read_node_type_cnt[MAX_NODE_TYPE_NUM];
-    uint64_t *read_node_type_cnt = (uint64_t *)numa_alloc_onnode(sizeof(uint64_t) * MAX_NODE_TYPE_NUM, NUMA_NODE);
+    uint64_t read_node_type_cnt[MAX_NODE_TYPE_NUM];
+    // uint64_t *read_node_type_cnt = (uint64_t *)numa_alloc_onnode(sizeof(uint64_t) * MAX_NODE_TYPE_NUM, LOCAL_NUMA_NODE);
     memset(read_node_type_cnt, 0, sizeof(uint64_t) * MAX_NODE_TYPE_NUM);
     for (int i = 0; i < MAX_NODE_TYPE_NUM; ++i) {
       for (int j = 0; j < MAX_APP_THREAD; ++j) {
@@ -513,8 +583,8 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    // uint64_t all_retry_cnt[MAX_FLAG_NUM];
-    uint64_t *all_retry_cnt = (uint64_t *)numa_alloc_onnode(sizeof(uint64_t) * MAX_FLAG_NUM, NUMA_NODE);
+    uint64_t all_retry_cnt[MAX_FLAG_NUM];
+    // uint64_t *all_retry_cnt = (uint64_t *)numa_alloc_onnode(sizeof(uint64_t) * MAX_FLAG_NUM, LOCAL_NUMA_NODE);
     memset(all_retry_cnt, 0, sizeof(uint64_t) * MAX_FLAG_NUM);
     for (int i = 0; i < MAX_FLAG_NUM; ++i) {
       for (int j = 0; j < MAX_APP_THREAD; ++j) {
@@ -542,7 +612,7 @@ int main(int argc, char *argv[]) {
     double per_node_tp = cap * 1.0 / microseconds;
     uint64_t cluster_tp = dsm->sum((uint64_t)(per_node_tp * 1000));  // only node 0 return the sum
 
-    printf("%d, throughput %.4f\n", dsm->getMyNodeID(), per_node_tp);
+    printf("%d, epoch = %d throughput %.4f cap = %ld microseconds = %d\n", dsm->getMyNodeID(), epoch_cnt, per_node_tp, cap, microseconds);
 
     if (dsm->getMyNodeID() == 0) {
       printf("epoch %d passed!\n", count);
@@ -571,7 +641,14 @@ int main(int argc, char *argv[]) {
     th[i].join();
     printf("Thread %d joined.\n", i);
   }
+  SpecialPrint::blue("search_cnt = %d, insert_cnt = %d, update_cnt = %d, range_query_cnt = %d\n",
+                     search_cnt, insert_cnt, update_cnt, range_query_cnt);
+  Utils::numactl_p();
+#ifdef USE_LOCAL_CACHE
+  local_cache->get_local_cache_state();
+#endif
   tree->statistics();
+  
   printf("[END]\n");
   dsm->barrier("fin");
   // treecpp_free_numa();

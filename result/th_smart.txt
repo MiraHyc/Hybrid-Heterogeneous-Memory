@@ -1,0 +1,4021 @@
+[94mCOMMAND="cd /home/zjh/SMART && sed -i 's/^constexpr uint32_t keyLen = .*/constexpr uint32_t keyLen = 8;/g' ./include/Common.h && sed -i 's/^constexpr uint32_t simulatedValLen =.*/constexpr uint32_t simulatedValLen = 8;/g' ./include/Common.h && sed -i 's/^constexpr int kIndexCacheSize = .*/constexpr int kIndexCacheSize = 25;/g' ./include/Common.h && sed -i 's/^#define MEMORY_NODE_NUM .*/#define MEMORY_NODE_NUM 1/g' ./include/Common.h && mkdir -p build && cd build && cmake -DSTATIC_MN_IP=off -DENABLE_CACHE=on -DLONG_TEST_EPOCH=off -DSHORT_TEST_EPOCH=off -DMIDDLE_TEST_EPOCH=off -DART_INDEXED_CACHE=on  -DHOMOGENEOUS_INTERNAL_NODE=on  -DLOCK_FREE_INTERNAL_NODE=on  -DUPDATE_IN_PLACE_LEAF_NODE=on  -DREAR_EMBEDDED_LOCK=on  -DREAD_DELEGATION=on  -DWRITE_COMBINING=on  .. && make clean && make -j"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] -- Configuring done
+[CN 192.168.0.229 OUTPUT] -- Generating done
+[CN 192.168.0.229 OUTPUT] -- Build files have been written to: /home/zjh/SMART/build
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target SMART[0m
+[CN 192.168.0.229 OUTPUT] [  4%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/AbstractMessageConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [  8%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Common.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 12%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Utility.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 24%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSMKeeper.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 24%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Directory.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 24%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Debug.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSM.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 36%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DirectoryConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 36%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/NormalCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 40%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RadixCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 44%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Keeper.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 48%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/StateTrans.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Tree.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 56%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RawMessageConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RdmaCache.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Operation.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Resource.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/ThreadConnection.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/src/RadixCache.cpp:10:0[m[K:
+[CN 192.168.0.229 OUTPUT] /home/zjh/SMART/include/NumaObjectPool.h: In instantiation of ‘[01m[KNumaObjectPool<T>::NumaObjectPool(int, int) [with T = CacheEntry][m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/src/RadixCache.cpp:13:75:[m[K   required from here
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:13:9:[m[K [01;35m[Kwarning: [m[K‘[01m[KNumaObjectPool<CacheEntry>::capacity[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] int [01;35m[Kcapacity[m[K;
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:12:22:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::atomic<int> NumaObjectPool<CacheEntry>::cur_idx[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<int> [01;35m[Kcur_idx[m[K;
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/NumaObjectPool.h:20:5:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] [01;35m[KNumaObjectPool[m[K(int total_objects, int numa_node)
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [ 76%] [32m[1mLinking CXX static library libSMART.a[0m
+[CN 192.168.0.229 OUTPUT] [ 76%] Built target SMART
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target ycsb_test[0m
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target zipfian_test[0m
+[CN 192.168.0.229 OUTPUT] [35m[1mScanning dependencies of target redundant_test[0m
+[CN 192.168.0.229 OUTPUT] [ 80%] [32mBuilding CXX object CMakeFiles/redundant_test.dir/test/redundant_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/zipfian_test.dir/test/zipfian_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] [ 88%] [32mBuilding CXX object CMakeFiles/ycsb_test.dir/test/ycsb_test.cpp.o[0m
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:[m[K In constructor ‘[01m[KLocalCache::LocalCache(int, Tree*)[m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:137:11:[m[K [01;35m[Kwarning: [m[K‘[01m[KLocalCache::tree_ptr[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] Tree* [01;35m[Ktree_ptr[m[K; // 树的指针
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:136:25:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kstd::atomic<long unsigned int> LocalCache::cur_size[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<size_t> [01;35m[Kcur_size[m[K; // 当前大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:11:14:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] explicit [01;35m[KLocalCache[m[K(const int cache_size_mb, Tree* tree) : LOCAL_CACHE_SIZE_MB(cache_size_mb), tree_ptr(tree), cur_size(0), capacity(LOCAL_CACHE_SIZE_MB * 1024 * 1024 / sizeof(Node)) {
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:136:25:[m[K [01;35m[Kwarning: [m[K‘[01m[KLocalCache::cur_size[m[K’ will be initialized after [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] std::atomic<size_t> [01;35m[Kcur_size[m[K; // 当前大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:135:18:[m[K [01;35m[Kwarning: [m[K  ‘[01m[Kconst size_t LocalCache::capacity[m[K’ [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] const size_t [01;35m[Kcapacity[m[K; // 哈希表桶的大小
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:11:14:[m[K [01;35m[Kwarning: [m[K  when initialized here [[01;35m[K-Wreorder[m[K]
+[CN 192.168.0.229 OUTPUT] explicit [01;35m[KLocalCache[m[K(const int cache_size_mb, Tree* tree) : LOCAL_CACHE_SIZE_MB(cache_size_mb), tree_ptr(tree), cur_size(0), capacity(LOCAL_CACHE_SIZE_MB * 1024 * 1024 / sizeof(Node)) {
+[CN 192.168.0.229 OUTPUT] [01;35m[K^~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] In file included from [01m[K/home/zjh/SMART/test/ycsb_test.cpp:19:0[m[K:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:[m[K In member function ‘[01m[Kvoid LocalCache::insert(const Key&, const Value&, CoroContext*, int)[m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:66:38:[m[K [01;35m[Kwarning: [m[Kcomparison between signed and unsigned integer expressions [[01;35m[K-Wsign-compare[m[K]
+[CN 192.168.0.229 OUTPUT] if (bucket_elements[idx] < min_load) {
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:[m[K In member function ‘[01m[Kvoid LocalCache::Node::update_access_time()[m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:154:84:[m[K [01;35m[Kwarning: [m[Kcomparison between signed and unsigned integer expressions [[01;35m[K-Wsign-compare[m[K]
+[CN 192.168.0.229 OUTPUT] while (!access_time_deque.empty() && [01;35m[K(now - access_time_deque.front()) > window_time_duration[m[K) {
+[CN 192.168.0.229 OUTPUT] [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:[m[K In member function ‘[01m[Ksize_t LocalCache::Node::get_access_count()[m[K’:
+[CN 192.168.0.229 OUTPUT] [01m[K/home/zjh/SMART/include/LocalCache.h:168:84:[m[K [01;35m[Kwarning: [m[Kcomparison between signed and unsigned integer expressions [[01;35m[K-Wsign-compare[m[K]
+[CN 192.168.0.229 OUTPUT] while (!access_time_deque.empty() && [01;35m[K(now - access_time_deque.front()) > window_time_duration[m[K) {
+[CN 192.168.0.229 OUTPUT] [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~[m[K
+[CN 192.168.0.229 OUTPUT] [ 92%] [32m[1mLinking CXX executable redundant_test[0m
+[CN 192.168.0.229 OUTPUT] [ 96%] [32m[1mLinking CXX executable zipfian_test[0m
+[CN 192.168.0.229 OUTPUT] [ 96%] Built target redundant_test
+[CN 192.168.0.229 OUTPUT] [ 96%] Built target zipfian_test
+[CN 192.168.0.229 OUTPUT] [100%] [32m[1mLinking CXX executable ycsb_test[0m
+[CN 192.168.0.229 OUTPUT] [100%] Built target ycsb_test
+[CN 192.168.0.228 OUTPUT] -- Configuring done
+[CN 192.168.0.228 OUTPUT] -- Generating done
+[CN 192.168.0.228 OUTPUT] -- Build files have been written to: /home/zjh/SMART/build
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target SMART[0m
+[CN 192.168.0.228 OUTPUT] [  4%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Common.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [  8%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/AbstractMessageConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 12%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSM.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 16%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RdmaCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 20%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/StateTrans.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 24%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DSMKeeper.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 28%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Debug.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 32%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Directory.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 40%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/DirectoryConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 40%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/ThreadConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 44%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Keeper.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 48%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/NormalCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 52%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RadixCache.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 60%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/RawMessageConnection.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 60%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Utility.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 64%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Resource.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 68%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/rdma/Operation.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 72%] [32mBuilding CXX object CMakeFiles/SMART.dir/src/Tree.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 76%] [32m[1mLinking CXX static library libSMART.a[0m
+[CN 192.168.0.228 OUTPUT] [ 76%] Built target SMART
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target zipfian_test[0m
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target redundant_test[0m
+[CN 192.168.0.228 OUTPUT] [35m[1mScanning dependencies of target ycsb_test[0m
+[CN 192.168.0.228 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/redundant_test.dir/test/redundant_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 84%] [32mBuilding CXX object CMakeFiles/zipfian_test.dir/test/zipfian_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 88%] [32mBuilding CXX object CMakeFiles/ycsb_test.dir/test/ycsb_test.cpp.o[0m
+[CN 192.168.0.228 OUTPUT] [ 92%] [32m[1mLinking CXX executable redundant_test[0m
+[CN 192.168.0.228 OUTPUT] [ 96%] [32m[1mLinking CXX executable zipfian_test[0m
+[CN 192.168.0.228 OUTPUT] [ 96%] Built target redundant_test
+[CN 192.168.0.228 OUTPUT] [ 96%] Built target zipfian_test
+[CN 192.168.0.228 OUTPUT] [100%] [32m[1mLinking CXX executable ycsb_test[0m
+[CN 192.168.0.228 OUTPUT] [100%] Built target ycsb_test
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 1"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 1
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 1
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 1 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 1 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 1, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f8b21fa3000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 1, main_core_id 16
+Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 0 to core ID: 17
+I am 1
+I am loader 1
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 2900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 3700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        1 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 2900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 3700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 40s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 0,  retry2 1303,  retry3 1,  retry4 3,  retry5 0,  retry6 894479,  retry7 0,  retry8 0,  retry9 2,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 56
+[CN 192.168.0.229 OUTPUT] total 67928,  retry1 0,  retry2 6,  retry3 0,  retry4 0,  retry5 0,  retry6 82814,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.1314 cap = 67998 microseconds = 517650
+[CN 192.168.0.229 OUTPUT] total 65182,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 79850,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.1993 cap = 65256 microseconds = 327444
+[CN 192.168.0.229 OUTPUT] total 59147,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 73032,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.1982 cap = 59215 microseconds = 298787
+[CN 192.168.0.229 OUTPUT] total 52159,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 64860,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.1755 cap = 52225 microseconds = 297520
+[CN 192.168.0.229 OUTPUT] total 54890,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 67790,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.1848 cap = 54951 microseconds = 297356
+[CN 192.168.0.229 OUTPUT] total 57785,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 71724,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.1930 cap = 57862 microseconds = 299801
+[CN 192.168.0.229 OUTPUT] total 57390,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 72175,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.1931 cap = 57445 microseconds = 297449
+[CN 192.168.0.229 OUTPUT] total 67750,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 85104,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.1910 cap = 67819 microseconds = 355115
+[CN 192.168.0.229 OUTPUT] total 58023,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 73250,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.1928 cap = 58086 microseconds = 301322
+[CN 192.168.0.229 OUTPUT] thread 0 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9023) =====
+
+Per-node process memory usage (in MBs) for PID 9023 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.06            4.32            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.68        26858.61        26859.29
+----------------  --------------- --------------- ---------------
+Total                        0.74        26862.95        26863.69
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=121
+depth=3 cnt=2929
+depth=4 cnt=2074
+consumed cache size = 24.999 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~$ 
+zjh@s200:~$ cd /home/zjh/SMART/build && ./ycsb_test 2 1 2 randint c
+kNodeCount 2, kThreadCount 1, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f849c200000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+thread 0: 100000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 0: 500000 load entries loaded.
+thread 0: 600000 load entries loaded.
+thread 0: 700000 load entries loaded.
+thread 0: 800000 load entries loaded.
+thread 0: 900000 load entries loaded.
+thread 0: 1000000 load entries loaded.
+thread 0: 1100000 load entries loaded.
+thread 0: 1200000 load entries loaded.
+thread 0: 1300000 load entries loaded.
+thread 0: 1400000 load entries loaded.
+thread 0: 1500000 load entries loaded.
+thread 0: 1600000 load entries loaded.
+thread 0: 1700000 load entries loaded.
+thread 0: 1800000 load entries loaded.
+thread 0: 1900000 load entries loaded.
+thread 0: 2000000 load entries loaded.
+thread 0: 2100000 load entries loaded.
+thread 0: 2200000 load entries loaded.
+thread 0: 2300000 load entries loaded.
+thread 0: 2400000 load entries loaded.
+thread 0: 2500000 load entries loaded.
+thread 0: 2600000 load entries loaded.
+thread 0: 2700000 load entries loaded.
+thread 0: 2800000 load entries loaded.
+thread 0: 2900000 load entries loaded.
+thread 0: 3000000 load entries loaded.
+thread 0: 3100000 load entries loaded.
+thread 0: 3200000 load entries loaded.
+thread 0: 3300000 load entries loaded.
+thread 0: 3400000 load entries loaded.
+thread 0: 3500000 load entries loaded.
+thread 0: 3600000 load entries loaded.
+thread 0: 3700000 load entries loaded.
+loader 0 load finish
+thread 0: 100000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+thread 0: 700000 trans entries loaded.
+thread 0: 800000 trans entries loaded.
+thread 0: 900000 trans entries loaded.
+thread 0: 1000000 trans entries loaded.
+thread 0: 1100000 trans entries loaded.
+thread 0: 1200000 trans entries loaded.
+thread 0: 1300000 trans entries loaded.
+thread 0: 1400000 trans entries loaded.
+thread 0: 1500000 trans entries loaded.
+thread 0: 1600000 trans entries loaded.
+thread 0: 1700000 trans entries loaded.
+thread 0: 1800000 trans entries loaded.
+thread 0: 1900000 trans entries loaded.
+thread 0: 2000000 trans entries loaded.
+thread 0: 2100000 trans entries loaded.
+thread 0: 2200000 trans entries loaded.
+thread 0: 2300000 trans entries loaded.
+thread 0: 2400000 trans entries loaded.
+thread 0: 2500000 trans entries loaded.
+thread 0: 2600000 trans entries loaded.
+thread 0: 2700000 trans entries loaded.
+thread 0: 2800000 trans entries loaded.
+thread 0: 2900000 trans entries loaded.
+thread 0: 3000000 trans entries loaded.
+thread 0: 3100000 trans entries loaded.
+thread 0: 3200000 trans entries loaded.
+thread 0: 3300000 trans entries loaded.
+thread 0: 3400000 trans entries loaded.
+thread 0: 3500000 trans entries loaded.
+thread 0: 3600000 trans entries loaded.
+thread 0: 3700000 trans entries loaded.
+node 0 finish
+warmup time 40s
+0, throughput 0.0000
+epoch 1 passed!
+cluster throughput 0.000 Mops
+cache hit rate: 0.898682
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: -nan
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.001781
+read node repair rate: 0.001659
+read invalid node rate: 0.000001
+node_type1 419639   node_type2 63473   node_type3 131361   node_type4 262537   node_type5 506031   node_type6 1529804   node_type7 882007   
+
+0, throughput 0.1395
+epoch 2 passed!
+cluster throughput 0.270 Mops
+cache hit rate: 0.664870
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001055
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 59716   node_type2 293   node_type3 0   node_type4 0   node_type5 0   node_type6 10004   node_type7 99866   
+
+0, throughput 0.1526
+epoch 3 passed!
+cluster throughput 0.351 Mops
+cache hit rate: 0.657661
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001263
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 32267   node_type2 153   node_type3 0   node_type4 0   node_type5 0   node_type6 5803   node_type7 54425   
+
+0, throughput 0.1517
+epoch 4 passed!
+cluster throughput 0.349 Mops
+cache hit rate: 0.652118
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001079
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 32155   node_type2 132   node_type3 0   node_type4 0   node_type5 0   node_type6 6124   node_type7 54428   
+
+0, throughput 0.1512
+epoch 5 passed!
+cluster throughput 0.326 Mops
+cache hit rate: 0.647643
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001051
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 31887   node_type2 138   node_type3 0   node_type4 0   node_type5 0   node_type6 6418   node_type7 54688   
+
+0, throughput 0.1508
+epoch 6 passed!
+cluster throughput 0.334 Mops
+cache hit rate: 0.642904
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001371
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 31819   node_type2 137   node_type3 0   node_type4 0   node_type5 0   node_type6 6836   node_type7 55032   
+
+0, throughput 0.1493
+epoch 7 passed!
+cluster throughput 0.342 Mops
+cache hit rate: 0.635373
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001167
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 31812   node_type2 158   node_type3 0   node_type4 0   node_type5 0   node_type6 7200   node_type7 55248   
+
+0, throughput 0.1486
+epoch 8 passed!
+cluster throughput 0.341 Mops
+cache hit rate: 0.629025
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001188
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 31820   node_type2 132   node_type3 0   node_type4 0   node_type5 0   node_type6 7659   node_type7 55772   
+
+0, throughput 0.1480
+epoch 9 passed!
+cluster throughput 0.337 Mops
+cache hit rate: 0.622022
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001143
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 31629   node_type2 135   node_type3 0   node_type4 0   node_type5 0   node_type6 8148   node_type7 56288
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.1475
+epoch 10 passed!
+cluster throughput 0.339 Mops
+cache hit rate: 0.456721
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.001249
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 34759   node_type2 157   node_type3 0   node_type4 0   node_type5 0   node_type6 9486   node_type7 62247   
+
+thread 0 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+ ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=98
+depth=3 cnt=528
+depth=4 cnt=356
+consumed cache size = 24.999 MB
+[END]
+epoch_id=9 p50_lat=12.6 p99_lat=34.2
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=2 tpt=0.337 p50_lat=12.6 p99_lat=34.2[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 2"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 2
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 2
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 2 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 2 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 2, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f39cc420000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[192.168.0.189 CN]: [1;32mDSM instance created.[0m
+[CN 192.168.0.229 OUTPUT] kThreadCount 2, main_core_id 16
+Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 1 to core ID: 18
+[CN 192.168.0.229 OUTPUT] I am 3
+I am loader 3
+[CN 192.168.0.229 OUTPUT] Binding thread 0 to core ID: 17
+I am 2
+I am loader 2
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        3 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 500000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+thread 1: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        2 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 1: 1600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 23s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 0,  retry2 2653,  retry3 3,  retry4 5,  retry5 0,  retry6 898618,  retry7 1,  retry8 0,  retry9 11,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 56
+[CN 192.168.0.229 OUTPUT] total 143369,  retry1 0,  retry2 8,  retry3 0,  retry4 0,  retry5 0,  retry6 176248,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.2677 cap = 143731 microseconds = 536918
+[CN 192.168.0.229 OUTPUT] total 103201,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 128074,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.3401 cap = 103500 microseconds = 304346
+[CN 192.168.0.229 OUTPUT] total 122141,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 152998,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.3336 cap = 122472 microseconds = 367162
+[CN 192.168.0.229 OUTPUT] total 101566,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 128176,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.3339 cap = 101851 microseconds = 305017
+[CN 192.168.0.229 OUTPUT] total 45011,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 57084,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.1500 cap = 45119 microseconds = 300758
+[CN 192.168.0.229 OUTPUT] total 88464,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 112145,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.2636 cap = 88673 microseconds = 336436
+[CN 192.168.0.229 OUTPUT] total 101390,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 129461,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.3325 cap = 101655 microseconds = 305722
+[CN 192.168.0.229 OUTPUT] total 99516,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 128571,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.3298 cap = 99761 microseconds = 302480
+[CN 192.168.0.229 OUTPUT] total 99579,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 129468,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.3300 cap = 99856 microseconds = 302581
+thread 1 exit.
+thread 0 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9097) =====
+
+Per-node process memory usage (in MBs) for PID 9097 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.01            4.37            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.53        26878.72        26879.25
+----------------  --------------- --------------- ---------------
+Total                        0.54        26883.12        26883.65
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=118
+depth=3 cnt=2373
+depth=4 cnt=1659
+consumed cache size = 25.000 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 2 2 randint c
+kNodeCount 2, kThreadCount 2, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f2f3de00000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 1 to core ID: 2
+I am 1
+I am loader 1
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+thread 1: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 1: 500000 load entries loaded.
+thread 0: 500000 load entries loaded.
+thread 1: 600000 load entries loaded.
+thread 0: 600000 load entries loaded.
+thread 1: 700000 load entries loaded.
+thread 0: 700000 load entries loaded.
+thread 1: 800000 load entries loaded.
+thread 0: 800000 load entries loaded.
+thread 1: 900000 load entries loaded.
+thread 0: 900000 load entries loaded.
+thread 1: 1000000 load entries loaded.
+thread 0: 1000000 load entries loaded.
+thread 1: 1100000 load entries loaded.
+thread 0: 1100000 load entries loaded.
+thread 1: 1200000 load entries loaded.
+thread 0: 1200000 load entries loaded.
+thread 1: 1300000 load entries loaded.
+thread 0: 1300000 load entries loaded.
+thread 1: 1400000 load entries loaded.
+thread 0: 1400000 load entries loaded.
+thread 1: 1500000 load entries loaded.
+thread 0: 1500000 load entries loaded.
+thread 1: 1600000 load entries loaded.
+thread 0: 1600000 load entries loaded.
+thread 1: 1700000 load entries loaded.
+thread 0: 1700000 load entries loaded.
+thread 1: 1800000 load entries loaded.
+thread 0: 1800000 load entries loaded.
+loader 1 load finish
+thread 1: 100000 trans entries loaded.
+loader 0 load finish
+thread 1: 200000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 1: 700000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+thread 1: 800000 trans entries loaded.
+thread 0: 700000 trans entries loaded.
+thread 1: 900000 trans entries loaded.
+thread 0: 800000 trans entries loaded.
+thread 1: 1000000 trans entries loaded.
+thread 0: 900000 trans entries loaded.
+thread 1: 1100000 trans entries loaded.
+thread 0: 1000000 trans entries loaded.
+thread 1: 1200000 trans entries loaded.
+thread 0: 1100000 trans entries loaded.
+thread 1: 1300000 trans entries loaded.
+thread 0: 1200000 trans entries loaded.
+thread 1: 1400000 trans entries loaded.
+thread 0: 1300000 trans entries loaded.
+thread 1: 1500000 trans entries loaded.
+thread 0: 1400000 trans entries loaded.
+thread 1: 1600000 trans entries loaded.
+thread 0: 1500000 trans entries loaded.
+thread 1: 1700000 trans entries loaded.
+thread 0: 1600000 trans entries loaded.
+thread 1: 1800000 trans entries loaded.
+thread 0: 1700000 trans entries loaded.
+thread 0: 1800000 trans entries loaded.
+node 0 finish
+warmup time 23s
+0, throughput 0.0167
+epoch 1 passed!
+cluster throughput 0.016 Mops
+cache hit rate: 0.898289
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: 0.000000
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.002218
+read node repair rate: 0.001457
+read invalid node rate: 0.000000
+node_type1 428349   node_type2 64376   node_type3 123094   node_type4 260197   node_type5 500362   node_type6 1528030   node_type7 904596   
+
+0, throughput 0.2382
+epoch 2 passed!
+cluster throughput 0.505 Mops
+cache hit rate: 0.664277
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002757
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 111859   node_type2 520   node_type3 0   node_type4 0   node_type5 0   node_type6 18676   node_type7 187101   
+
+0, throughput 0.2643
+epoch 3 passed!
+cluster throughput 0.604 Mops
+cache hit rate: 0.652322
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002971
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 61247   node_type2 280   node_type3 0   node_type4 0   node_type5 0   node_type6 11769   node_type7 103976   
+
+0, throughput 0.2604
+epoch 4 passed!
+cluster throughput 0.593 Mops
+cache hit rate: 0.641962
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002529
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 60923   node_type2 244   node_type3 0   node_type4 0   node_type5 0   node_type6 12982   node_type7 104921   
+
+0, throughput 0.2577
+epoch 5 passed!
+cluster throughput 0.590 Mops
+cache hit rate: 0.630193
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002653
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 60660   node_type2 285   node_type3 0   node_type4 0   node_type5 0   node_type6 14459   node_type7 106297   
+
+0, throughput 0.2537
+epoch 6 passed!
+cluster throughput 0.403 Mops
+cache hit rate: 0.617085
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002932
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 60223   node_type2 266   node_type3 0   node_type4 0   node_type5 0   node_type6 16158   node_type7 107370   
+
+0, throughput 0.2492
+epoch 7 passed!
+cluster throughput 0.512 Mops
+cache hit rate: 0.600535
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002996
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 59453   node_type2 280   node_type3 0   node_type4 0   node_type5 0   node_type6 18024   node_type7 107981   
+
+0, throughput 0.2442
+epoch 8 passed!
+cluster throughput 0.576 Mops
+cache hit rate: 0.580573
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.003013
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 58625   node_type2 285   node_type3 0   node_type4 0   node_type5 0   node_type6 20356   node_type7 109550
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.2376
+epoch 9 passed!
+cluster throughput 0.566 Mops
+cache hit rate: 0.555304
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.002846
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 57965   node_type2 213   node_type3 0   node_type4 0   node_type5 0   node_type6 23259   node_type7 111546
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.2296
+epoch 10 passed!
+cluster throughput 0.559 Mops
+cache hit rate: 0.526745
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.003052
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 56301   node_type2 251   node_type3 0   node_type4 0   node_type5 0   node_type6 26559   node_type7 112553   
+
+thread 1 exit.
+thread 0 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+[CN 192.168.0.228 OUTPUT] ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=77
+depth=3 cnt=201
+depth=4 cnt=130
+consumed cache size = 24.999 MB
+[END]
+epoch_id=9 p50_lat=15.5 p99_lat=38.3
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=4 tpt=0.566 p50_lat=15.5 p99_lat=38.3[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 3"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 3
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 1250000
+[CN 192.168.0.229 OUTPUT] 1250000 2500000
+[CN 192.168.0.229 OUTPUT] 2500000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 5000000
+[CN 192.168.0.229 OUTPUT] 5000000 6250000
+[CN 192.168.0.229 OUTPUT] 6250000 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 1250000
+[CN 192.168.0.229 OUTPUT] 1250000 2500000
+[CN 192.168.0.229 OUTPUT] 2500000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 5000000
+[CN 192.168.0.229 OUTPUT] 5000000 6250000
+[CN 192.168.0.229 OUTPUT] 6250000 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 3
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 1250000
+[CN 192.168.0.228 OUTPUT] 1250000 2500000
+[CN 192.168.0.228 OUTPUT] 2500000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 5000000
+[CN 192.168.0.228 OUTPUT] 5000000 6250000
+[CN 192.168.0.228 OUTPUT] 6250000 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 1250000
+[CN 192.168.0.228 OUTPUT] 1250000 2500000
+[CN 192.168.0.228 OUTPUT] 2500000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 5000000
+[CN 192.168.0.228 OUTPUT] 5000000 6250000
+[CN 192.168.0.228 OUTPUT] 6250000 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 3 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 3 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 3, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f3a8b342000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 3, main_core_id 16
+Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 2 to core ID: 19
+I am 5
+I am loader 5
+[CN 192.168.0.229 OUTPUT] Binding thread 1 to core ID: 18
+Binding thread 0 to core ID: 17
+I am 4
+I am loader 4
+[CN 192.168.0.229 OUTPUT] I am 3
+I am loader 3
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 1000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 1000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1000000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 1100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 1100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 1200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 1200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 1200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        5 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        4 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 2: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        3 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 1: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 1200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 1200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1000000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 1200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 16s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 0,  retry2 2945,  retry3 1,  retry4 0,  retry5 0,  retry6 895068,  retry7 2,  retry8 1,  retry9 8,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 54
+[CN 192.168.0.229 OUTPUT] total 224418,  retry1 0,  retry2 6,  retry3 0,  retry4 0,  retry5 0,  retry6 278073,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.4149 cap = 225331 microseconds = 543133
+[CN 192.168.0.229 OUTPUT] total 144526,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 181389,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.4803 cap = 145183 microseconds = 302285
+[CN 192.168.0.229 OUTPUT] total 142751,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 181312,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.4746 cap = 143352 microseconds = 302048
+[CN 192.168.0.229 OUTPUT] total 141254,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 180813,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.4713 cap = 141827 microseconds = 300950
+[CN 192.168.0.229 OUTPUT] total 140541,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 181804,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.4697 cap = 141132 microseconds = 300476
+[CN 192.168.0.229 OUTPUT] total 139814,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 182230,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.4654 cap = 140426 microseconds = 301712
+[CN 192.168.0.229 OUTPUT] total 139529,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 183359,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.4658 cap = 140106 microseconds = 300761
+[CN 192.168.0.229 OUTPUT] total 138668,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 184635,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.4615 cap = 139275 microseconds = 301812
+[CN 192.168.0.229 OUTPUT] total 137461,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 247425,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.4587 cap = 138038 microseconds = 300938
+thread 1 exit.
+[CN 192.168.0.229 OUTPUT] thread 0 exit.
+thread 2 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9147) =====
+
+Per-node process memory usage (in MBs) for PID 9147 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.02            4.37            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.29        26898.85        26899.14
+----------------  --------------- --------------- ---------------
+Total                        0.30        26903.24        26903.54
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=117
+depth=3 cnt=1831
+depth=4 cnt=1276
+consumed cache size = 24.999 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 3 2 randint c
+kNodeCount 2, kThreadCount 3, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7fecd0600000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 2 to core ID: 3
+Binding thread 1 to core ID: 2
+I am 2
+I am loader 2
+I am 1
+I am loader 1
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+thread 2: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 2: 500000 load entries loaded.
+thread 1: 500000 load entries loaded.
+thread 0: 500000 load entries loaded.
+thread 2: 600000 load entries loaded.
+thread 1: 600000 load entries loaded.
+thread 0: 600000 load entries loaded.
+thread 2: 700000 load entries loaded.
+thread 1: 700000 load entries loaded.
+thread 0: 700000 load entries loaded.
+thread 2: 800000 load entries loaded.
+thread 1: 800000 load entries loaded.
+thread 0: 800000 load entries loaded.
+thread 2: 900000 load entries loaded.
+thread 1: 900000 load entries loaded.
+thread 0: 900000 load entries loaded.
+thread 2: 1000000 load entries loaded.
+thread 1: 1000000 load entries loaded.
+thread 0: 1000000 load entries loaded.
+thread 2: 1100000 load entries loaded.
+thread 1: 1100000 load entries loaded.
+thread 0: 1100000 load entries loaded.
+thread 2: 1200000 load entries loaded.
+thread 1: 1200000 load entries loaded.
+thread 0: 1200000 load entries loaded.
+loader 2 load finish
+thread 2: 100000 trans entries loaded.
+thread 2: 200000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 2: 500000 trans entries loaded.
+loader 1 load finish
+thread 2: 600000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+loader 0 load finish
+thread 2: 700000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 2: 800000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 2: 900000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 2: 1000000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+thread 2: 1100000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 1: 700000 trans entries loaded.
+thread 2: 1200000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+thread 1: 800000 trans entries loaded.
+thread 0: 700000 trans entries loaded.
+thread 1: 900000 trans entries loaded.
+thread 0: 800000 trans entries loaded.
+thread 1: 1000000 trans entries loaded.
+thread 0: 900000 trans entries loaded.
+thread 1: 1100000 trans entries loaded.
+thread 0: 1000000 trans entries loaded.
+thread 1: 1200000 trans entries loaded.
+thread 0: 1100000 trans entries loaded.
+thread 0: 1200000 trans entries loaded.
+node 0 finish
+warmup time 16s
+0, throughput 0.0167
+epoch 1 passed!
+cluster throughput 0.016 Mops
+cache hit rate: 0.900987
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: 0.000000
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.002513
+read node repair rate: 0.001468
+read invalid node rate: 0.000000
+node_type1 430542   node_type2 64779   node_type3 132146   node_type4 269116   node_type5 492379   node_type6 1482274   node_type7 914959   
+
+0, throughput 0.3377
+epoch 2 passed!
+cluster throughput 0.751 Mops
+cache hit rate: 0.672241
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004339
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 161747   node_type2 764   node_type3 0   node_type4 0   node_type5 0   node_type6 24481   node_type7 266576   
+
+0, throughput 0.3757
+epoch 3 passed!
+cluster throughput 0.855 Mops
+cache hit rate: 0.654946
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004013
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 94338   node_type2 478   node_type3 0   node_type4 0   node_type5 0   node_type6 17370   node_type7 159338   
+
+0, throughput 0.3690
+epoch 4 passed!
+cluster throughput 0.842 Mops
+cache hit rate: 0.641558
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004537
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 82846   node_type2 338   node_type3 0   node_type4 0   node_type5 0   node_type6 17686   node_type7 143095   
+
+0, throughput 0.3614
+epoch 5 passed!
+cluster throughput 0.832 Mops
+cache hit rate: 0.625548
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004634
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 82062   node_type2 352   node_type3 0   node_type4 0   node_type5 0   node_type6 20416   node_type7 144620   
+
+0, throughput 0.3528
+epoch 6 passed!
+cluster throughput 0.821 Mops
+cache hit rate: 0.604613
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004524
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 80885   node_type2 358   node_type3 0   node_type4 0   node_type5 0   node_type6 23591   node_type7 146619   
+
+0, throughput 0.3422
+epoch 7 passed!
+cluster throughput 0.807 Mops
+cache hit rate: 0.579777
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004376
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 79343   node_type2 330   node_type3 0   node_type4 0   node_type5 0   node_type6 27655   node_type7 148208   
+
+0, throughput 0.3292
+epoch 8 passed!
+cluster throughput 0.794 Mops
+cache hit rate: 0.546189
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004440
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 77668   node_type2 356   node_type3 0   node_type4 0   node_type5 0   node_type6 32813   node_type7 150754
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.3142
+epoch 9 passed!
+cluster throughput 0.775 Mops
+cache hit rate: 0.501399
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004881
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 75030   node_type2 317   node_type3 0   node_type4 0   node_type5 0   node_type6 39277   node_type7 153520
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.2900
+epoch 10 passed!
+cluster throughput 0.748 Mops
+cache hit rate: 0.436749
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.004832
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 71576   node_type2 289   node_type3 0   node_type4 0   node_type5 0   node_type6 47355   node_type7 156081   
+
+thread 2 exit.
+thread 1 exit.
+thread 0 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+[CN 192.168.0.228 OUTPUT] ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=50
+depth=3 cnt=74
+depth=4 cnt=49
+consumed cache size = 24.999 MB
+[END]
+epoch_id=9 p50_lat=16.1 p99_lat=39.6
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=6 tpt=0.775 p50_lat=16.1 p99_lat=39.6[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 4"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 4
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 937500
+[CN 192.168.0.229 OUTPUT] 937500 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 937500
+[CN 192.168.0.229 OUTPUT] 937500 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 4
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 937500
+[CN 192.168.0.228 OUTPUT] 937500 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 937500
+[CN 192.168.0.228 OUTPUT] 937500 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 4 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 4 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 4, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f9dd058b000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 4, main_core_id 16
+Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 2 to core ID: 19
+Binding thread 3 to core ID: 20
+Binding thread 0 to core ID: 17
+Binding thread 1 to core ID: 18
+[CN 192.168.0.229 OUTPUT] I am 6
+I am loader 6
+I am 7
+[CN 192.168.0.229 OUTPUT] I am loader 7
+I am 4
+I am loader 4
+I am 5
+I am loader 5
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 800000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 900000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        5 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        7 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        6 load finish
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        4 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 2: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 700000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 800000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 900000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 13s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 0,  retry2 3325,  retry3 2,  retry4 0,  retry5 0,  retry6 863493,  retry7 3,  retry8 0,  retry9 18,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 56
+[CN 192.168.0.229 OUTPUT] total 293087,  retry1 0,  retry2 12,  retry3 0,  retry4 0,  retry5 0,  retry6 359706,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.5287 cap = 294783 microseconds = 557513
+[CN 192.168.0.229 OUTPUT] total 181301,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 226640,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.6024 cap = 182371 microseconds = 302728
+[CN 192.168.0.229 OUTPUT] total 179457,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 227727,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.5937 cap = 180507 microseconds = 304031
+[CN 192.168.0.229 OUTPUT] total 177555,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 227715,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.5910 cap = 178563 microseconds = 302143
+[CN 192.168.0.229 OUTPUT] total 176338,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 229007,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.5884 cap = 177363 microseconds = 301435
+[CN 192.168.0.229 OUTPUT] total 176349,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 230876,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.5835 cap = 177386 microseconds = 303978
+[CN 192.168.0.229 OUTPUT] total 173546,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 230992,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.5792 cap = 174565 microseconds = 301377
+[CN 192.168.0.229 OUTPUT] total 172903,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 232744,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.5771 cap = 173905 microseconds = 301346
+[CN 192.168.0.229 OUTPUT] total 171663,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 235063,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.5687 cap = 172636 microseconds = 303566
+thread 1 exit.
+thread 2 exit.
+thread 0 exit.
+thread 3 exit.
+Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9198) =====
+
+Per-node process memory usage (in MBs) for PID 9198 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.01            4.37            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.53        26912.48        26913.00
+----------------  --------------- --------------- ---------------
+Total                        0.54        26916.87        26917.41
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=120
+depth=3 cnt=1652
+depth=4 cnt=1117
+consumed cache size = 24.999 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 4 2 randint c
+kNodeCount 2, kThreadCount 4, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f8ed6c00000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 3 to core ID: 4
+I am 3
+I am loader 3
+Binding thread 2 to core ID: 3
+Binding thread 1 to core ID: 2
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+I am 2
+I am loader 2
+I am 1
+I am loader 1
+thread 3: 100000 load entries loaded.
+thread 2: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 3: 200000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 3: 300000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 3: 400000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 3: 500000 load entries loaded.
+thread 2: 500000 load entries loaded.
+thread 0: 500000 load entries loaded.
+thread 1: 500000 load entries loaded.
+thread 2: 600000 load entries loaded.
+thread 3: 600000 load entries loaded.
+thread 0: 600000 load entries loaded.
+thread 1: 600000 load entries loaded.
+thread 2: 700000 load entries loaded.
+thread 3: 700000 load entries loaded.
+thread 0: 700000 load entries loaded.
+thread 1: 700000 load entries loaded.
+thread 2: 800000 load entries loaded.
+thread 3: 800000 load entries loaded.
+thread 0: 800000 load entries loaded.
+thread 1: 800000 load entries loaded.
+thread 2: 900000 load entries loaded.
+thread 3: 900000 load entries loaded.
+thread 0: 900000 load entries loaded.
+thread 1: 900000 load entries loaded.
+loader 2 load finish
+loader 3 load finish
+thread 2: 100000 trans entries loaded.
+thread 3: 100000 trans entries loaded.
+thread 2: 200000 trans entries loaded.
+thread 3: 200000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 3: 300000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+loader 0 load finish
+thread 3: 400000 trans entries loaded.
+thread 2: 500000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 3: 500000 trans entries loaded.
+loader 1 load finish
+thread 2: 600000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 3: 600000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+thread 2: 700000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 3: 700000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 2: 800000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 3: 800000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 2: 900000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 3: 900000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 700000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+thread 0: 800000 trans entries loaded.
+thread 1: 700000 trans entries loaded.
+thread 0: 900000 trans entries loaded.
+thread 1: 800000 trans entries loaded.
+thread 1: 900000 trans entries loaded.
+node 0 finish
+warmup time 13s
+0, throughput 0.0000
+epoch 1 passed!
+cluster throughput 0.000 Mops
+cache hit rate: 0.896926
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: -nan
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.002163
+read node repair rate: 0.001522
+read invalid node rate: 0.000001
+node_type1 445947   node_type2 65309   node_type3 128309   node_type4 242156   node_type5 493561   node_type6 1509833   node_type7 933679   
+
+0, throughput 0.3966
+epoch 2 passed!
+cluster throughput 0.924 Mops
+cache hit rate: 0.637859
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.005887
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 209314   node_type2 962   node_type3 0   node_type4 0   node_type5 0   node_type6 46178   node_type7 362619   
+
+0, throughput 0.4396
+epoch 3 passed!
+cluster throughput 1.041 Mops
+cache hit rate: 0.600905
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.006181
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 104343   node_type2 460   node_type3 0   node_type4 0   node_type5 0   node_type6 31369   node_type7 189576   
+
+0, throughput 0.4195
+epoch 4 passed!
+cluster throughput 1.012 Mops
+cache hit rate: 0.563540
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.006140
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 101060   node_type2 436   node_type3 0   node_type4 0   node_type5 0   node_type6 38712   node_type7 192691   
+
+0, throughput 0.3940
+epoch 5 passed!
+cluster throughput 0.984 Mops
+cache hit rate: 0.509165
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.006218
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 97494   node_type2 409   node_type3 0   node_type4 0   node_type5 0   node_type6 48721   node_type7 196320   
+
+0, throughput 0.3616
+epoch 6 passed!
+cluster throughput 0.949 Mops
+cache hit rate: 0.428787
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.007219
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 91199   node_type2 378   node_type3 0   node_type4 0   node_type5 0   node_type6 62212   node_type7 200956   
+
+0, throughput 0.3134
+epoch 7 passed!
+cluster throughput 0.896 Mops
+cache hit rate: 0.279635
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008396
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 112059   node_type2 465   node_type3 0   node_type4 0   node_type5 0   node_type6 111091   node_type7 280059   
+
+0, throughput 0.3831
+epoch 8 passed!
+cluster throughput 0.962 Mops
+cache hit rate: 0.485973
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009052
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 89240   node_type2 364   node_type3 0   node_type4 0   node_type5 0   node_type6 64679   node_type7 179991
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.6066
+epoch 9 passed!
+cluster throughput 1.183 Mops
+cache hit rate: 0.803774
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.006182
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 118038   node_type2 588   node_type3 0   node_type4 0   node_type5 0   node_type6 1633   node_type7 124572
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.5676
+epoch 10 passed!
+cluster throughput 1.135 Mops
+cache hit rate: 0.799123
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.006110
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 114737   node_type2 543   node_type3 0   node_type4 0   node_type5 0   node_type6 1614   node_type7 125003   
+
+thread 3 exit.
+thread 2 exit.
+thread 0 exit.
+thread 1 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+ ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32894 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=126
+depth=3 cnt=9734
+depth=4 cnt=8748
+consumed cache size = 24.997 MB
+[END]
+epoch_id=9 p50_lat=14.6 p99_lat=36.2
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=8 tpt=1.183 p50_lat=14.6 p99_lat=36.2[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 5"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 5
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 750000
+[CN 192.168.0.229 OUTPUT] 750000 1500000
+[CN 192.168.0.229 OUTPUT] 1500000 2250000
+[CN 192.168.0.229 OUTPUT] 2250000 3000000
+[CN 192.168.0.229 OUTPUT] 3000000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4500000
+[CN 192.168.0.229 OUTPUT] 4500000 5250000
+[CN 192.168.0.229 OUTPUT] 5250000 6000000
+[CN 192.168.0.229 OUTPUT] 6000000 6750000
+[CN 192.168.0.229 OUTPUT] 6750000 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 750000
+[CN 192.168.0.229 OUTPUT] 750000 1500000
+[CN 192.168.0.229 OUTPUT] 1500000 2250000
+[CN 192.168.0.229 OUTPUT] 2250000 3000000
+[CN 192.168.0.229 OUTPUT] 3000000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4500000
+[CN 192.168.0.229 OUTPUT] 4500000 5250000
+[CN 192.168.0.229 OUTPUT] 5250000 6000000
+[CN 192.168.0.229 OUTPUT] 6000000 6750000
+[CN 192.168.0.229 OUTPUT] 6750000 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 5
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 750000
+[CN 192.168.0.228 OUTPUT] 750000 1500000
+[CN 192.168.0.228 OUTPUT] 1500000 2250000
+[CN 192.168.0.228 OUTPUT] 2250000 3000000
+[CN 192.168.0.228 OUTPUT] 3000000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4500000
+[CN 192.168.0.228 OUTPUT] 4500000 5250000
+[CN 192.168.0.228 OUTPUT] 5250000 6000000
+[CN 192.168.0.228 OUTPUT] 6000000 6750000
+[CN 192.168.0.228 OUTPUT] 6750000 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 750000
+[CN 192.168.0.228 OUTPUT] 750000 1500000
+[CN 192.168.0.228 OUTPUT] 1500000 2250000
+[CN 192.168.0.228 OUTPUT] 2250000 3000000
+[CN 192.168.0.228 OUTPUT] 3000000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4500000
+[CN 192.168.0.228 OUTPUT] 4500000 5250000
+[CN 192.168.0.228 OUTPUT] 5250000 6000000
+[CN 192.168.0.228 OUTPUT] 6000000 6750000
+[CN 192.168.0.228 OUTPUT] 6750000 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 5 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 5 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 5, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f02df5f5000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 5, main_core_id 16
+Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 4 to core ID: 21
+Binding thread 3 to core ID: 20
+[CN 192.168.0.229 OUTPUT] I am 9
+I am loader 9
+I am 8
+I am loader 8
+[CN 192.168.0.229 OUTPUT] Binding thread 2 to core ID: 19
+Binding thread 0 to core ID: 17
+Binding thread 1 to core ID: 18
+I am 7
+I am loader 7
+I am 5
+I am loader 5
+[CN 192.168.0.229 OUTPUT] I am 6
+I am loader 6
+[CN 192.168.0.229 OUTPUT] thread 9: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 700000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        8 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        9 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        6 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        7 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        5 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 500000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 3: 700000 trans entries loaded.
+thread 4: 600000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 4: 700000 trans entries loaded.
+thread 2: 500000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+thread 2: 600000 trans entries loaded.
+thread 1: 700000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 2: 700000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+thread 0: 700000 trans entries loaded.
+node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 10s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 1,  retry2 2375,  retry3 10,  retry4 0,  retry5 0,  retry6 892026,  retry7 4,  retry8 0,  retry9 30,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 55
+[CN 192.168.0.229 OUTPUT] total 358051,  retry1 0,  retry2 10,  retry3 0,  retry4 0,  retry5 0,  retry6 445860,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.6307 cap = 360663 microseconds = 571849
+[CN 192.168.0.229 OUTPUT] total 219130,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 278215,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.7102 cap = 220728 microseconds = 310794
+[CN 192.168.0.229 OUTPUT] total 215968,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 278520,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.7032 cap = 217548 microseconds = 309378
+[CN 192.168.0.229 OUTPUT] total 213442,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 279898,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.6952 cap = 214994 microseconds = 309257
+[CN 192.168.0.229 OUTPUT] total 212762,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 283484,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.6882 cap = 214291 microseconds = 311374
+[CN 192.168.0.229 OUTPUT] total 211473,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 285765,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.6837 cap = 213022 microseconds = 311593
+[CN 192.168.0.229 OUTPUT] total 209234,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 288467,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.6770 cap = 210807 microseconds = 311400
+[CN 192.168.0.229 OUTPUT] total 206215,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 290005,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.6692 cap = 207702 microseconds = 310387
+[CN 192.168.0.229 OUTPUT] total 203527,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 292310,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.6599 cap = 204947 microseconds = 310555
+thread 3 exit.
+thread 1 exit.
+thread 4 exit.
+[CN 192.168.0.229 OUTPUT] thread 2 exit.
+thread 0 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.229 OUTPUT] Thread 4 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9245) =====
+
+Per-node process memory usage (in MBs) for PID 9245 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.00            4.38            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.29        26927.63        26927.92
+----------------  --------------- --------------- ---------------
+Total                        0.29        26932.04        26932.32
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=114
+depth=3 cnt=1174
+depth=4 cnt=754
+consumed cache size = 24.998 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 5 2 randint c
+kNodeCount 2, kThreadCount 5, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f90b8600000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 4 to core ID: 5
+Binding thread 2 to core ID: 3
+Binding thread 3 to core ID: 4
+I am 4
+I am loader 4
+I am 2
+I am loader 2
+I am 3
+I am loader 3
+Binding thread 0 to core ID: 1
+Binding thread 1 to core ID: 2
+I am 0
+I am loader 0
+I am 1
+I am loader 1
+thread 3: 100000 load entries loaded.
+thread 2: 100000 load entries loaded.
+thread 4: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 3: 200000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 4: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 3: 300000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 4: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 3: 400000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 4: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 3: 500000 load entries loaded.
+thread 2: 500000 load entries loaded.
+thread 4: 500000 load entries loaded.
+thread 1: 500000 load entries loaded.
+thread 0: 500000 load entries loaded.
+thread 3: 600000 load entries loaded.
+thread 2: 600000 load entries loaded.
+thread 4: 600000 load entries loaded.
+thread 1: 600000 load entries loaded.
+thread 0: 600000 load entries loaded.
+thread 2: 700000 load entries loaded.
+thread 3: 700000 load entries loaded.
+thread 4: 700000 load entries loaded.
+thread 0: 700000 load entries loaded.
+thread 1: 700000 load entries loaded.
+loader 2 load finish
+loader 3 load finish
+thread 2: 100000 trans entries loaded.
+thread 3: 100000 trans entries loaded.
+loader 4 load finish
+thread 2: 200000 trans entries loaded.
+thread 3: 200000 trans entries loaded.
+thread 4: 100000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 3: 300000 trans entries loaded.
+thread 4: 200000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+loader 0 load finish
+loader 1 load finish
+thread 3: 400000 trans entries loaded.
+thread 4: 300000 trans entries loaded.
+thread 2: 500000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+thread 3: 500000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+thread 2: 600000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 3: 600000 trans entries loaded.
+thread 4: 500000 trans entries loaded.
+thread 2: 700000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 3: 700000 trans entries loaded.
+thread 4: 600000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 4: 700000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+thread 0: 700000 trans entries loaded.
+thread 1: 700000 trans entries loaded.
+node 0 finish
+warmup time 10s
+0, throughput 0.0333
+epoch 1 passed!
+cluster throughput 0.033 Mops
+cache hit rate: 0.900091
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: 0.000000
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.002407
+read node repair rate: 0.001457
+read invalid node rate: 0.000001
+node_type1 430493   node_type2 65274   node_type3 127490   node_type4 248378   node_type5 499063   node_type6 1526398   node_type7 892018   
+
+0, throughput 0.4918
+epoch 2 passed!
+cluster throughput 1.121 Mops
+cache hit rate: 0.658841
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.007328
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 259060   node_type2 1236   node_type3 0   node_type4 0   node_type5 0   node_type6 46307   node_type7 436205   
+
+0, throughput 0.5421
+epoch 3 passed!
+cluster throughput 1.252 Mops
+cache hit rate: 0.624579
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.007342
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 132621   node_type2 574   node_type3 0   node_type4 0   node_type5 0   node_type6 32878   node_type7 233311   
+
+0, throughput 0.5185
+epoch 4 passed!
+cluster throughput 1.221 Mops
+cache hit rate: 0.590205
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.007710
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 126188   node_type2 593   node_type3 0   node_type4 0   node_type5 0   node_type6 40941   node_type7 233141   
+
+0, throughput 0.4864
+epoch 5 passed!
+cluster throughput 1.181 Mops
+cache hit rate: 0.539321
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.007391
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 121473   node_type2 507   node_type3 0   node_type4 0   node_type5 0   node_type6 52805   node_type7 237593   
+
+0, throughput 0.4456
+epoch 6 passed!
+cluster throughput 1.133 Mops
+cache hit rate: 0.458600
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008769
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 114152   node_type2 533   node_type3 0   node_type4 0   node_type5 0   node_type6 70112   node_type7 243786   
+
+0, throughput 0.3919
+epoch 7 passed!
+cluster throughput 1.074 Mops
+cache hit rate: 0.326530
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010136
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 104594   node_type2 470   node_type3 0   node_type4 0   node_type5 0   node_type6 93498   node_type7 251527   
+
+0, throughput 0.3752
+epoch 8 passed!
+cluster throughput 1.051 Mops
+cache hit rate: 0.289588
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.012612
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 98554   node_type2 394   node_type3 0   node_type4 0   node_type5 0   node_type6 102499   node_type7 243374
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.7372
+epoch 9 passed!
+cluster throughput 1.406 Mops
+cache hit rate: 0.804105
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.006774
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 147018   node_type2 668   node_type3 0   node_type4 0   node_type5 0   node_type6 1923   node_type7 153849
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.7289
+epoch 10 passed!
+cluster throughput 1.387 Mops
+cache hit rate: 0.797996
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.007790
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 145881   node_type2 653   node_type3 0   node_type4 0   node_type5 0   node_type6 2205   node_type7 160227   
+
+thread 2 exit.
+thread 1 exit.
+thread 3 exit.
+thread 4 exit.
+thread 0 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.228 OUTPUT] Thread 4 joined.
+ ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=120
+depth=3 cnt=9394
+depth=4 cnt=8357
+consumed cache size = 24.999 MB
+[END]
+epoch_id=9 p50_lat=15.1 p99_lat=37.4
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=10 tpt=1.406 p50_lat=15.1 p99_lat=37.4[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 6"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 6
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 625000
+[CN 192.168.0.229 OUTPUT] 625000 1250000
+[CN 192.168.0.229 OUTPUT] 1250000 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2500000
+[CN 192.168.0.229 OUTPUT] 2500000 3125000
+[CN 192.168.0.229 OUTPUT] 3125000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4375000
+[CN 192.168.0.229 OUTPUT] 4375000 5000000
+[CN 192.168.0.229 OUTPUT] 5000000 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6250000
+[CN 192.168.0.229 OUTPUT] 6250000 6875000
+[CN 192.168.0.229 OUTPUT] 6875000 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 625000
+[CN 192.168.0.229 OUTPUT] 625000 1250000
+[CN 192.168.0.229 OUTPUT] 1250000 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2500000
+[CN 192.168.0.229 OUTPUT] 2500000 3125000
+[CN 192.168.0.229 OUTPUT] 3125000 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4375000
+[CN 192.168.0.229 OUTPUT] 4375000 5000000
+[CN 192.168.0.229 OUTPUT] 5000000 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6250000
+[CN 192.168.0.229 OUTPUT] 6250000 6875000
+[CN 192.168.0.229 OUTPUT] 6875000 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 6
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 625000
+[CN 192.168.0.228 OUTPUT] 625000 1250000
+[CN 192.168.0.228 OUTPUT] 1250000 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2500000
+[CN 192.168.0.228 OUTPUT] 2500000 3125000
+[CN 192.168.0.228 OUTPUT] 3125000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4375000
+[CN 192.168.0.228 OUTPUT] 4375000 5000000
+[CN 192.168.0.228 OUTPUT] 5000000 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6250000
+[CN 192.168.0.228 OUTPUT] 6250000 6875000
+[CN 192.168.0.228 OUTPUT] 6875000 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 625000
+[CN 192.168.0.228 OUTPUT] 625000 1250000
+[CN 192.168.0.228 OUTPUT] 1250000 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2500000
+[CN 192.168.0.228 OUTPUT] 2500000 3125000
+[CN 192.168.0.228 OUTPUT] 3125000 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4375000
+[CN 192.168.0.228 OUTPUT] 4375000 5000000
+[CN 192.168.0.228 OUTPUT] 5000000 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6250000
+[CN 192.168.0.228 OUTPUT] 6250000 6875000
+[CN 192.168.0.228 OUTPUT] 6875000 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 6 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 6 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 6, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f592a9c1000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM instance created.[0m
+[CN 192.168.0.229 OUTPUT] kThreadCount 6, main_core_id 16
+[CN 192.168.0.229 OUTPUT] Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 2 to core ID: 19
+Binding thread 3 to core ID: 20
+Binding thread 4 to core ID: 21
+[CN 192.168.0.229 OUTPUT] Binding thread 5 to core ID: 22
+[CN 192.168.0.229 OUTPUT] I am 10
+I am loader 10
+I am 9
+I am loader 9
+I am 11
+[CN 192.168.0.229 OUTPUT] I am loader 11
+I am 8
+I am loader 8
+[CN 192.168.0.229 OUTPUT] Binding thread 1 to core ID: 18
+I am 7
+I am loader 7
+[CN 192.168.0.229 OUTPUT] Binding thread 0 to core ID: 17
+I am 6
+I am loader 6
+[CN 192.168.0.229 OUTPUT] thread 9: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 500000 load entries loaded.
+thread 10: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 600000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       10 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        9 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        7 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        8 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       11 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        6 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 600000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] warmup time 9s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 0,  retry2 2764,  retry3 5,  retry4 0,  retry5 0,  retry6 928468,  retry7 8,  retry8 0,  retry9 34,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 56
+[CN 192.168.0.229 OUTPUT] total 438690,  retry1 0,  retry2 5,  retry3 0,  retry4 0,  retry5 0,  retry6 556796,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.6782 cap = 442363 microseconds = 652227
+[CN 192.168.0.229 OUTPUT] total 252655,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 329524,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.7570 cap = 254766 microseconds = 336532
+[CN 192.168.0.229 OUTPUT] total 248033,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 329417,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.7471 cap = 250144 microseconds = 334826
+[CN 192.168.0.229 OUTPUT] total 245131,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 332053,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.7404 cap = 247256 microseconds = 333958
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] total 244072,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 337170,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.7341 cap = 246117 microseconds = 335257
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] total 239688,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 338892,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.7237 cap = 241716 microseconds = 334020
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] total 236109,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 342325,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.7158 cap = 238144 microseconds = 332677
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] total 222417,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 331425,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.6738 cap = 224419 microseconds = 333040
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] total 225014,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 346282,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.6788 cap = 227025 microseconds = 334427
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] thread 4 exit.
+[CN 192.168.0.229 OUTPUT] thread 0 exit.
+[CN 192.168.0.229 OUTPUT] thread 3 exit.
+[CN 192.168.0.229 OUTPUT] thread 5 exit.
+thread 1 exit.
+thread 2 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+Thread 4 joined.
+Thread 5 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9293) =====
+
+Per-node process memory usage (in MBs) for PID 9293 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.05            4.33            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.67        26940.83        26941.50
+----------------  --------------- --------------- ---------------
+Total                        0.72        26945.18        26945.90
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=105
+depth=3 cnt=717
+depth=4 cnt=497
+consumed cache size = 24.996 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 6 2 randint c
+kNodeCount 2, kThreadCount 6, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f9980800000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 5 to core ID: 6
+I am 5
+I am loader 5
+Binding thread 4 to core ID: 5
+Binding thread 1 to core ID: 2
+Binding thread 3 to core ID: 4
+Binding thread 2 to core ID: 3
+I am 4
+I am loader 4
+I am 3
+I am loader 3
+I am 2
+I am loader 2
+I am 1
+I am loader 1
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+thread 5: 100000 load entries loaded.
+thread 2: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 4: 100000 load entries loaded.
+thread 3: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 5: 200000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 4: 200000 load entries loaded.
+thread 3: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 5: 300000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 4: 300000 load entries loaded.
+thread 3: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 5: 400000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 3: 400000 load entries loaded.
+thread 4: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 3: 500000 load entries loaded.
+thread 2: 500000 load entries loaded.
+thread 5: 500000 load entries loaded.
+thread 4: 500000 load entries loaded.
+thread 1: 500000 load entries loaded.
+thread 0: 500000 load entries loaded.
+thread 2: 600000 load entries loaded.
+thread 5: 600000 load entries loaded.
+thread 3: 600000 load entries loaded.
+thread 4: 600000 load entries loaded.
+thread 1: 600000 load entries loaded.
+thread 0: 600000 load entries loaded.
+loader 5 load finish
+loader 2 load finish
+loader 3 load finish
+loader 4 load finish
+thread 5: 100000 trans entries loaded.
+thread 2: 100000 trans entries loaded.
+thread 3: 100000 trans entries loaded.
+thread 4: 100000 trans entries loaded.
+thread 5: 200000 trans entries loaded.
+loader 1 load finish
+thread 3: 200000 trans entries loaded.
+thread 2: 200000 trans entries loaded.
+thread 4: 200000 trans entries loaded.
+thread 5: 300000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+loader 0 load finish
+thread 3: 300000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 4: 300000 trans entries loaded.
+thread 5: 400000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 3: 400000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+thread 5: 500000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 3: 500000 trans entries loaded.
+thread 2: 500000 trans entries loaded.
+thread 4: 500000 trans entries loaded.
+thread 5: 600000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 3: 600000 trans entries loaded.
+thread 2: 600000 trans entries loaded.
+thread 4: 600000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 1: 600000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+thread 0: 600000 trans entries loaded.
+node 0 finish
+warmup time 9s
+0, throughput 0.0000
+epoch 1 passed!
+cluster throughput 0.000 Mops
+cache hit rate: 0.903331
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: -nan
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.003247
+read node repair rate: 0.001473
+read invalid node rate: 0.000000
+node_type1 417833   node_type2 66113   node_type3 129826   node_type4 250470   node_type5 526368   node_type6 1528232   node_type7 850256   
+
+0, throughput 0.5908
+epoch 2 passed!
+cluster throughput 1.268 Mops
+cache hit rate: 0.671771
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008663
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 318100   node_type2 1513   node_type3 0   node_type4 0   node_type5 0   node_type6 48310   node_type7 523797   
+
+0, throughput 0.6493
+epoch 3 passed!
+cluster throughput 1.406 Mops
+cache hit rate: 0.639641
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.008702
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 156531   node_type2 797   node_type3 0   node_type4 0   node_type5 0   node_type6 33681   node_type7 269875   
+
+0, throughput 0.6236
+epoch 4 passed!
+cluster throughput 1.370 Mops
+cache hit rate: 0.609383
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009229
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 148947   node_type2 651   node_type3 0   node_type4 0   node_type5 0   node_type6 41978   node_type7 267722   
+
+0, throughput 0.5855
+epoch 5 passed!
+cluster throughput 1.325 Mops
+cache hit rate: 0.559675
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009271
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 143602   node_type2 609   node_type3 0   node_type4 0   node_type5 0   node_type6 55691   node_type7 273786   
+
+0, throughput 0.5366
+epoch 6 passed!
+cluster throughput 1.270 Mops
+cache hit rate: 0.482270
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010279
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 134895   node_type2 595   node_type3 0   node_type4 0   node_type5 0   node_type6 75800   node_type7 280792   
+
+0, throughput 0.4665
+epoch 7 passed!
+cluster throughput 1.189 Mops
+cache hit rate: 0.344408
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.011495
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 122104   node_type2 524   node_type3 0   node_type4 0   node_type5 0   node_type6 104843   node_type7 289953   
+
+0, throughput 0.4559
+epoch 8 passed!
+cluster throughput 1.170 Mops
+cache hit rate: 0.345949
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.013773
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 115402   node_type2 444   node_type3 0   node_type4 0   node_type5 0   node_type6 109674   node_type7 270903
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.8795
+epoch 9 passed!
+cluster throughput 1.552 Mops
+cache hit rate: 0.801562
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009145
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 237459   node_type2 1161   node_type3 0   node_type4 0   node_type5 0   node_type6 3329   node_type7 253646
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.8663
+epoch 10 passed!
+cluster throughput 1.544 Mops
+cache hit rate: 0.792939
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009119
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 172968   node_type2 744   node_type3 0   node_type4 0   node_type5 0   node_type6 2943   node_type7 194871   
+
+thread 1 exit.
+thread 0 exit.
+thread 5 exit.
+thread 3 exit.
+thread 2 exit.
+thread 4 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.228 OUTPUT] Thread 4 joined.
+Thread 5 joined.
+[CN 192.168.0.228 OUTPUT] ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=128
+depth=3 cnt=8653
+depth=4 cnt=7373
+consumed cache size = 24.997 MB
+[END]
+epoch_id=9 p50_lat=14.3 p99_lat=39.0
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=12 tpt=1.552 p50_lat=14.3 p99_lat=39.0[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 7"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 7
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 535714
+[CN 192.168.0.229 OUTPUT] 535714 1071428
+[CN 192.168.0.229 OUTPUT] 1071428 1607142
+[CN 192.168.0.229 OUTPUT] 1607142 2142856
+[CN 192.168.0.229 OUTPUT] 2142856 2678570
+[CN 192.168.0.229 OUTPUT] 2678570 3214284
+[CN 192.168.0.229 OUTPUT] 3214284 3749998
+[CN 192.168.0.229 OUTPUT] 3749998 4285712
+[CN 192.168.0.229 OUTPUT] 4285712 4821426
+[CN 192.168.0.229 OUTPUT] 4821426 5357140
+[CN 192.168.0.229 OUTPUT] 5357140 5892854
+[CN 192.168.0.229 OUTPUT] 5892854 6428568
+[CN 192.168.0.229 OUTPUT] 6428568 6964282
+[CN 192.168.0.229 OUTPUT] 6964282 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 535714
+[CN 192.168.0.229 OUTPUT] 535714 1071428
+[CN 192.168.0.229 OUTPUT] 1071428 1607142
+[CN 192.168.0.229 OUTPUT] 1607142 2142856
+[CN 192.168.0.229 OUTPUT] 2142856 2678570
+[CN 192.168.0.229 OUTPUT] 2678570 3214284
+[CN 192.168.0.229 OUTPUT] 3214284 3749998
+[CN 192.168.0.229 OUTPUT] 3749998 4285712
+[CN 192.168.0.229 OUTPUT] 4285712 4821426
+[CN 192.168.0.229 OUTPUT] 4821426 5357140
+[CN 192.168.0.229 OUTPUT] 5357140 5892854
+[CN 192.168.0.229 OUTPUT] 5892854 6428568
+[CN 192.168.0.229 OUTPUT] 6428568 6964282
+[CN 192.168.0.229 OUTPUT] 6964282 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 7
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 535714
+[CN 192.168.0.228 OUTPUT] 535714 1071428
+[CN 192.168.0.228 OUTPUT] 1071428 1607142
+[CN 192.168.0.228 OUTPUT] 1607142 2142856
+[CN 192.168.0.228 OUTPUT] 2142856 2678570
+[CN 192.168.0.228 OUTPUT] 2678570 3214284
+[CN 192.168.0.228 OUTPUT] 3214284 3749998
+[CN 192.168.0.228 OUTPUT] 3749998 4285712
+[CN 192.168.0.228 OUTPUT] 4285712 4821426
+[CN 192.168.0.228 OUTPUT] 4821426 5357140
+[CN 192.168.0.228 OUTPUT] 5357140 5892854
+[CN 192.168.0.228 OUTPUT] 5892854 6428568
+[CN 192.168.0.228 OUTPUT] 6428568 6964282
+[CN 192.168.0.228 OUTPUT] 6964282 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 535714
+[CN 192.168.0.228 OUTPUT] 535714 1071428
+[CN 192.168.0.228 OUTPUT] 1071428 1607142
+[CN 192.168.0.228 OUTPUT] 1607142 2142856
+[CN 192.168.0.228 OUTPUT] 2142856 2678570
+[CN 192.168.0.228 OUTPUT] 2678570 3214284
+[CN 192.168.0.228 OUTPUT] 3214284 3749998
+[CN 192.168.0.228 OUTPUT] 3749998 4285712
+[CN 192.168.0.228 OUTPUT] 4285712 4821426
+[CN 192.168.0.228 OUTPUT] 4821426 5357140
+[CN 192.168.0.228 OUTPUT] 5357140 5892854
+[CN 192.168.0.228 OUTPUT] 5892854 6428568
+[CN 192.168.0.228 OUTPUT] 6428568 6964282
+[CN 192.168.0.228 OUTPUT] 6964282 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 7 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 7 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 7, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7f37534b2000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 7, main_core_id 16
+[CN 192.168.0.229 OUTPUT] Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 6 to core ID: 23
+I am 13
+I am loader 13
+[CN 192.168.0.229 OUTPUT] Binding thread 4 to core ID: 21
+Binding thread 5 to core ID: 22
+[CN 192.168.0.229 OUTPUT] Binding thread 3 to core ID: 20
+[CN 192.168.0.229 OUTPUT] I am 11
+I am 12
+I am loader 12
+I am loader 11
+[CN 192.168.0.229 OUTPUT] I am 10
+I am loader 10
+[CN 192.168.0.229 OUTPUT] Binding thread 2 to core ID: 19
+Binding thread 1 to core ID: 18
+Binding thread 0 to core ID: 17
+I am 9
+I am loader 9
+[CN 192.168.0.229 OUTPUT] I am 8
+I am loader 8
+[CN 192.168.0.229 OUTPUT] I am 7
+I am loader 7
+[CN 192.168.0.229 OUTPUT] thread 13: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 500000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       11 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       12 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       10 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        8 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        9 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       13 load finish
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        7 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 4: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 6: 300000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+thread 5: 400000 trans entries loaded.
+thread 3: 400000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 6: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 500000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 500000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 7s
+[CN 192.168.0.229 OUTPUT] total 3750002,  retry1 0,  retry2 3848,  retry3 3,  retry4 2,  retry5 0,  retry6 895245,  retry7 12,  retry8 0,  retry9 56,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 57
+[CN 192.168.0.229 OUTPUT] total 491419,  retry1 0,  retry2 5,  retry3 0,  retry4 0,  retry5 0,  retry6 623447,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.7741 cap = 496133 microseconds = 640895
+[CN 192.168.0.229 OUTPUT] total 277360,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 361951,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.8469 cap = 280115 microseconds = 330737
+[CN 192.168.0.229 OUTPUT] total 273475,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 364762,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.8340 cap = 276125 microseconds = 331101
+[CN 192.168.0.229 OUTPUT] total 269533,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 366701,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.8244 cap = 272216 microseconds = 330195
+[CN 192.168.0.229 OUTPUT] total 266198,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 370231,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.8152 cap = 268784 microseconds = 329711
+[CN 192.168.0.229 OUTPUT] total 311871,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 446633,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.7969 cap = 315019 microseconds = 395293
+[CN 192.168.0.229 OUTPUT] total 281400,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 417453,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.7851 cap = 284179 microseconds = 361988
+[CN 192.168.0.229 OUTPUT] total 250667,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 385145,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.7701 cap = 253194 microseconds = 328782
+[CN 192.168.0.229 OUTPUT] total 243998,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 391001,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.7497 cap = 246485 microseconds = 328757
+thread 1 exit.
+thread 2 exit.
+[CN 192.168.0.229 OUTPUT] thread 6 exit.
+thread 4 exit.
+thread 5 exit.
+thread 0 exit.
+thread 3 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.229 OUTPUT] Thread 4 joined.
+Thread 5 joined.
+Thread 6 joined.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9342) =====
+
+Per-node process memory usage (in MBs) for PID 9342 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.16            4.22            4.38
+Stack                        0.00            0.02            0.02
+Private                      0.88        26952.83        26953.71
+----------------  --------------- --------------- ---------------
+Total                        1.05        26957.07        26958.11
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=105
+depth=3 cnt=528
+depth=4 cnt=352
+consumed cache size = 24.999 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 7 2 randint c
+kNodeCount 2, kThreadCount 7, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f147f600000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 4 to core ID: 5
+Binding thread 2 to core ID: 3
+Binding thread 5 to core ID: 6
+Binding thread 3 to core ID: 4
+Binding thread 6 to core ID: 7
+I am 5
+I am loader 5
+I am 2
+I am loader 2
+I am 4
+I am loader 4
+I am 6
+I am loader 6
+I am 3
+I am loader 3
+Binding thread 1 to core ID: 2
+Binding thread 0 to core ID: 1
+I am 0
+I am loader 0
+I am 1
+I am loader 1
+thread 2: 100000 load entries loaded.
+thread 6: 100000 load entries loaded.
+thread 5: 100000 load entries loaded.
+thread 4: 100000 load entries loaded.
+thread 3: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 5: 200000 load entries loaded.
+thread 6: 200000 load entries loaded.
+thread 4: 200000 load entries loaded.
+thread 3: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 5: 300000 load entries loaded.
+thread 6: 300000 load entries loaded.
+thread 4: 300000 load entries loaded.
+thread 3: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 5: 400000 load entries loaded.
+thread 6: 400000 load entries loaded.
+thread 4: 400000 load entries loaded.
+thread 3: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+thread 2: 500000 load entries loaded.
+thread 5: 500000 load entries loaded.
+thread 6: 500000 load entries loaded.
+thread 4: 500000 load entries loaded.
+thread 3: 500000 load entries loaded.
+thread 1: 500000 load entries loaded.
+thread 0: 500000 load entries loaded.
+loader 2 load finish
+loader 5 load finish
+loader 6 load finish
+thread 2: 100000 trans entries loaded.
+loader 4 load finish
+thread 5: 100000 trans entries loaded.
+loader 3 load finish
+thread 6: 100000 trans entries loaded.
+thread 2: 200000 trans entries loaded.
+thread 4: 100000 trans entries loaded.
+thread 5: 200000 trans entries loaded.
+thread 3: 100000 trans entries loaded.
+thread 6: 200000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 4: 200000 trans entries loaded.
+loader 1 load finish
+thread 5: 300000 trans entries loaded.
+thread 3: 200000 trans entries loaded.
+loader 0 load finish
+thread 6: 300000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 4: 300000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+thread 5: 400000 trans entries loaded.
+thread 3: 300000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 6: 400000 trans entries loaded.
+thread 2: 500000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 3: 400000 trans entries loaded.
+thread 5: 500000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 6: 500000 trans entries loaded.
+thread 4: 500000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 3: 500000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+thread 1: 500000 trans entries loaded.
+thread 0: 500000 trans entries loaded.
+node 0 finish
+warmup time 7s
+0, throughput 0.0000
+epoch 1 passed!
+cluster throughput 0.000 Mops
+cache hit rate: 0.903638
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: -nan
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.003823
+read node repair rate: 0.001426
+read invalid node rate: 0.000001
+node_type1 424505   node_type2 66685   node_type3 128046   node_type4 304655   node_type5 511575   node_type6 1506599   node_type7 809466   
+
+0, throughput 0.6688
+epoch 2 passed!
+cluster throughput 1.442 Mops
+cache hit rate: 0.662198
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.009922
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 370806   node_type2 1705   node_type3 0   node_type4 0   node_type5 0   node_type6 63072   node_type7 617939   
+
+0, throughput 0.7139
+epoch 3 passed!
+cluster throughput 1.559 Mops
+cache hit rate: 0.616869
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010110
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 224989   node_type2 860   node_type3 0   node_type4 0   node_type5 0   node_type6 45135   node_type7 305437   
+
+0, throughput 0.6701
+epoch 4 passed!
+cluster throughput 1.503 Mops
+cache hit rate: 0.566945
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010756
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 165176   node_type2 777   node_type3 0   node_type4 0   node_type5 0   node_type6 61455   node_type7 312322   
+
+0, throughput 0.6058
+epoch 5 passed!
+cluster throughput 1.429 Mops
+cache hit rate: 0.478610
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.011647
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 177746   node_type2 650   node_type3 0   node_type4 0   node_type5 0   node_type6 87687   node_type7 321986   
+
+0, throughput 0.5132
+epoch 6 passed!
+cluster throughput 1.328 Mops
+cache hit rate: 0.308362
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.014797
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 137294   node_type2 567   node_type3 0   node_type4 0   node_type5 0   node_type6 127806   node_type7 335374   
+
+0, throughput 0.6863
+epoch 7 passed!
+cluster throughput 1.482 Mops
+cache hit rate: 0.603586
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.013281
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 152877   node_type2 641   node_type3 0   node_type4 0   node_type5 0   node_type6 74779   node_type7 259763   
+
+0, throughput 0.9666
+epoch 8 passed!
+cluster throughput 1.751 Mops
+cache hit rate: 0.798871
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010447
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 193761   node_type2 896   node_type3 0   node_type4 0   node_type5 0   node_type6 2862   node_type7 209997   
+
+0, throughput 0.9197
+epoch 9 passed!
+cluster throughput 1.689 Mops
+cache hit rate: 0.791551
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010385
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 185837   node_type2 883   node_type3 0   node_type4 0   node_type5 0   node_type6 3163   node_type7 210924
+[CN 192.168.0.228 OUTPUT] 0, throughput 0.8793
+epoch 10 passed!
+cluster throughput 1.628 Mops
+cache hit rate: 0.784879
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.010246
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 179589   node_type2 802   node_type3 0   node_type4 0   node_type5 0   node_type6 3478   node_type7 211008
+[CN 192.168.0.228 OUTPUT] thread 4 exit.
+[CN 192.168.0.228 OUTPUT] thread 2 exit.
+[CN 192.168.0.228 OUTPUT] thread 0 exit.
+thread 6 exit.
+thread 5 exit.
+[CN 192.168.0.228 OUTPUT] thread 1 exit.
+thread 3 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.228 OUTPUT] Thread 4 joined.
+Thread 5 joined.
+[CN 192.168.0.228 OUTPUT] Thread 6 joined.
+ ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=127
+depth=3 cnt=7664
+depth=4 cnt=6283
+consumed cache size = 25.000 MB
+[END]
+epoch_id=9 p50_lat=16.9 p99_lat=42.9
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=14 tpt=1.689 p50_lat=16.9 p99_lat=42.9[0m
+[94mCOMMAND="cd /home/zjh/SMART/build && python3 /home/zjh/SMART/ycsb/split_workload.py c randint 2 8"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] [92mworkload = c
+[CN 192.168.0.229 OUTPUT] key type = randint
+[CN 192.168.0.229 OUTPUT] CN num = 2
+[CN 192.168.0.229 OUTPUT] client-num/CN = 8
+[CN 192.168.0.229 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 468750
+[CN 192.168.0.229 OUTPUT] 468750 937500
+[CN 192.168.0.229 OUTPUT] 937500 1406250
+[CN 192.168.0.229 OUTPUT] 1406250 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2343750
+[CN 192.168.0.229 OUTPUT] 2343750 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3281250
+[CN 192.168.0.229 OUTPUT] 3281250 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4218750
+[CN 192.168.0.229 OUTPUT] 4218750 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5156250
+[CN 192.168.0.229 OUTPUT] 5156250 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6093750
+[CN 192.168.0.229 OUTPUT] 6093750 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7031250
+[CN 192.168.0.229 OUTPUT] 7031250 7500000
+[CN 192.168.0.229 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] 0 468750
+[CN 192.168.0.229 OUTPUT] 468750 937500
+[CN 192.168.0.229 OUTPUT] 937500 1406250
+[CN 192.168.0.229 OUTPUT] 1406250 1875000
+[CN 192.168.0.229 OUTPUT] 1875000 2343750
+[CN 192.168.0.229 OUTPUT] 2343750 2812500
+[CN 192.168.0.229 OUTPUT] 2812500 3281250
+[CN 192.168.0.229 OUTPUT] 3281250 3750000
+[CN 192.168.0.229 OUTPUT] 3750000 4218750
+[CN 192.168.0.229 OUTPUT] 4218750 4687500
+[CN 192.168.0.229 OUTPUT] 4687500 5156250
+[CN 192.168.0.229 OUTPUT] 5156250 5625000
+[CN 192.168.0.229 OUTPUT] 5625000 6093750
+[CN 192.168.0.229 OUTPUT] 6093750 6562500
+[CN 192.168.0.229 OUTPUT] 6562500 7031250
+[CN 192.168.0.229 OUTPUT] 7031250 7500000
+[CN 192.168.0.228 OUTPUT] [92mworkload = c
+[CN 192.168.0.228 OUTPUT] key type = randint
+[CN 192.168.0.228 OUTPUT] CN num = 2
+[CN 192.168.0.228 OUTPUT] client-num/CN = 8
+[CN 192.168.0.228 OUTPUT] loader_num = 8[0m
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 468750
+[CN 192.168.0.228 OUTPUT] 468750 937500
+[CN 192.168.0.228 OUTPUT] 937500 1406250
+[CN 192.168.0.228 OUTPUT] 1406250 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2343750
+[CN 192.168.0.228 OUTPUT] 2343750 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3281250
+[CN 192.168.0.228 OUTPUT] 3281250 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4218750
+[CN 192.168.0.228 OUTPUT] 4218750 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5156250
+[CN 192.168.0.228 OUTPUT] 5156250 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6093750
+[CN 192.168.0.228 OUTPUT] 6093750 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7031250
+[CN 192.168.0.228 OUTPUT] 7031250 7500000
+[CN 192.168.0.228 OUTPUT] spliting:  /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.228 OUTPUT] 0 468750
+[CN 192.168.0.228 OUTPUT] 468750 937500
+[CN 192.168.0.228 OUTPUT] 937500 1406250
+[CN 192.168.0.228 OUTPUT] 1406250 1875000
+[CN 192.168.0.228 OUTPUT] 1875000 2343750
+[CN 192.168.0.228 OUTPUT] 2343750 2812500
+[CN 192.168.0.228 OUTPUT] 2812500 3281250
+[CN 192.168.0.228 OUTPUT] 3281250 3750000
+[CN 192.168.0.228 OUTPUT] 3750000 4218750
+[CN 192.168.0.228 OUTPUT] 4218750 4687500
+[CN 192.168.0.228 OUTPUT] 4687500 5156250
+[CN 192.168.0.228 OUTPUT] 5156250 5625000
+[CN 192.168.0.228 OUTPUT] 5625000 6093750
+[CN 192.168.0.228 OUTPUT] 6093750 6562500
+[CN 192.168.0.228 OUTPUT] 6562500 7031250
+[CN 192.168.0.228 OUTPUT] 7031250 7500000
+[94mCOMMAND="cd /home/zjh/SMART/build && /bin/bash ../script/restartMemc.sh"[0m
+[94mEXECUTE_IP=192.168.0.229[0m
+[CN 192.168.0.229 OUTPUT] STORED
+[CN 192.168.0.229 OUTPUT] STORED
+[94mCOMMAND="cd /home/zjh/SMART/build && killall -9 ycsb_test"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] ycsb_test: no process found
+[CN 192.168.0.228 OUTPUT] ycsb_test: no process found
+[94mCOMMAND="cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 randint c"[0m
+[94mEXECUTE_IPs=['192.168.0.229', '192.168.0.228'][0m
+[CN 192.168.0.229 OUTPUT] zjh@zjh:~/SMART/build$
+[CN 192.168.0.229 OUTPUT] cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 randint c
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [34mNumaObjectPool used 190 MB.
+[0m
+kNodeCount 2, kThreadCount 8, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[CN 192.168.0.229 OUTPUT] [4mshared memory size: 20GB, 0x7fe03b09f000[0m
+[4mrdma cache size: 4GB[0m
+[CN 192.168.0.229 OUTPUT] [4m192.180.0.189 init DSM.[0m
+[4mMachine NR: 2[0m
+[CN 192.168.0.229 OUTPUT] [4mCompute server 1 start up [192.168.0.229]
+[0m
+[CN 192.168.0.229 OUTPUT] I connect server 0
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32minitRDMAConnection function done.[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mDSM function done.[0m
+[192.168.0.189 CN]: [1;32mDSM instance created.[0m
+kThreadCount 8, main_core_id 16
+[CN 192.168.0.229 OUTPUT] Binding main thread to core ID: 16
+[CN 192.168.0.229 OUTPUT] Binding thread 6 to core ID: 23
+Binding thread 7 to core ID: 24
+Binding thread 5 to core ID: 22
+Binding thread 4 to core ID: 21
+[CN 192.168.0.229 OUTPUT] I am 14
+I am 15
+[CN 192.168.0.229 OUTPUT] I am loader 15
+I am 13
+I am loader 13
+I am loader 14
+I am 12
+I am loader 12
+[CN 192.168.0.229 OUTPUT] Binding thread 3 to core ID: 20
+Binding thread 1 to core ID: 18
+[CN 192.168.0.229 OUTPUT] Binding thread 2 to core ID: 19
+I am 11
+[CN 192.168.0.229 OUTPUT] I am loader 11
+Binding thread 0 to core ID: 17
+I am 9
+I am loader 9
+[CN 192.168.0.229 OUTPUT] 
+[CN 192.168.0.229 OUTPUT] I am 10
+I am loader 10
+I am 8
+I am loader 8
+[CN 192.168.0.229 OUTPUT] thread 12: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 100000 load entries loaded.
+thread 11: 100000 load entries loaded.
+thread 8: 100000 load entries loaded.
+thread 10: 100000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 200000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 300000 load entries loaded.
+thread 13: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 300000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 13: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 12: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 9: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 14: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 10: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 11: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 15: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 8: 400000 load entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       13 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 5: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       12 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        9 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       14 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       10 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       11 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader       15 load finish
+[0m
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;34mint workloads
+[0m
+thread 5: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] [192.168.0.189 CN]: [1;32mloader        8 load finish
+[0m
+[192.168.0.189 CN]: [1;34mint workloads
+[0m
+[CN 192.168.0.229 OUTPUT] thread 3: 100000 trans entries loaded.
+thread 7: 100000 trans entries loaded.
+thread 5: 300000 trans entries loaded.
+thread 4: 200000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 6: 200000 trans entries loaded.
+thread 2: 200000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 200000 trans entries loaded.
+thread 7: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 5: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 200000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 4: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 1: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 2: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 6: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 300000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 3: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 7: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] thread 0: 400000 trans entries loaded.
+[CN 192.168.0.229 OUTPUT] node 1 finish
+[CN 192.168.0.229 OUTPUT] warmup time 7s
+[CN 192.168.0.229 OUTPUT] total 3750000,  retry1 3,  retry2 2585,  retry3 13,  retry4 0,  retry5 0,  retry6 933472,  retry7 14,  retry8 0,  retry9 59,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 1 throughput 0.0000 cap = 0 microseconds = 56
+[CN 192.168.0.229 OUTPUT] total 538066,  retry1 0,  retry2 4,  retry3 0,  retry4 0,  retry5 0,  retry6 694494,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 2 throughput 0.8075 cap = 544014 microseconds = 673739
+[CN 192.168.0.229 OUTPUT] total 376190,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 503424,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 3 throughput 0.8758 cap = 380433 microseconds = 434381
+[CN 192.168.0.229 OUTPUT] total 287667,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 396016,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 4 throughput 0.8666 cap = 291002 microseconds = 335797
+[CN 192.168.0.229 OUTPUT] total 283476,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 401387,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 5 throughput 0.8530 cap = 286617 microseconds = 336016
+[CN 192.168.0.229 OUTPUT] total 277829,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 405124,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 6 throughput 0.8399 cap = 280916 microseconds = 334454
+[CN 192.168.0.229 OUTPUT] total 271854,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 410217,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 7 throughput 0.8221 cap = 274963 microseconds = 334451
+[CN 192.168.0.229 OUTPUT] total 264504,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 415386,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 8 throughput 0.8013 cap = 267539 microseconds = 333895
+[CN 192.168.0.229 OUTPUT] total 254652,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 422122,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 9 throughput 0.7723 cap = 257786 microseconds = 333796
+[CN 192.168.0.229 OUTPUT] total 245519,  retry1 0,  retry2 0,  retry3 0,  retry4 0,  retry5 0,  retry6 433644,  retry7 0,  retry8 0,  retry9 0,  retry10 0,  retry11 0
+[CN 192.168.0.229 OUTPUT] 1, epoch = 10 throughput 0.7449 cap = 248629 microseconds = 333775
+thread 7 exit.
+thread 1 exit.
+thread 5 exit.
+[CN 192.168.0.229 OUTPUT] thread 2 exit.
+thread 3 exit.
+thread 0 exit.
+[CN 192.168.0.229 OUTPUT] thread 4 exit.
+thread 6 exit.
+[CN 192.168.0.229 OUTPUT] Thread 0 joined.
+[CN 192.168.0.229 OUTPUT] Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+Thread 4 joined.
+[CN 192.168.0.229 OUTPUT] Thread 5 joined.
+Thread 6 joined.
+Thread 7 joined.
+[192.168.0.189 CN]: [34msearch_cnt = 0, insert_cnt = 0, update_cnt = 0, range_query_cnt = 0
+[0m
+[CN 192.168.0.229 OUTPUT] ===== NUMA 状态 (PID: 9393) =====
+
+Per-node process memory usage (in MBs) for PID 9393 (ycsb_test)
+                           Node 0          Node 1           Total
+                  --------------- --------------- ---------------
+Huge                         0.00            0.00            0.00
+Heap                         0.01            4.38            4.39
+Stack                        0.00            0.02            0.02
+Private                      0.29        26958.43        26958.72
+----------------  --------------- --------------- ---------------
+Total                        0.30        26962.83        26963.13
+
+ ----- [IndexCache(192.168.0.189)]:  cache size=25 MB free_size=0 MB node_cnt=32897 -----
+[CN 192.168.0.229 OUTPUT] depth=2 cnt=90
+depth=3 cnt=264
+depth=4 cnt=175
+consumed cache size = 24.999 MB
+[END]
+[CN 192.168.0.228 OUTPUT] zjh@s200:~/SMART/build$ cd /home/zjh/SMART/build && ./ycsb_test 2 8 2 randint c
+kNodeCount 2, kThreadCount 8, kCoroCnt 2
+ycsb_load: /home/zjh/SMART/ycsb/workloads/load_randint_workloadc
+ycsb_trans: /home/zjh/SMART/ycsb/workloads/txn_randint_workloadc
+[4mshared memory size: 20GB, 0x7f8ba3a00000[0m
+[4mrdma cache size: 4GB[0m
+[4m192.168.0.200 init DSM.[0m
+[4mMachine NR: 2[0m
+[4mCompute server 0 start up [192.168.0.228]
+[0m
+I connect server 1
+[192.168.0.200 CN&MN]: [1;34m[192.168.0.200]: Memory server 0 start up[0m
+[4mdir 0 launch!
+[0m
+Binding main thread to core ID: 0
+Binding thread 6 to core ID: 7
+Binding thread 4 to core ID: 5
+Binding thread 5 to core ID: 6
+Binding thread 2 to core ID: 3
+Binding thread 3 to core ID: 4
+Binding thread 7 to core ID: 8
+I am 6
+I am loader 6
+I am 4
+I am loader 4
+I am 5
+I am loader 5
+I am 3
+I am loader 3
+I am 2
+I am loader 2
+I am 7
+I am loader 7
+Binding thread 0 to core ID: 1
+Binding thread 1 to core ID: 2
+I am 0
+I am loader 0
+I am 1
+I am loader 1
+thread 6: 100000 load entries loaded.
+thread 5: 100000 load entries loaded.
+thread 4: 100000 load entries loaded.
+thread 7: 100000 load entries loaded.
+thread 3: 100000 load entries loaded.
+thread 2: 100000 load entries loaded.
+thread 1: 100000 load entries loaded.
+thread 0: 100000 load entries loaded.
+thread 5: 200000 load entries loaded.
+thread 6: 200000 load entries loaded.
+thread 4: 200000 load entries loaded.
+thread 3: 200000 load entries loaded.
+thread 7: 200000 load entries loaded.
+thread 2: 200000 load entries loaded.
+thread 1: 200000 load entries loaded.
+thread 0: 200000 load entries loaded.
+thread 5: 300000 load entries loaded.
+thread 6: 300000 load entries loaded.
+thread 4: 300000 load entries loaded.
+thread 7: 300000 load entries loaded.
+thread 2: 300000 load entries loaded.
+thread 3: 300000 load entries loaded.
+thread 1: 300000 load entries loaded.
+thread 0: 300000 load entries loaded.
+thread 5: 400000 load entries loaded.
+thread 6: 400000 load entries loaded.
+thread 4: 400000 load entries loaded.
+thread 7: 400000 load entries loaded.
+thread 2: 400000 load entries loaded.
+thread 3: 400000 load entries loaded.
+thread 1: 400000 load entries loaded.
+thread 0: 400000 load entries loaded.
+loader 6 load finish
+loader 5 load finish
+loader 4 load finish
+thread 6: 100000 trans entries loaded.
+thread 5: 100000 trans entries loaded.
+loader 7 load finish
+loader 2 load finish
+thread 4: 100000 trans entries loaded.
+loader 3 load finish
+thread 6: 200000 trans entries loaded.
+thread 7: 100000 trans entries loaded.
+thread 5: 200000 trans entries loaded.
+thread 2: 100000 trans entries loaded.
+loader 1 load finish
+thread 4: 200000 trans entries loaded.
+thread 3: 100000 trans entries loaded.
+thread 6: 300000 trans entries loaded.
+loader 0 load finish
+thread 7: 200000 trans entries loaded.
+thread 5: 300000 trans entries loaded.
+thread 2: 200000 trans entries loaded.
+thread 1: 100000 trans entries loaded.
+thread 4: 300000 trans entries loaded.
+thread 3: 200000 trans entries loaded.
+thread 6: 400000 trans entries loaded.
+thread 0: 100000 trans entries loaded.
+thread 7: 300000 trans entries loaded.
+thread 5: 400000 trans entries loaded.
+thread 2: 300000 trans entries loaded.
+thread 1: 200000 trans entries loaded.
+thread 4: 400000 trans entries loaded.
+thread 3: 300000 trans entries loaded.
+thread 0: 200000 trans entries loaded.
+thread 7: 400000 trans entries loaded.
+thread 2: 400000 trans entries loaded.
+thread 1: 300000 trans entries loaded.
+thread 3: 400000 trans entries loaded.
+thread 0: 300000 trans entries loaded.
+thread 1: 400000 trans entries loaded.
+thread 0: 400000 trans entries loaded.
+node 0 finish
+warmup time 7s
+0, throughput 0.0161
+epoch 1 passed!
+cluster throughput 0.016 Mops
+cache hit rate: 0.904383
+avg. lock/cas fail cnt: 0.000000
+write combining rate: 0.000000
+read delegation rate: 0.000000
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.002601
+read node repair rate: 0.001413
+read invalid node rate: 0.000001
+node_type1 418970   node_type2 66527   node_type3 131012   node_type4 256371   node_type5 503217   node_type6 1582134   node_type7 816127   
+
+0, throughput 0.7638
+epoch 2 passed!
+cluster throughput 1.570 Mops
+cache hit rate: 0.671651
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.011608
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 446979   node_type2 2014   node_type3 0   node_type4 0   node_type5 0   node_type6 67506   node_type7 734110   
+
+0, throughput 0.8053
+epoch 3 passed!
+cluster throughput 1.680 Mops
+cache hit rate: 0.628054
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.012047
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 197606   node_type2 903   node_type3 0   node_type4 0   node_type5 0   node_type6 47576   node_type7 346687   
+
+0, throughput 0.7532
+epoch 4 passed!
+cluster throughput 1.619 Mops
+cache hit rate: 0.578003
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.012029
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 189475   node_type2 842   node_type3 0   node_type4 0   node_type5 0   node_type6 66076   node_type7 354218   
+
+0, throughput 0.6534
+epoch 5 passed!
+cluster throughput 1.505 Mops
+cache hit rate: 0.460560
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.013078
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 170861   node_type2 733   node_type3 0   node_type4 0   node_type5 0   node_type6 92897   node_type7 352192   
+
+0, throughput 0.5466
+epoch 6 passed!
+cluster throughput 1.385 Mops
+cache hit rate: 0.313657
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.016713
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 152377   node_type2 631   node_type3 0   node_type4 0   node_type5 0   node_type6 139911   node_type7 370181   
+
+0, throughput 0.7470
+epoch 7 passed!
+cluster throughput 1.568 Mops
+cache hit rate: 0.625694
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.014487
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 169331   node_type2 766   node_type3 0   node_type4 0   node_type5 0   node_type6 74628   node_type7 276157   
+
+0, throughput 1.0758
+epoch 8 passed!
+cluster throughput 1.876 Mops
+cache hit rate: 0.797598
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.012035
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 222686   node_type2 1047   node_type3 0   node_type4 0   node_type5 0   node_type6 3359   node_type7 242664   
+
+0, throughput 1.0713
+epoch 9 passed!
+cluster throughput 1.843 Mops
+cache hit rate: 0.788941
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.011518
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 223671   node_type2 1052   node_type3 0   node_type4 0   node_type5 0   node_type6 4033   node_type7 257016
+[CN 192.168.0.228 OUTPUT] 0, throughput 1.0464
+epoch 10 passed!
+cluster throughput 1.790 Mops
+cache hit rate: 0.780808
+avg. lock/cas fail cnt: -nan
+write combining rate: -nan
+read delegation rate: 0.011165
+read leaf retry rate: 0.000000
+read invalid leaf rate: 0.000000
+read node repair rate: 0.000000
+read invalid node rate: 0.000000
+node_type1 221016   node_type2 1049   node_type3 0   node_type4 0   node_type5 0   node_type6 4522   node_type7 264749   
+
+thread 0 exit.
+thread 5 exit.
+thread 6 exit.
+thread 3 exit.
+thread 2 exit.
+[CN 192.168.0.228 OUTPUT] thread 7 exit.
+thread 1 exit.
+thread 4 exit.
+[CN 192.168.0.228 OUTPUT] Thread 0 joined.
+Thread 1 joined.
+Thread 2 joined.
+Thread 3 joined.
+[CN 192.168.0.228 OUTPUT] Thread 4 joined.
+Thread 5 joined.
+[CN 192.168.0.228 OUTPUT] Thread 6 joined.
+Thread 7 joined.
+[CN 192.168.0.228 OUTPUT] ----- [IndexCache(192.168.0.200)]:  cache size=25 MB free_size=0 MB node_cnt=32898 -----
+[CN 192.168.0.228 OUTPUT] depth=2 cnt=124
+depth=3 cnt=7023
+depth=4 cnt=5718
+consumed cache size = 24.999 MB
+[END]
+epoch_id=9 p50_lat=17.8 p99_lat=47.9
+[92m[FINISHED POINT] workload=YCSB C method=SMART client_num=16 tpt=1.843 p50_lat=17.8 p99_lat=47.9[0m
+[94mExecution Time: 418.63 s[0m
+[94mDraw fig_13.pdf done![0m

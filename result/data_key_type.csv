@@ -1,0 +1,5 @@
+labels,value1,value2,value3,value4,value5
+SMART int, 0.7400, 0.7236, 0.7751, 0.7898, 0.8781
+TwoLevelDM int, 0.6644, 0.7631, 0.9085, 0.9218, 1.0023
+SMART string, 0.7126, 0.6569, 0.6878, 0.7026, 0.7352
+TwoLevelDM string, 0.6304,0.6813, 0.7629,0.8026,0.8814

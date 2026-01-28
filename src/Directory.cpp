@@ -3,6 +3,7 @@
 
 #include "Connection.h"
 #include "SpecialPrint.h"
+#include "consts.h"
 
 // #include <gperftools/profiler.h>
 
@@ -29,12 +30,11 @@ Directory::Directory(DirectoryConnection *dCon, RemoteConnection *remoteInfo,
 Directory::~Directory() { delete chunckAlloc; }
 
 void Directory::dirThread() {
-  const int cpu_core_num = 16;
-  int last_core_id = cpu_core_num - 1 - dirID;
+  int last_core_id = NUMA_CPU_CORES * (THREAD_NUMA_NODE + 1) - 1; // 绑定到最后一个 cpu 核心上
   // pre:
   // int last_core_id = CPU_PHYSICAL_CORE_NUM - 1 - dirID;
-  //bindCore(last_core_id);  // bind to the last CPU core
-   bindCore(34);
+  bindCore(last_core_id);  // bind to the last CPU core
+  // bindCore(34);
   SpecialPrint::blueBold("Binding dirThread to core ID: %d\n", last_core_id);
   Debug::notifyInfo("dir %d launch!\n", dirID);
 

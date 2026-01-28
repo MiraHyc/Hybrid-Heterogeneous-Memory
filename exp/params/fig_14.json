@@ -1,11 +1,11 @@
 {
     "methods": ["SMART"],
-    "workload_names": ["YCSB C", "c"],
+    "workload_names": ["YCSB D", "d"],
     "target_epoch": 9,
-    "client_num": [2, 14],
+    "client_num": [2, 8],
     "MN_num": 1,
     "key_size": "email",
-    "value_size": [8, 16, 32, 64, 128, 256, 512],
+    "value_size": [8],
     "cache_size": 25,
     "span_size": 32
 }

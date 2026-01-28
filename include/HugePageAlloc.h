@@ -24,7 +24,14 @@ inline void *hugePageAlloc(size_t size) {
     //                 MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_NORESERVE,
     //                 -1, 0);
     // if (ptr == MAP_FAILED) return MAP_FAIL ED;
-    void *ptr = numa_alloc_onnode(size, NUMA_NODE);
+#ifdef ENABLE_NUMA_ALLOC
+    void *ptr = numa_alloc_onnode(size, DSM_AND_RDMA_BUFFER_NUMA_NODE);
+#else
+    void *ptr = mmap(NULL, size, PROT_READ | PROT_WRITE,
+                    MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_NORESERVE,
+                    -1, 0);
+    if (ptr == MAP_FAILED) return MAP_FAILED;
+#endif
 
     // // 2. 定义 NUMA 节点掩码
     // struct bitmask *nodemask = numa_allocate_nodemask();

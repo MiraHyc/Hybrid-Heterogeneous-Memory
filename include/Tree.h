@@ -97,6 +97,9 @@ public:
   // 获取 index cache 信息
   void get_index_cache_state();
 
+  // 从 local cache 迁移数据到 radix cache 中
+  void migrate_local_cache_to_radix_cache(const Key &k, Value v, CoroContext *cxt = nullptr, int coro_id = 0);
+
 private:
   // 协程调度相关
   void coro_worker(CoroYield &yield, RequstGen *gen, WorkFunc work_func, int coro_id);
@@ -138,6 +141,8 @@ private:
                            std::vector<ScanContext>& res);
   // 获取硬件锁地址
   void get_on_chip_lock_addr(const GlobalAddress &leaf_addr, GlobalAddress &lock_addr, uint64_t &mask);
+
+
 
 #ifdef TREE_TEST_ROWEX_ART
   void lock_node(const GlobalAddress &node_addr, CoroContext *cxt, int coro_id);

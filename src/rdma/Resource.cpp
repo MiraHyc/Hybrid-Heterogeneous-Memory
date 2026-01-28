@@ -171,7 +171,7 @@ ibv_mr *createMemoryRegionOnChip(uint64_t mm, uint64_t mmSize,
 
   // init zero
   // added py pz 
-  char *buffer = (char *)numa_alloc_onnode(mmSize, NUMA_NODE);
+  char *buffer = (char *)numa_alloc_onnode(mmSize, LOCAL_NUMA_NODE);
   memset(buffer, 0, mmSize);
 
   struct ibv_exp_memcpy_dm_attr cpy_attr;

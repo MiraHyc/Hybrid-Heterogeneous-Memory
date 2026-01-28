@@ -186,6 +186,8 @@ class RadixCache {
 public:
   // 构造函数：初始化内存池和根节点
   RadixCache(int cache_size, DSM *dsm);
+  // added by pz
+  // ~RadixCache();
 
   // 添加键值到缓存：将键分解为字节数组，构建基数树路径
   void add_to_cache(const Key& k, const InternalPage* p_node, const GlobalAddress &node_addr);

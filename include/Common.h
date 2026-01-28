@@ -100,11 +100,11 @@ constexpr int64_t kPerThreadRdmaBuf  = rdmaBufferSize * define::GB / MAX_APP_THR
 constexpr int64_t kPerCoroRdmaBuf    = kPerThreadRdmaBuf / MAX_CORO_NUM;
 
 // Cache (MB)
-constexpr int kIndexCacheSize = 25;
+constexpr int kIndexCacheSize = 0;
 
 // KV
 constexpr uint32_t keyLen = 32;
-constexpr uint32_t simulatedValLen = 32;
+constexpr uint32_t simulatedValLen = 64;
 constexpr uint32_t allocAlignLeafSize = ROUND_UP(keyLen + simulatedValLen + 8 + 2, ALLOC_ALLIGN_BIT);
 
 // Tree
