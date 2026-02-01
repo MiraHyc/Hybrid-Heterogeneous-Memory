@@ -73,13 +73,22 @@ bool NormalCache::_search(CacheKey& byte_prefix, uint8_t last_byte, volatile Cac
 try_upper:
   auto r_entry = cache_map.find(byte_prefix);
   if (r_entry != cache_map.end() && (entry_ptr = (CacheEntry *)r_entry->second)) {
-    for (int i = 0; i < (int)entry_ptr->records.size(); ++ i) {
-      const auto& e = entry_ptr->records[i];
-      if (e != InternalEntry::Null() && e.partial == last_byte) {
-        // __sync_fetch_and_add(&(entry_ptr->counter), 1UL);
-        entry_ptr_ptr = &(r_entry->second);
-        entry_idx = i;
-        return true;
+#if ENABLE_INDEX_CACHE_TTL
+    if (entry_ptr->is_expired()) {
+      entry_ptr_ptr = &(r_entry->second);
+      invalidate(entry_ptr_ptr, entry_ptr);
+      entry_ptr = nullptr;
+    }
+#endif
+    if (entry_ptr) {
+      for (int i = 0; i < (int)entry_ptr->records.size(); ++ i) {
+        const auto& e = entry_ptr->records[i];
+        if (e != InternalEntry::Null() && e.partial == last_byte) {
+          // __sync_fetch_and_add(&(entry_ptr->counter), 1UL);
+          entry_ptr_ptr = &(r_entry->second);
+          entry_idx = i;
+          return true;
+        }
       }
     }
   }
