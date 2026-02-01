@@ -213,6 +213,13 @@ bool RadixCache::search_from_cache(const Key& k, volatile CacheEntry**& entry_pt
       auto cache_entry = item.entry_ptr;
       auto next_partial = k.at(item.next_idx);
       if (cache_entry) {
+#if ENABLE_INDEX_CACHE_TTL
+        if (cache_entry->is_expired()) {
+          invalidate(item.entry_ptr_ptr, cache_entry);
+          ret.pop();
+          continue;
+        }
+#endif
         for (int i = 0; i < (int)cache_entry->records.size(); ++ i) {
           const auto& e = cache_entry->records[i];
           if (e != InternalEntry::Null() && e.partial == next_partial) {

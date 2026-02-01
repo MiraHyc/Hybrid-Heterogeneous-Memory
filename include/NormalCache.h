@@ -17,20 +17,33 @@ struct CacheEntry {
   uint8_t depth;
   GlobalAddress addr;
   std::vector<InternalEntry> records;
+  uint64_t expire_at_ns;
   // faa
   // volatile mutable uint64_t counter;
 
-  CacheEntry() {}
+  CacheEntry() : expire_at_ns(0) {}
   CacheEntry(const InternalPage* p_node, const GlobalAddress& addr) :
              depth(p_node->hdr.depth + p_node->hdr.partial_len), addr(addr) {
     for (int i = 0; i < node_type_to_num(p_node->hdr.type()); ++ i) {
       const auto& e = p_node->records[i];
       records.push_back(e);
     }
+    expire_at_ns = 0;
+#if ENABLE_INDEX_CACHE_TTL
+    expire_at_ns = define::now_ns() + define::kIndexCacheTtlNs;
+#endif
   }
 
   uint64_t content_size() const {
-    return sizeof(uint8_t) + sizeof(GlobalAddress) + sizeof(InternalEntry) * records.size();  // + sizeof(uint64_t)
+    return sizeof(uint8_t) + sizeof(GlobalAddress) + sizeof(InternalEntry) * records.size() + sizeof(uint64_t);  // + sizeof(uint64_t)
+  }
+
+  bool is_expired() const {
+#if ENABLE_INDEX_CACHE_TTL
+    return define::now_ns() > expire_at_ns;
+#else
+    return false;
+#endif
   }
 };
 

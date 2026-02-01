@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <chrono>
 
 #include <atomic>
 #include <queue>
@@ -27,6 +28,7 @@
 #define ALLOC_ALLIGN_BIT 8
 #define MAX_KEY_SPACE_SIZE 60000000
 // #define KEY_SPACE_LIMIT
+#define ENABLE_INDEX_CACHE_TTL 1
 
 
 // Auxiliary function
@@ -38,6 +40,16 @@
 #define ADD_ROUND(x, n) ((x) = ((x) + 1) % (n))
 
 #define ROUND_UP(x, n) (((x) + (1<<(n)) - 1) & ~((1<<(n)) - 1))
+
+#if ENABLE_INDEX_CACHE_TTL
+namespace define {
+inline uint64_t now_ns() {
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(
+             std::chrono::steady_clock::now().time_since_epoch())
+      .count();
+}
+}  // namespace define
+#endif
 
 #define ROUND_DOWN(x, n) ((x) & ~((1<<(n)) - 1))
 
@@ -101,6 +113,9 @@ constexpr int64_t kPerCoroRdmaBuf    = kPerThreadRdmaBuf / MAX_CORO_NUM;
 
 // Cache (MB)
 constexpr int kIndexCacheSize = 60000;
+#if ENABLE_INDEX_CACHE_TTL
+constexpr uint64_t kIndexCacheTtlNs = 1000ull * 1000 * 1000;
+#endif
 
 // KV
 constexpr uint32_t keyLen = 8;
