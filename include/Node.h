@@ -5,6 +5,8 @@
 #include "GlobalAddress.h"
 #include "Key.h"
 
+#include <functional>
+
 
 struct PackedGAddr {  // 48-bit, used by node addr/leaf addr (not entry addr)
   uint64_t mn_id     : define::mnIdBit;
@@ -23,6 +25,7 @@ static CRCProcessor crc_processor;
 */
 class Leaf {
 public:
+  static constexpr uint8_t kLeafSlotNum = 4;
   // for invalidation
   GlobalAddress rev_ptr;
   // TODO: add key len & value len for out-of-place updates
@@ -37,11 +40,13 @@ public:
 
   uint64_t checksum;  // checksum(kv)
 
-  // kv
-  Key key;
+  // kv (mini B+ leaf style)
+  uint8_t key_num;
+  PackedGAddr next_leaf;
+  Key keys[kLeafSlotNum];
   union {
-  Value value;
-  uint8_t _padding[define::simulatedValLen];
+  Value values[kLeafSlotNum];
+  uint8_t _padding[define::simulatedValLen * kLeafSlotNum];
   };
 
   union {
@@ -53,22 +58,72 @@ public:
   };
 
 public:
-  Leaf() {}
-  Leaf(const Key& key, const Value& value, const GlobalAddress& rev_ptr) : rev_ptr(rev_ptr), f_padding(0), valid(1), key(key), value(value), lock_byte(0) { set_consistent(); }
+  Leaf() : rev_ptr(GlobalAddress::Null()), f_padding(0), valid(0), key_num(0), next_leaf{0, 0}, lock_byte(0), checksum(0) {}
+  Leaf(const Key& key, const Value& value, const GlobalAddress& rev_ptr) : rev_ptr(rev_ptr), f_padding(0), valid(1), key_num(1), next_leaf{0, 0}, lock_byte(0) {
+    keys[0] = key;
+    values[0] = value;
+    set_consistent();
+  }
 
-  const Key& get_key() const { return key; }
-  Value get_value() const { return value; }
+  const Key& get_key() const { return keys[0]; }
+  Value get_value() const { return values[0]; }
+  uint8_t get_key_num() const { return key_num; }
+  bool has_space() const { return key_num < kLeafSlotNum; }
+
+  bool find_value(const Key& target, Value &out) const {
+    for (uint8_t i = 0; i < key_num; ++ i) {
+      if (keys[i] == target) {
+        out = values[i];
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool insert_or_assign(const Key& target, const Value& val) {
+    for (uint8_t i = 0; i < key_num; ++ i) {
+      if (keys[i] == target) {
+        values[i] = val;
+        return true;
+      }
+    }
+    if (!has_space()) return false;
+    keys[key_num] = target;
+    values[key_num] = val;
+    key_num ++;
+    return true;
+  }
+
+  void for_each_kv(const std::function<void (const Key&, const Value&)> &fn) const {
+    for (uint8_t i = 0; i < key_num; ++ i) {
+      fn(keys[i], values[i]);
+    }
+  }
+
   bool is_valid(const GlobalAddress& p_ptr, bool from_cache) const { return valid && (!from_cache || p_ptr == rev_ptr); }
   bool is_consistent() const {
     crc_processor.reset();
-    crc_processor.process_bytes((char *)&key, sizeof(Key) + sizeof(uint8_t) * define::simulatedValLen);
+    crc_processor.process_bytes((char *)&key_num, sizeof(uint8_t));
+    crc_processor.process_bytes((char *)keys, sizeof(Key) * key_num);
+    crc_processor.process_bytes((char *)values, sizeof(Value) * key_num);
     return crc_processor.checksum() == checksum;
   }
 
-  void set_value(const Value& val) { value = val; }
+  void set_value(const Value& val) { values[0] = val; }
+  void set_value(const Key& target, const Value& val) {
+    for (uint8_t i = 0; i < key_num; ++ i) {
+      if (keys[i] == target) {
+        values[i] = val;
+        return;
+      }
+    }
+    set_value(val);
+  }
   void set_consistent() {
     crc_processor.reset();
-    crc_processor.process_bytes((char *)&key, sizeof(Key) + sizeof(uint8_t) * define::simulatedValLen);
+    crc_processor.process_bytes((char *)&key_num, sizeof(uint8_t));
+    crc_processor.process_bytes((char *)keys, sizeof(Key) * key_num);
+    crc_processor.process_bytes((char *)values, sizeof(Value) * key_num);
     checksum = crc_processor.checksum();
   }
   void unlock() { w_lock = 0; };
