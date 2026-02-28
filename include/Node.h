@@ -52,7 +52,7 @@ public:
     uint8_t r_padding : 7;
   };
   uint8_t lock_byte;
-  uint64_t lock;
+  uint64_t lock_word;
   };
 
   uint8_t rear_version;
@@ -61,11 +61,11 @@ public:
 public:
   Leaf()
       : rev_ptr(GlobalAddress::Null()), front_version(0), valid_byte(0), node_id(0), last_index(0),
-        min(), max(), next_leaf(GlobalAddress::Null()), lock(0), rear_version(0), checksum(0) {}
+        min(), max(), next_leaf(GlobalAddress::Null()), lock_word(0), rear_version(0), checksum(0) {}
 
   Leaf(const Key& key, const Value& value, const GlobalAddress& rev_ptr)
       : rev_ptr(rev_ptr), front_version(1), valid_byte(1), node_id(0), last_index(0),
-        min(key), max(key), next_leaf(GlobalAddress::Null()), lock(0), rear_version(1), checksum(0) {
+        min(key), max(key), next_leaf(GlobalAddress::Null()), lock_word(0), rear_version(1), checksum(0) {
     keys[0] = key;
     values[0] = value;
     for (uint16_t i = 1; i < kLeafCardinality; ++ i) {
