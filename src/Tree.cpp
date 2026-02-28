@@ -329,13 +329,13 @@ next:
     }
 
     auto leaf = (Leaf *)leaf_buffer;
-    auto _k = leaf->get_key();
 
     // 2.2 Check if we are updating an existing key
     // 如果是数据加载（is_load = true），直接返回。
     // 如果 v 没变，直接返回。
     // 否则：启用 IN_PLACE_UPDATE（原地更新）。否则执行 OUT_OF_PLACE_UPDATE（异地更新）
-    if (_k == k) {
+    Value old_v;
+    if (leaf->find_value(k, old_v)) {
       if (is_load) {
         goto insert_finish;
       }
@@ -343,7 +343,7 @@ next:
 #ifdef TREE_ENABLE_WRITE_COMBINING
       local_lock_table->get_combining_value(k, v);
 #endif
-      if (leaf->get_value() == v) {
+      if (old_v == v) {
         goto insert_finish;
       }
 #ifdef TREE_ENABLE_IN_PLACE_UPDATE
@@ -648,8 +648,7 @@ re_acquire:
 write_leaf:
 #ifdef TREE_TEST_HOCL_HANDOVER
   // in-place write leaf & unlock
-  assert(leaf->get_key() == k);
-  leaf->set_value(v);
+  assert(leaf->set_value_by_key(k, v));
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
@@ -662,11 +661,10 @@ write_leaf:
 #else
   UNUSED(unlock);
   // in-place write leaf & unlock
-  assert(leaf->get_key() == k);
+  assert(leaf->set_value_by_key(k, v));
 #ifdef TREE_ENABLE_WRITE_COMBINING
   local_lock_table->get_combining_value(k, v);
 #endif
-  leaf->set_value(v);
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
@@ -1152,11 +1150,9 @@ next:
       goto next;
     }
     auto leaf = (Leaf *)leaf_buffer;
-    auto _k = leaf->get_key();
 
     // 2.2 Check if it is the key we search
-    if (_k == k) {
-      v = leaf->get_value();
+    if (leaf->find_value(k, v)) {
       search_res = true;
     }
     else {
@@ -1446,8 +1442,6 @@ next_level:
     // 3.1 if it is leaf, check & save result
     if (si[i].e.is_leaf) {
       Leaf *leaf = (Leaf *)(range_buffer + i * define::allocationPageSize);
-      auto k = leaf->get_key();
-
       if (!leaf->is_valid(si[i].e_ptr, si[i].from_cache)) {
         // invalidate the old leaf entry cache
 #ifdef TREE_ENABLE_CACHE
@@ -1467,9 +1461,13 @@ next_level:
         survivors.push_back(si[i]);
       }
 
-      if (k >= from && k < to) {  // [from, to)
-        ret[k] = leaf->get_value();
-        // TODO: cache hit ratio
+      auto n = leaf->size();
+      for (uint16_t s = 0; s < n; ++ s) {
+        auto k = leaf->keys[s];
+        if (k >= from && k < to) {  // [from, to)
+          ret[k] = leaf->values[s];
+          // TODO: cache hit ratio
+        }
       }
     }
     // 3.2 if it is node, check & choose in-range entry in it
