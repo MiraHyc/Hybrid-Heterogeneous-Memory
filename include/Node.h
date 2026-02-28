@@ -46,14 +46,8 @@ public:
   // sibling pointer at leaf level
   GlobalAddress next_leaf;
 
-  union {
-  struct {
-    uint8_t w_lock    : 1;
-    uint8_t r_padding : 7;
-  };
-  uint8_t lock_byte;
-  uint64_t lock_word;
-  };
+  // single exclusive lock for leaf updates
+  uint64_t ex_lock;
 
   uint8_t rear_version;
   uint64_t checksum;
@@ -61,11 +55,11 @@ public:
 public:
   Leaf()
       : rev_ptr(GlobalAddress::Null()), front_version(0), valid_byte(0), node_id(0), last_index(0),
-        min(), max(), next_leaf(GlobalAddress::Null()), lock_word(0), rear_version(0), checksum(0) {}
+        min(), max(), next_leaf(GlobalAddress::Null()), ex_lock(0), rear_version(0), checksum(0) {}
 
   Leaf(const Key& key, const Value& value, const GlobalAddress& rev_ptr)
       : rev_ptr(rev_ptr), front_version(1), valid_byte(1), node_id(0), last_index(0),
-        min(key), max(key), next_leaf(GlobalAddress::Null()), lock_word(0), rear_version(1), checksum(0) {
+        min(key), max(key), next_leaf(GlobalAddress::Null()), ex_lock(0), rear_version(1), checksum(0) {
     keys[0] = key;
     values[0] = value;
     for (uint16_t i = 1; i < kLeafCardinality; ++ i) {
@@ -170,8 +164,8 @@ public:
   }
 
   bool has_next() const { return next_leaf != GlobalAddress::Null(); }
-  void unlock() { w_lock = 0; };
-  void lock() { w_lock = 1; };
+  void unlock_exclusive() { ex_lock = 0; };
+  void lock_exclusive() { ex_lock = ~0UL; };
 
   static uint8_t get_partial(const Key& key, int depth);
   static Key get_leftmost(const Key& key, int depth);
