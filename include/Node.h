@@ -92,6 +92,32 @@ public:
     }
     return false;
   }
+  bool is_full() const { return size() >= kLeafCardinality; }
+
+  bool insert_by_order(const Key& k, const Value& v) {
+    auto n = size();
+    if (n >= kLeafCardinality) return false;
+
+    uint16_t pos = 0;
+    while (pos < n && keys[pos] < k) ++ pos;
+
+    if (pos < n && keys[pos] == k) {
+      values[pos] = v;
+      return true;
+    }
+
+    for (uint16_t i = n; i > pos; -- i) {
+      keys[i] = keys[i - 1];
+      values[i] = values[i - 1];
+    }
+    keys[pos] = k;
+    values[pos] = v;
+
+    valid_byte = 1;
+    last_index = n;
+    return true;
+  }
+
   bool set_value_by_key(const Key& k, const Value& v) {
     auto n = size();
     for (uint16_t i = 0; i < n; ++ i) {

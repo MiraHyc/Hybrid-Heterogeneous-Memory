@@ -376,11 +376,17 @@ next:
       goto insert_finish;
     }
 
-    // 走到这里，说明 k != _k 如果 k 和 _k 不匹配，需要进行叶子分裂
-    // 2.3 New key, we must merge the two leaves into a node (leaf split)
-    int partial_len = longest_common_prefix(_k, k, depth); // 计算最长公共前缀（LCP）
-    uint8_t diff_partial = get_partial(_k, depth + partial_len);
-    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();     
+    // 2.3 New key: insert in current leaf first if there is space
+    if (!leaf->is_full()) {
+      in_place_update_leaf(k, v, p.addr(), leaf, cxt, coro_id);
+      goto insert_finish;
+    }
+
+    // 2.4 Leaf full, merge old leaf and new key into upper node (leaf split)
+    auto split_key = leaf->max;
+    int partial_len = longest_common_prefix(split_key, k, depth);
+    uint8_t diff_partial = get_partial(split_key, depth + partial_len);
+    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
     bool res = out_of_place_write_node(k, v, depth, leaf_addr, partial_len, diff_partial, p_ptr, p, node_ptr, cas_buffer, cxt, coro_id);
     // cas fail, retry
     if (!res) {
@@ -648,7 +654,9 @@ re_acquire:
 write_leaf:
 #ifdef TREE_TEST_HOCL_HANDOVER
   // in-place write leaf & unlock
-  assert(leaf->set_value_by_key(k, v));
+  if (!leaf->set_value_by_key(k, v)) {
+    assert(leaf->insert_by_order(k, v));
+  }
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
@@ -661,10 +669,12 @@ write_leaf:
 #else
   UNUSED(unlock);
   // in-place write leaf & unlock
-  assert(leaf->set_value_by_key(k, v));
 #ifdef TREE_ENABLE_WRITE_COMBINING
   local_lock_table->get_combining_value(k, v);
 #endif
+  if (!leaf->set_value_by_key(k, v)) {
+    assert(leaf->insert_by_order(k, v));
+  }
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
