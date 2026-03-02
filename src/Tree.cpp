@@ -319,9 +319,12 @@ next:
         index_cache->invalidate(entry_ptr_ptr, entry_ptr);
       }
 #endif
-      // re-read leaf entry
+      // stale-leaf redirection: retry from leaf-anchor entry if available.
+      auto stale_leaf = (Leaf *)leaf_buffer;
+      auto redirected_ptr = (stale_leaf->rev_ptr == GlobalAddress::Null() ? p_ptr : stale_leaf->rev_ptr);
       auto entry_buffer = (dsm->get_rbuf(coro_id)).get_entry_buffer();
-      dsm->read_sync((char *)entry_buffer, p_ptr, sizeof(InternalEntry), cxt);
+      dsm->read_sync((char *)entry_buffer, redirected_ptr, sizeof(InternalEntry), cxt);
+      p_ptr = redirected_ptr;
       p = *(InternalEntry *)entry_buffer;
       from_cache = false;
       retry_flag = INVALID_LEAF;
@@ -329,13 +332,13 @@ next:
     }
 
     auto leaf = (Leaf *)leaf_buffer;
-    auto _k = leaf->get_key();
 
     // 2.2 Check if we are updating an existing key
     // 如果是数据加载（is_load = true），直接返回。
     // 如果 v 没变，直接返回。
     // 否则：启用 IN_PLACE_UPDATE（原地更新）。否则执行 OUT_OF_PLACE_UPDATE（异地更新）
-    if (_k == k) {
+    Value old_v;
+    if (leaf->find_value(k, old_v)) {
       if (is_load) {
         goto insert_finish;
       }
@@ -343,7 +346,7 @@ next:
 #ifdef TREE_ENABLE_WRITE_COMBINING
       local_lock_table->get_combining_value(k, v);
 #endif
-      if (leaf->get_value() == v) {
+      if (old_v == v) {
         goto insert_finish;
       }
 #ifdef TREE_ENABLE_IN_PLACE_UPDATE
@@ -376,11 +379,17 @@ next:
       goto insert_finish;
     }
 
-    // 走到这里，说明 k != _k 如果 k 和 _k 不匹配，需要进行叶子分裂
-    // 2.3 New key, we must merge the two leaves into a node (leaf split)
-    int partial_len = longest_common_prefix(_k, k, depth); // 计算最长公共前缀（LCP）
-    uint8_t diff_partial = get_partial(_k, depth + partial_len);
-    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();     
+    // 2.3 New key: insert in current leaf first if there is space
+    if (!leaf->is_full()) {
+      in_place_update_leaf(k, v, p.addr(), leaf, cxt, coro_id);
+      goto insert_finish;
+    }
+
+    // 2.4 Leaf full, merge old leaf and new key into upper node (leaf split)
+    auto split_key = leaf->max;
+    int partial_len = longest_common_prefix(split_key, k, depth);
+    uint8_t diff_partial = get_partial(split_key, depth + partial_len);
+    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
     bool res = out_of_place_write_node(k, v, depth, leaf_addr, partial_len, diff_partial, p_ptr, p, node_ptr, cas_buffer, cxt, coro_id);
     // cas fail, retry
     if (!res) {
@@ -557,12 +566,8 @@ re_read:
   dsm->read_sync(leaf_buffer, leaf_addr, leaf_size, cxt);
   
   auto leaf = (Leaf *)leaf_buffer;
-  // udpate reverse pointer if needed
-  if (!from_cache && leaf->rev_ptr != p_ptr) {
-    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
-    dsm->cas(leaf_addr, leaf->rev_ptr, p_ptr, cas_buffer, false, cxt);
-    // dsm->cas_sync(leaf_addr, leaf->rev_ptr, p_ptr, cas_buffer, cxt);
-  }
+  // Keep rev_ptr stable as the leaf-anchor redirect pointer.
+  // Do not rewrite it opportunistically on reads.
   // invalidation
   // clock_gettime(CLOCK_MONOTONIC, &end_time);
   // double read_leaf_time = (end_time.tv_sec - start_time.tv_sec) * 1e9 + (end_time.tv_nsec - start_time.tv_nsec);
@@ -583,8 +588,8 @@ re_read:
 void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &leaf_addr, Leaf* leaf,
                                CoroContext *cxt, int coro_id) {
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
-  static const uint64_t lock_cas_offset = ROUND_DOWN(STRUCT_OFFSET(Leaf, lock_byte), 3);
-  static const uint64_t lock_mask       = 1UL << ((STRUCT_OFFSET(Leaf, lock_byte) - lock_cas_offset) * 8);
+  static const uint64_t lock_cas_offset = ROUND_DOWN(STRUCT_OFFSET(Leaf, ex_lock), 3);
+  static const uint64_t lock_mask       = 1UL << ((STRUCT_OFFSET(Leaf, ex_lock) - lock_cas_offset) * 8);
 #endif
 
   auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
@@ -623,7 +628,7 @@ void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &lea
   };
   // write and unlock
   auto write_and_unlock = [=](const GlobalAddress &unique_leaf_addr){
-    leaf->unlock();
+    leaf->unlock_exclusive();
     dsm->write_sync((const char*)leaf, unique_leaf_addr, sizeof(Leaf), cxt);
   };
 #endif
@@ -648,8 +653,9 @@ re_acquire:
 write_leaf:
 #ifdef TREE_TEST_HOCL_HANDOVER
   // in-place write leaf & unlock
-  assert(leaf->get_key() == k);
-  leaf->set_value(v);
+  if (!leaf->set_value_by_key(k, v)) {
+    assert(leaf->insert_by_order(k, v));
+  }
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
@@ -662,15 +668,16 @@ write_leaf:
 #else
   UNUSED(unlock);
   // in-place write leaf & unlock
-  assert(leaf->get_key() == k);
 #ifdef TREE_ENABLE_WRITE_COMBINING
   local_lock_table->get_combining_value(k, v);
 #endif
-  leaf->set_value(v);
+  if (!leaf->set_value_by_key(k, v)) {
+    assert(leaf->insert_by_order(k, v));
+  }
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
-  leaf->unlock();
+  leaf->unlock_exclusive();
   dsm->write_sync((const char*)leaf, leaf_addr, sizeof(Leaf), cxt);
 #else
   // batch write updated leaf and on-chip lock
@@ -871,6 +878,31 @@ bool Tree::out_of_place_write_node(const Key &k, Value &v, int depth, GlobalAddr
   if (leaf_unwrite) {  // !ONLY allocate once
     new (leaf_buffer) Leaf(k, v, leaf_e_ptr);
     leaf_addr = dsm->alloc(sizeof(Leaf));
+
+    // maintain leaf chain for sequential range scan
+    if (old_e.is_leaf) {
+      auto old_leaf_buffer = (dsm->get_rbuf(coro_id)).get_page_buffer();
+      dsm->read_sync(old_leaf_buffer, old_e.addr(), sizeof(Leaf), cxt);
+      auto old_leaf = (Leaf *)old_leaf_buffer;
+      auto new_leaf = (Leaf *)leaf_buffer;
+
+      if (old_leaf->is_consistent()) {
+        if (k < old_leaf->min) {
+          // new leaf before old leaf
+          new_leaf->next_leaf = old_e.addr();
+          new_leaf->set_consistent();
+        }
+        else {
+          // new leaf after old leaf (including in-range fallback)
+          new_leaf->next_leaf = old_leaf->next_leaf;
+          new_leaf->set_consistent();
+
+          old_leaf->next_leaf = leaf_addr;
+          old_leaf->set_consistent();
+          dsm->write((const char *)old_leaf, old_e.addr(), sizeof(Leaf), false, cxt);
+        }
+      }
+    }
   }
   else {  // write the changed e_ptr inside new leaf  TODO: batch
     auto ptr_buffer = (dsm->get_rbuf(coro_id)).get_entry_buffer();
@@ -1143,20 +1175,21 @@ next:
         index_cache->invalidate(entry_ptr_ptr, entry_ptr);
       }
 #endif
-      // re-read leaf entry
+      // stale-leaf redirection: retry from leaf-anchor entry if available.
+      auto stale_leaf = (Leaf *)leaf_buffer;
+      auto redirected_ptr = (stale_leaf->rev_ptr == GlobalAddress::Null() ? p_ptr : stale_leaf->rev_ptr);
       auto entry_buffer = (dsm->get_rbuf(coro_id)).get_entry_buffer();
-      dsm->read_sync((char *)entry_buffer, p_ptr, sizeof(InternalEntry), cxt);
+      dsm->read_sync((char *)entry_buffer, redirected_ptr, sizeof(InternalEntry), cxt);
+      p_ptr = redirected_ptr;
       p = *(InternalEntry *)entry_buffer;
       from_cache = false;
       retry_flag = INVALID_LEAF;
       goto next;
     }
     auto leaf = (Leaf *)leaf_buffer;
-    auto _k = leaf->get_key();
 
     // 2.2 Check if it is the key we search
-    if (_k == k) {
-      v = leaf->get_value();
+    if (leaf->find_value(k, v)) {
       search_res = true;
     }
     else {
@@ -1446,8 +1479,6 @@ next_level:
     // 3.1 if it is leaf, check & save result
     if (si[i].e.is_leaf) {
       Leaf *leaf = (Leaf *)(range_buffer + i * define::allocationPageSize);
-      auto k = leaf->get_key();
-
       if (!leaf->is_valid(si[i].e_ptr, si[i].from_cache)) {
         // invalidate the old leaf entry cache
 #ifdef TREE_ENABLE_CACHE
@@ -1455,9 +1486,11 @@ next_level:
           index_cache->invalidate(si[i].entry_ptr_ptr, si[i].entry_ptr);
         }
 #endif
-        // re-read leaf entry
+        // stale-leaf redirection: retry from leaf-anchor entry if available.
+        auto redirected_ptr = (leaf->rev_ptr == GlobalAddress::Null() ? si[i].e_ptr : leaf->rev_ptr);
         auto entry_buffer = (dsm->get_rbuf(0)).get_entry_buffer();
-        dsm->read_sync((char *)entry_buffer, si[i].e_ptr, sizeof(InternalEntry));
+        dsm->read_sync((char *)entry_buffer, redirected_ptr, sizeof(InternalEntry));
+        si[i].e_ptr = redirected_ptr;
         si[i].e = *(InternalEntry *)entry_buffer;
         si[i].from_cache = false;
         survivors.push_back(si[i]);
@@ -1467,9 +1500,41 @@ next_level:
         survivors.push_back(si[i]);
       }
 
-      if (k >= from && k < to) {  // [from, to)
-        ret[k] = leaf->get_value();
-        // TODO: cache hit ratio
+      auto n = leaf->size();
+      for (uint16_t s = 0; s < n; ++ s) {
+        auto k = leaf->keys[s];
+        if (k >= from && k < to) {  // [from, to)
+          ret[k] = leaf->values[s];
+          // TODO: cache hit ratio
+        }
+      }
+
+      // sequential leaf-chain scan fast path (B+Tree-style)
+      if (leaf->has_next() && leaf->max < to) {
+        auto next_addr = leaf->next_leaf;
+        auto leaf_buffer = (dsm->get_rbuf(0)).get_leaf_buffer();
+        while (next_addr != GlobalAddress::Null()) {
+          dsm->read_sync(leaf_buffer, next_addr, sizeof(Leaf));
+          auto next_leaf = (Leaf *)leaf_buffer;
+          if (!next_leaf->is_valid(GlobalAddress::Null(), false) || !next_leaf->is_consistent()) {
+            break;
+          }
+          if (!next_leaf->intersects(from, to)) {
+            if (next_leaf->min >= to) break;
+            next_addr = next_leaf->next_leaf;
+            continue;
+          }
+
+          auto next_n = next_leaf->size();
+          for (uint16_t s = 0; s < next_n; ++ s) {
+            auto k = next_leaf->keys[s];
+            if (k >= from && k < to) {
+              ret[k] = next_leaf->values[s];
+            }
+          }
+          if (next_leaf->max >= to) break;
+          next_addr = next_leaf->next_leaf;
+        }
       }
     }
     // 3.2 if it is node, check & choose in-range entry in it
