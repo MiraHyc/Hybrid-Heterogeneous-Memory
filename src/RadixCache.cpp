@@ -275,6 +275,15 @@ next:
 
 
 void RadixCache::search_range_from_cache(const Key &from, const Key &to, std::vector<RangeCache> &result) {
+  if (to <= from) return;
+
+  struct Frame {
+    Key l;
+    Key r;  // inclusive
+    State l_state;
+    State r_state;
+  };
+
   GlobalAddress p_ptr;
   InternalEntry p;
   int depth;
@@ -282,9 +291,26 @@ void RadixCache::search_range_from_cache(const Key &from, const Key &to, std::ve
   CacheEntry* entry_ptr = nullptr;
   int entry_idx = -1;
 
-  for (auto k = from; k < to; k = k + 1) {
-    auto e = search_from_cache(k, entry_ptr_ptr, entry_ptr, entry_idx);
-    if (e) {
+  std::vector<Frame> frames;
+  frames.push_back(Frame{from, to - 1, BORDER, BORDER});
+
+  while (!frames.empty()) {
+    auto f = frames.back();
+    frames.pop_back();
+
+    if (f.l > f.r || f.l_state == OUTSIDE || f.r_state == OUTSIDE) continue;
+
+    auto k = f.l;
+    bool found = false;
+    while (k <= f.r) {
+      auto e = search_from_cache(k, entry_ptr_ptr, entry_ptr, entry_idx);
+      if (!e) {
+        // For fully-inside frames, a miss means this frame has no reusable L2 seed.
+        if (f.l_state == INSIDE && f.r_state == INSIDE) break;
+        k = k + 1;
+        continue;
+      }
+
       assert(entry_idx >= 0);
       p_ptr = GADD(entry_ptr->addr, sizeof(InternalEntry) * entry_idx);
       p = entry_ptr->records[entry_idx];
@@ -292,8 +318,24 @@ void RadixCache::search_range_from_cache(const Key &from, const Key &to, std::ve
 
       auto leftmost = p.is_leaf ? k : get_leftmost(k, depth);
       auto rightmost = p.is_leaf ? k : get_rightmost(k, depth);
-      result.push_back(RangeCache(leftmost, rightmost, p_ptr, p, depth, entry_ptr_ptr, entry_ptr));
+      auto hit_l = std::max(leftmost, f.l);
+      auto hit_r = std::min(rightmost, f.r);
+      if (hit_l <= hit_r) {
+        result.push_back(RangeCache(hit_l, hit_r, p_ptr, p, depth, entry_ptr_ptr, entry_ptr));
+        found = true;
+      }
+
+      // Split uncovered borders into new BORDER frames.
+      if (f.l < hit_l) {
+        frames.push_back(Frame{f.l, hit_l - 1, f.l_state, BORDER});
+      }
+      if (hit_r < f.r) {
+        frames.push_back(Frame{hit_r + 1, f.r, BORDER, f.r_state});
+      }
+      break;
     }
+
+    UNUSED(found);
   }
   return;
 }
