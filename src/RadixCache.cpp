@@ -275,24 +275,129 @@ next:
 
 
 void RadixCache::search_range_from_cache(const Key &from, const Key &to, std::vector<RangeCache> &result) {
+  if (to <= from) return;
+
   GlobalAddress p_ptr;
   InternalEntry p;
   int depth;
-  volatile CacheEntry** entry_ptr_ptr = nullptr;
-  CacheEntry* entry_ptr = nullptr;
-  int entry_idx = -1;
+  auto to_inc = to - 1;
 
-  for (auto k = from; k < to; k = k + 1) {
-    auto e = search_from_cache(k, entry_ptr_ptr, entry_ptr, entry_idx);
-    if (e) {
-      assert(entry_idx >= 0);
-      p_ptr = GADD(entry_ptr->addr, sizeof(InternalEntry) * entry_idx);
-      p = entry_ptr->records[entry_idx];
-      depth = entry_ptr->depth;
+  struct Frame {
+    CacheNode* node;
+    Key prefix;
+    State l_state;
+    State r_state;
+  };
 
-      auto leftmost = p.is_leaf ? k : get_leftmost(k, depth);
-      auto rightmost = p.is_leaf ? k : get_rightmost(k, depth);
-      result.push_back(RangeCache(leftmost, rightmost, p_ptr, p, depth, entry_ptr_ptr, entry_ptr));
+  std::vector<Frame> stack;
+  stack.push_back(Frame{cache_root, Key{}, BORDER, BORDER});
+
+  std::set<std::pair<uint64_t, uint64_t>> seen_entries;
+
+  while (!stack.empty()) {
+    auto frame = stack.back();
+    stack.pop_back();
+
+    auto* node = frame.node;
+    if (node == nullptr) continue;
+
+    auto* hdr = (CacheHeader *)node->header;
+    auto l_state = frame.l_state;
+    auto r_state = frame.r_state;
+    auto prefix = frame.prefix;
+
+    if (l_state == BORDER) {
+      int j;
+      for (j = 0; j < (int)hdr->partial.size(); ++j) {
+        auto depth_idx = hdr->depth + j;
+        auto h = hdr->partial[j];
+        prefix.at(depth_idx) = h;
+        if (h != from.at(depth_idx)) break;
+      }
+      if (j == (int)hdr->partial.size()) l_state = BORDER;
+      else if (hdr->partial[j] > from.at(hdr->depth + j)) l_state = INSIDE;
+      else l_state = OUTSIDE;
+    } else {
+      for (int j = 0; j < (int)hdr->partial.size(); ++j) {
+        prefix.at(hdr->depth + j) = hdr->partial[j];
+      }
+    }
+
+    if (r_state == BORDER) {
+      int j;
+      for (j = 0; j < (int)hdr->partial.size(); ++j) {
+        auto depth_idx = hdr->depth + j;
+        auto h = hdr->partial[j];
+        prefix.at(depth_idx) = h;
+        if (h != to_inc.at(depth_idx)) break;
+      }
+      if (j == (int)hdr->partial.size()) r_state = BORDER;
+      else if (hdr->partial[j] < to_inc.at(hdr->depth + j)) r_state = INSIDE;
+      else r_state = OUTSIDE;
+    }
+
+    if (l_state == OUTSIDE || r_state == OUTSIDE) continue;
+
+    int next_depth_idx = hdr->depth + hdr->partial.size();
+    if (next_depth_idx >= (int)define::keyLen) continue;
+
+    const auto from_partial = from.at(next_depth_idx);
+    const auto to_partial = to_inc.at(next_depth_idx);
+
+    for (auto &cache_map_entry : node->records) {
+      auto partial = cache_map_entry.first;
+      auto e_l_state = l_state;
+      auto e_r_state = r_state;
+
+      if (e_l_state == BORDER) {
+        if (partial == from_partial) e_l_state = BORDER;
+        else if (partial > from_partial) e_l_state = INSIDE;
+        else e_l_state = OUTSIDE;
+      }
+      if (e_r_state == BORDER) {
+        if (partial == to_partial) e_r_state = BORDER;
+        else if (partial < to_partial) e_r_state = INSIDE;
+        else e_r_state = OUTSIDE;
+      }
+      if (e_l_state == OUTSIDE || e_r_state == OUTSIDE) continue;
+
+      auto next_prefix = prefix;
+      next_prefix.at(next_depth_idx) = partial;
+
+      auto entry_ptr_ptr = &(cache_map_entry.second.cache_entry);
+      auto entry_ptr = (CacheEntry *)cache_map_entry.second.cache_entry;
+      if (entry_ptr) {
+#if ENABLE_INDEX_CACHE_TTL
+        if (entry_ptr->is_expired()) {
+          invalidate(entry_ptr_ptr, entry_ptr);
+          entry_ptr = nullptr;
+        }
+#endif
+      }
+
+      if (entry_ptr) {
+        for (int i = 0; i < (int)entry_ptr->records.size(); ++ i) {
+          const auto& e = entry_ptr->records[i];
+          if (e == InternalEntry::Null() || e.partial != partial) continue;
+
+          p_ptr = GADD(entry_ptr->addr, sizeof(InternalEntry) * i);
+          p = e;
+          depth = entry_ptr->depth;
+
+          auto leftmost = p.is_leaf ? next_prefix : get_leftmost(next_prefix, depth);
+          auto rightmost = p.is_leaf ? next_prefix : get_rightmost(next_prefix, depth);
+
+          auto dedup_key = std::make_pair((uint64_t)p_ptr.val, (uint64_t)p.val);
+          if (seen_entries.insert(dedup_key).second) {
+            result.push_back(RangeCache(leftmost, rightmost, p_ptr, p, depth, entry_ptr_ptr, entry_ptr));
+          }
+        }
+      }
+
+      auto* next_node = (CacheNode *)cache_map_entry.second.next;
+      if (next_node != nullptr) {
+        stack.push_back(Frame{next_node, next_prefix, e_l_state, e_r_state});
+      }
     }
   }
   return;

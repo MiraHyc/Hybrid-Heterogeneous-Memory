@@ -18,6 +18,9 @@ constexpr int REMOTE_NUMA_NODE = 0; // 远端 NUMA 节点
 #define DSM_AND_RDMA_BUFFER_NUMA_NODE REMOTE_NUMA_NODE       // 指定 RDMA Buffer 在哪个 NUMA 节点上
 #define USE_LOCAL_CACHE                           // 是否使用本地缓存
 #define LOCAL_CACHE_CONFIG_SIZE_MB 20                  // 本地缓存大小
+// SCAN 请求在 local cache 路径下的切换阈值：
+// <= 阈值走逐 key local cache 查询，> 阈值走 tree::range_query 主路径
+#define LOCAL_CACHE_SCAN_POINT_THRESHOLD 64
 #endif
 
 // 是否启用 index cache，默认是在CMakelists里打开

@@ -209,18 +209,29 @@ void work_func(Tree *tree, const Request& r, CoroContext *ctx, int coro_id) {
   else {
     range_query_cnt++;
     std::map<Key, Value> ret;
-    // tree->range_query(r.k, r.k + r.range_size, ret);
-    for(auto k = r.k; k < r.k + r.range_size; k = k + 1){
-      Value v;
-      auto res = local_cache->query(k);
-      if(res == nullptr){
-        tree->search(k, v, ctx, coro_id);
-        local_cache->insert(k, v, ctx, coro_id);
+    // 自适应策略：小范围保留逐 key local cache 优势，大范围走 tree::range_query 主路径。
+    if (r.range_size <= LOCAL_CACHE_SCAN_POINT_THRESHOLD) {
+      for(auto k = r.k; k < r.k + r.range_size; k = k + 1){
+        Value v;
+        auto res = local_cache->query(k);
+        if(res == nullptr){
+          tree->search(k, v, ctx, coro_id);
+          local_cache->insert(k, v, ctx, coro_id);
+        }
+        else{
+          v = *res;
+        }
+        ret[k] = v;
       }
-      else{
-        v = *res;
+    } else {
+      tree->range_query(r.k, r.k + r.range_size, ret);
+      // 对大范围结果做采样回填，降低 local cache 污染。
+      int sample_cnt = 0;
+      for (const auto& kv : ret) {
+        if ((sample_cnt++ & 0x3) == 0) { // 1/4 采样
+          local_cache->insert(kv.first, kv.second, ctx, coro_id);
+        }
       }
-      ret[k] = v;
     }
   }
 }
