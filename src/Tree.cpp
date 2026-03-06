@@ -586,9 +586,6 @@ bool Tree::wait_smo_end(const GlobalAddress &leaf_addr, uint64_t *faa_buffer, Co
   while (lock < define::SMOUpLimit) {
     dsm->read_sync(reinterpret_cast<char *>(faa_buffer), GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), sizeof(uint64_t), cxt);
     lock = static_cast<int64_t>(*faa_buffer);
-    if (log_level >= 10) {
-      printf("Thread %u: wait leaf SMO done, lock=%ld\n", dsm->getMyThreadID(), lock);
-    }
   }
   return true;
 }
