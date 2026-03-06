@@ -577,7 +577,7 @@ insert_finish:
 
 bool Tree::faa_and_read(const GlobalAddress &leaf_addr, char *leaf_buffer, const GlobalAddress &p_ptr, bool from_cache, uint64_t *faa_buffer, CoroContext *cxt, int coro_id) {
   bool is_valid = read_leaf(leaf_addr, leaf_buffer, sizeof(Leaf), p_ptr, from_cache, cxt, coro_id);
-  *reinterpret_cast<int64_t *>(faa_buffer) = reinterpret_cast<Leaf *>(leaf_buffer)->lock;
+  dsm->faa_sync(GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), 0, faa_buffer, cxt);
   return is_valid;
 }
 

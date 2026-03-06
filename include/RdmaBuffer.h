@@ -9,6 +9,7 @@ class RdmaBuffer {
 private:
   // async, buffer safty
   static const int kCasBufferCnt    = 256;
+  static const int kFaaBufferCnt    = 256;
   static const int kPageBufferCnt   = 256;  // big enough to hold batch internal node write in out_of_place_write_node
   static const int kLeafBufferCnt   = 32;
   static const int kHeaderBufferCnt = 32;
@@ -17,6 +18,7 @@ private:
   char *buffer;
 
   uint64_t *cas_buffer;
+  uint64_t *faa_buffer;
   char *page_buffer;
   char *leaf_buffer;
   uint64_t * header_buffer;
@@ -25,6 +27,7 @@ private:
   char   *zero_byte;
 
   int cas_buffer_cur;
+  int faa_buffer_cur;
   int page_buffer_cur;
   int leaf_buffer_cur;
   int header_buffer_cur;
@@ -35,6 +38,7 @@ public:
     set_buffer(buffer);
 
     cas_buffer_cur    = 0;
+    faa_buffer_cur    = 0;
     page_buffer_cur   = 0;
     leaf_buffer_cur   = 0;
     header_buffer_cur = 0;
@@ -47,7 +51,8 @@ public:
     // printf("set buffer %p\n", buffer);
     this->buffer  = buffer;
     cas_buffer    = (uint64_t *)buffer;
-    page_buffer   = (char     *)((char *)cas_buffer    + sizeof(uint64_t)   * kCasBufferCnt);
+    faa_buffer    = (uint64_t *)((char *)cas_buffer    + sizeof(uint64_t)   * kCasBufferCnt);
+    page_buffer   = (char     *)((char *)faa_buffer    + sizeof(uint64_t)   * kFaaBufferCnt);
     leaf_buffer   = (char     *)((char *)page_buffer   + define::allocationPageSize * kPageBufferCnt);
     header_buffer = (uint64_t *)((char *)leaf_buffer   + define::allocAlignLeafSize * kLeafBufferCnt);
     entry_buffer  = (uint64_t *)((char *)header_buffer + sizeof(uint64_t)   * kHeaderBufferCnt);
@@ -61,6 +66,11 @@ public:
   uint64_t *get_cas_buffer() {
     cas_buffer_cur = (cas_buffer_cur + 1) % kCasBufferCnt;
     return cas_buffer + cas_buffer_cur;
+  }
+
+  uint64_t *get_faa_buffer() {
+    faa_buffer_cur = (faa_buffer_cur + 1) % kFaaBufferCnt;
+    return faa_buffer + faa_buffer_cur;
   }
 
   char *get_page_buffer() {
