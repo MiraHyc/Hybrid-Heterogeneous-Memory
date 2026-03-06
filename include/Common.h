@@ -121,6 +121,10 @@ constexpr uint64_t kIndexCacheTtlNs = 1000ull * 1000 * 1000;
 constexpr uint32_t keyLen = 8;
 constexpr uint32_t simulatedValLen = 8;
 constexpr uint32_t allocAlignLeafSize = ROUND_UP(keyLen + simulatedValLen + 8 + 2, ALLOC_ALLIGN_BIT);
+constexpr uint32_t kLeafPageSize = 1088;
+constexpr int64_t SMOstatus = -1000000;
+constexpr int64_t SMOUpLimit = -100000;
+constexpr int64_t normalOp = 1;
 
 // Tree
 constexpr uint64_t kRootPointerStoreOffest = kChunkSize / 2;
