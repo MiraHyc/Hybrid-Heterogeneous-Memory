@@ -577,7 +577,7 @@ insert_finish:
 
 bool Tree::faa_and_read(const GlobalAddress &leaf_addr, char *leaf_buffer, const GlobalAddress &p_ptr, bool from_cache, uint64_t *faa_buffer, CoroContext *cxt, int coro_id) {
   bool is_valid = read_leaf(leaf_addr, leaf_buffer, sizeof(Leaf), p_ptr, from_cache, cxt, coro_id);
-  *reinterpret_cast<int64_t *>(faa_buffer) = reinterpret_cast<Leaf *>(leaf_buffer)->lock;
+  dsm->faa_sync(GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), 0, faa_buffer, cxt);
   return is_valid;
 }
 
@@ -586,9 +586,6 @@ bool Tree::wait_smo_end(const GlobalAddress &leaf_addr, uint64_t *faa_buffer, Co
   while (lock < define::SMOUpLimit) {
     dsm->read_sync(reinterpret_cast<char *>(faa_buffer), GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), sizeof(uint64_t), cxt);
     lock = static_cast<int64_t>(*faa_buffer);
-    if (log_level >= 10) {
-      printf("Thread %u: wait leaf SMO done, lock=%ld\n", dsm->getMyThreadID(), lock);
-    }
   }
   return true;
 }
