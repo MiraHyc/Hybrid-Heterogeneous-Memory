@@ -308,9 +308,18 @@ next:
   // 如果 p 是叶子节点：读取 Leaf 结构。通过 DSM 读取数据到 leaf_buffer。如果 Leaf 无效（可能是 删除或缓存失效），需要重新读取
   // 2. If we are at a leaf, we need to update it / replace it with a node
   if (p.is_leaf) {
-    // 2.1 read the leaf
+    // 2.1 read the leaf and lock state (ternary-state lock path)
     auto leaf_buffer = (dsm->get_rbuf(coro_id)).get_leaf_buffer();
-    is_valid = read_leaf(p.addr(), leaf_buffer, std::max((unsigned long)p.kv_len, sizeof(Leaf)), p_ptr, from_cache, cxt, coro_id);
+    auto faa_buffer = (dsm->get_rbuf(coro_id)).get_faa_buffer();
+    is_valid = faa_and_read(p.addr(), leaf_buffer, p_ptr, from_cache, faa_buffer, cxt, coro_id);
+
+    int64_t lock_state = (int64_t)(*faa_buffer);
+    if (lock_state < define::SMOUpLimit) {
+      wait_smo_end(p.addr(), faa_buffer, cxt);
+      retry_flag = INVALID_LEAF;
+      leaf_cache_invalid[dsm->getMyThreadID()] ++;
+      goto next;
+    }
 
     if (!is_valid) {
 #ifdef TREE_ENABLE_CACHE
@@ -387,7 +396,18 @@ next:
     int partial_len = longest_common_prefix(split_key, k, depth);
     uint8_t diff_partial = get_partial(split_key, depth + partial_len);
     auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
+
+    auto lock_addr = GADD(p.addr(), STRUCT_OFFSET(Leaf, lock));
+    const uint64_t smo_lock = static_cast<uint64_t>(define::SMOstatus + define::normalOp);
+    if (!dsm->cas_sync(lock_addr, 0UL, smo_lock, cas_buffer, cxt)) {
+      retry_flag = CAS_LEAF;
+      goto next;
+    }
+
     bool res = out_of_place_write_node(k, v, depth, leaf_addr, partial_len, diff_partial, p_ptr, p, node_ptr, cas_buffer, cxt, coro_id);
+    bool unlock_ok = dsm->cas_sync(lock_addr, smo_lock, 0UL, cas_buffer, cxt);
+    assert(unlock_ok);
+
     // cas fail, retry
     if (!res) {
       p = *(InternalEntry*) cas_buffer;
@@ -555,6 +575,24 @@ insert_finish:
 }
 
 
+bool Tree::faa_and_read(const GlobalAddress &leaf_addr, char *leaf_buffer, const GlobalAddress &p_ptr, bool from_cache, uint64_t *faa_buffer, CoroContext *cxt, int coro_id) {
+  bool is_valid = read_leaf(leaf_addr, leaf_buffer, sizeof(Leaf), p_ptr, from_cache, cxt, coro_id);
+  *reinterpret_cast<int64_t *>(faa_buffer) = reinterpret_cast<Leaf *>(leaf_buffer)->lock;
+  return is_valid;
+}
+
+bool Tree::wait_smo_end(const GlobalAddress &leaf_addr, uint64_t *faa_buffer, CoroContext *cxt) {
+  int64_t lock = static_cast<int64_t>(*faa_buffer);
+  while (lock < define::SMOUpLimit) {
+    dsm->read_sync(reinterpret_cast<char *>(faa_buffer), GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), sizeof(uint64_t), cxt);
+    lock = static_cast<int64_t>(*faa_buffer);
+    if (log_level >= 10) {
+      printf("Thread %u: wait leaf SMO done, lock=%ld\n", dsm->getMyThreadID(), lock);
+    }
+  }
+  return true;
+}
+
 bool Tree::read_leaf(const GlobalAddress &leaf_addr, char *leaf_buffer, int leaf_size, const GlobalAddress &p_ptr, bool from_cache, CoroContext *cxt, int coro_id) {
   try_read_leaf[dsm->getMyThreadID()] ++;
   // struct timespec start_time, end_time;
@@ -588,17 +626,12 @@ re_read:
 
 void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &leaf_addr, Leaf* leaf,
                                CoroContext *cxt, int coro_id) {
-#ifdef TREE_ENABLE_EMBEDDING_LOCK
-  static const uint64_t lock_cas_offset = ROUND_DOWN(STRUCT_OFFSET(Leaf, ex_lock), 3);
-  static const uint64_t lock_mask       = 1UL << ((STRUCT_OFFSET(Leaf, ex_lock) - lock_cas_offset) * 8);
-#endif
-
   auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
 
   // lock function
   auto acquire_lock = [=](const GlobalAddress &unique_leaf_addr) {
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
-    return dsm->cas_mask_sync(GADD(unique_leaf_addr, lock_cas_offset), 0UL, ~0UL, cas_buffer, lock_mask, cxt);
+    return dsm->cas_sync(GADD(unique_leaf_addr, STRUCT_OFFSET(Leaf, lock)), 0UL, define::normalOp, cas_buffer, cxt);
 #else
     GlobalAddress lock_addr;
     uint64_t mask;
@@ -610,7 +643,7 @@ void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &lea
   // unlock function
   auto unlock = [=](const GlobalAddress &unique_leaf_addr){
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
-    dsm->cas_mask_sync(GADD(unique_leaf_addr, lock_cas_offset), ~0UL, 0UL, cas_buffer, lock_mask, cxt);
+    dsm->cas_sync(GADD(unique_leaf_addr, STRUCT_OFFSET(Leaf, lock)), define::normalOp, 0UL, cas_buffer, cxt);
 #else
     GlobalAddress lock_addr;
     uint64_t mask;
