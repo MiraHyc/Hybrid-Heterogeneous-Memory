@@ -107,6 +107,9 @@ private:
 
   // 读取叶子节点
   bool read_leaf(const GlobalAddress &leaf_addr, char *leaf_buffer, int leaf_size, const GlobalAddress &p_ptr, bool from_cache, CoroContext *cxt, int coro_id);
+  // ternary-state lock read helper (FAA semantics emulated by lock read)
+  bool faa_and_read(const GlobalAddress &leaf_addr, char *leaf_buffer, const GlobalAddress &p_ptr, bool from_cache, uint64_t *faa_buffer, CoroContext *cxt, int coro_id);
+  bool wait_smo_end(const GlobalAddress &leaf_addr, uint64_t *faa_buffer, CoroContext *cxt);
   // 原地更新叶子
   void in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &leaf_addr, Leaf *leaf,
                            CoroContext *cxt, int coro_id);
