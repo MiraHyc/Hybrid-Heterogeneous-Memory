@@ -612,6 +612,32 @@ bool DSM::cas_sync(GlobalAddress gaddr, uint64_t equal, uint64_t val,
   return equal == *rdma_buffer;
 }
 
+void DSM::faa(GlobalAddress gaddr, int64_t add_val, uint64_t *rdma_buffer,
+              bool signal, CoroContext *ctx) {
+
+  if (ctx == nullptr) {
+    rdmaFetchAndAdd(iCon->data[0][gaddr.nodeID], (uint64_t)rdma_buffer,
+                    remoteInfo[gaddr.nodeID].dsmBase + gaddr.offset, add_val,
+                    iCon->cacheLKey, remoteInfo[gaddr.nodeID].dsmRKey[0], signal);
+  } else {
+    rdmaFetchAndAdd(iCon->data[0][gaddr.nodeID], (uint64_t)rdma_buffer,
+                    remoteInfo[gaddr.nodeID].dsmBase + gaddr.offset, add_val,
+                    iCon->cacheLKey, remoteInfo[gaddr.nodeID].dsmRKey[0], true,
+                    ctx->coro_id);
+    (*ctx->yield)(*ctx->master);
+  }
+}
+
+void DSM::faa_sync(GlobalAddress gaddr, int64_t add_val, uint64_t *rdma_buffer,
+                   CoroContext *ctx) {
+  faa(gaddr, add_val, rdma_buffer, true, ctx);
+
+  if (ctx == nullptr) {
+    ibv_wc wc;
+    pollWithCQ(iCon->cq, 1, &wc);
+  }
+}
+
 void DSM::cas_mask(GlobalAddress gaddr, uint64_t equal, uint64_t val,
                    uint64_t *rdma_buffer, uint64_t mask, bool signal, CoroContext *ctx) {
   if (ctx == nullptr) {

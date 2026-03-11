@@ -308,9 +308,18 @@ next:
   // 如果 p 是叶子节点：读取 Leaf 结构。通过 DSM 读取数据到 leaf_buffer。如果 Leaf 无效（可能是 删除或缓存失效），需要重新读取
   // 2. If we are at a leaf, we need to update it / replace it with a node
   if (p.is_leaf) {
-    // 2.1 read the leaf
+    // 2.1 read the leaf and lock state (ternary-state lock path)
     auto leaf_buffer = (dsm->get_rbuf(coro_id)).get_leaf_buffer();
-    is_valid = read_leaf(p.addr(), leaf_buffer, std::max((unsigned long)p.kv_len, sizeof(Leaf)), p_ptr, from_cache, cxt, coro_id);
+    auto faa_buffer = (dsm->get_rbuf(coro_id)).get_faa_buffer();
+    is_valid = faa_and_read(p.addr(), leaf_buffer, p_ptr, from_cache, faa_buffer, cxt, coro_id);
+
+    int64_t lock_state = (int64_t)(*faa_buffer);
+    if (lock_state < define::SMOUpLimit) {
+      wait_smo_end(p.addr(), faa_buffer, cxt);
+      retry_flag = INVALID_LEAF;
+      leaf_cache_invalid[dsm->getMyThreadID()] ++;
+      goto next;
+    }
 
     if (!is_valid) {
 #ifdef TREE_ENABLE_CACHE
@@ -329,13 +338,13 @@ next:
     }
 
     auto leaf = (Leaf *)leaf_buffer;
-    auto _k = leaf->get_key();
 
     // 2.2 Check if we are updating an existing key
     // 如果是数据加载（is_load = true），直接返回。
     // 如果 v 没变，直接返回。
     // 否则：启用 IN_PLACE_UPDATE（原地更新）。否则执行 OUT_OF_PLACE_UPDATE（异地更新）
-    if (_k == k) {
+    Value old_v;
+    if (leaf->find_value(k, old_v)) {
       if (is_load) {
         goto insert_finish;
       }
@@ -343,7 +352,7 @@ next:
 #ifdef TREE_ENABLE_WRITE_COMBINING
       local_lock_table->get_combining_value(k, v);
 #endif
-      if (leaf->get_value() == v) {
+      if (old_v == v) {
         goto insert_finish;
       }
 #ifdef TREE_ENABLE_IN_PLACE_UPDATE
@@ -376,12 +385,29 @@ next:
       goto insert_finish;
     }
 
-    // 走到这里，说明 k != _k 如果 k 和 _k 不匹配，需要进行叶子分裂
-    // 2.3 New key, we must merge the two leaves into a node (leaf split)
-    int partial_len = longest_common_prefix(_k, k, depth); // 计算最长公共前缀（LCP）
-    uint8_t diff_partial = get_partial(_k, depth + partial_len);
-    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();     
+    // 2.3 New key: insert in current leaf first if there is space
+    if (!leaf->is_full()) {
+      in_place_update_leaf(k, v, p.addr(), leaf, cxt, coro_id);
+      goto insert_finish;
+    }
+
+    // 2.4 Leaf full, merge old leaf and new key into upper node (leaf split)
+    auto split_key = leaf->max;
+    int partial_len = longest_common_prefix(split_key, k, depth);
+    uint8_t diff_partial = get_partial(split_key, depth + partial_len);
+    auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
+
+    auto lock_addr = GADD(p.addr(), STRUCT_OFFSET(Leaf, lock));
+    const uint64_t smo_lock = static_cast<uint64_t>(define::SMOstatus + define::normalOp);
+    if (!dsm->cas_sync(lock_addr, 0UL, smo_lock, cas_buffer, cxt)) {
+      retry_flag = CAS_LEAF;
+      goto next;
+    }
+
     bool res = out_of_place_write_node(k, v, depth, leaf_addr, partial_len, diff_partial, p_ptr, p, node_ptr, cas_buffer, cxt, coro_id);
+    bool unlock_ok = dsm->cas_sync(lock_addr, smo_lock, 0UL, cas_buffer, cxt);
+    assert(unlock_ok);
+
     // cas fail, retry
     if (!res) {
       p = *(InternalEntry*) cas_buffer;
@@ -549,6 +575,21 @@ insert_finish:
 }
 
 
+bool Tree::faa_and_read(const GlobalAddress &leaf_addr, char *leaf_buffer, const GlobalAddress &p_ptr, bool from_cache, uint64_t *faa_buffer, CoroContext *cxt, int coro_id) {
+  bool is_valid = read_leaf(leaf_addr, leaf_buffer, sizeof(Leaf), p_ptr, from_cache, cxt, coro_id);
+  dsm->faa_sync(GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), 0, faa_buffer, cxt);
+  return is_valid;
+}
+
+bool Tree::wait_smo_end(const GlobalAddress &leaf_addr, uint64_t *faa_buffer, CoroContext *cxt) {
+  int64_t lock = static_cast<int64_t>(*faa_buffer);
+  while (lock < define::SMOUpLimit) {
+    dsm->read_sync(reinterpret_cast<char *>(faa_buffer), GADD(leaf_addr, STRUCT_OFFSET(Leaf, lock)), sizeof(uint64_t), cxt);
+    lock = static_cast<int64_t>(*faa_buffer);
+  }
+  return true;
+}
+
 bool Tree::read_leaf(const GlobalAddress &leaf_addr, char *leaf_buffer, int leaf_size, const GlobalAddress &p_ptr, bool from_cache, CoroContext *cxt, int coro_id) {
   try_read_leaf[dsm->getMyThreadID()] ++;
   // struct timespec start_time, end_time;
@@ -582,17 +623,12 @@ re_read:
 
 void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &leaf_addr, Leaf* leaf,
                                CoroContext *cxt, int coro_id) {
-#ifdef TREE_ENABLE_EMBEDDING_LOCK
-  static const uint64_t lock_cas_offset = ROUND_DOWN(STRUCT_OFFSET(Leaf, lock_byte), 3);
-  static const uint64_t lock_mask       = 1UL << ((STRUCT_OFFSET(Leaf, lock_byte) - lock_cas_offset) * 8);
-#endif
-
   auto cas_buffer = (dsm->get_rbuf(coro_id)).get_cas_buffer();
 
   // lock function
   auto acquire_lock = [=](const GlobalAddress &unique_leaf_addr) {
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
-    return dsm->cas_mask_sync(GADD(unique_leaf_addr, lock_cas_offset), 0UL, ~0UL, cas_buffer, lock_mask, cxt);
+    return dsm->cas_sync(GADD(unique_leaf_addr, STRUCT_OFFSET(Leaf, lock)), 0UL, define::normalOp, cas_buffer, cxt);
 #else
     GlobalAddress lock_addr;
     uint64_t mask;
@@ -604,7 +640,7 @@ void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &lea
   // unlock function
   auto unlock = [=](const GlobalAddress &unique_leaf_addr){
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
-    dsm->cas_mask_sync(GADD(unique_leaf_addr, lock_cas_offset), ~0UL, 0UL, cas_buffer, lock_mask, cxt);
+    dsm->cas_sync(GADD(unique_leaf_addr, STRUCT_OFFSET(Leaf, lock)), define::normalOp, 0UL, cas_buffer, cxt);
 #else
     GlobalAddress lock_addr;
     uint64_t mask;
@@ -623,7 +659,7 @@ void Tree::in_place_update_leaf(const Key &k, Value &v, const GlobalAddress &lea
   };
   // write and unlock
   auto write_and_unlock = [=](const GlobalAddress &unique_leaf_addr){
-    leaf->unlock();
+    leaf->unlock_exclusive();
     dsm->write_sync((const char*)leaf, unique_leaf_addr, sizeof(Leaf), cxt);
   };
 #endif
@@ -648,8 +684,9 @@ re_acquire:
 write_leaf:
 #ifdef TREE_TEST_HOCL_HANDOVER
   // in-place write leaf & unlock
-  assert(leaf->get_key() == k);
-  leaf->set_value(v);
+  if (!leaf->set_value_by_key(k, v)) {
+    assert(leaf->insert_by_order(k, v));
+  }
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
@@ -662,15 +699,16 @@ write_leaf:
 #else
   UNUSED(unlock);
   // in-place write leaf & unlock
-  assert(leaf->get_key() == k);
 #ifdef TREE_ENABLE_WRITE_COMBINING
   local_lock_table->get_combining_value(k, v);
 #endif
-  leaf->set_value(v);
+  if (!leaf->set_value_by_key(k, v)) {
+    assert(leaf->insert_by_order(k, v));
+  }
   leaf->set_consistent();
 #ifdef TREE_ENABLE_EMBEDDING_LOCK
   // write back the lock at the same time
-  leaf->unlock();
+  leaf->unlock_exclusive();
   dsm->write_sync((const char*)leaf, leaf_addr, sizeof(Leaf), cxt);
 #else
   // batch write updated leaf and on-chip lock
@@ -1152,11 +1190,9 @@ next:
       goto next;
     }
     auto leaf = (Leaf *)leaf_buffer;
-    auto _k = leaf->get_key();
 
     // 2.2 Check if it is the key we search
-    if (_k == k) {
-      v = leaf->get_value();
+    if (leaf->find_value(k, v)) {
       search_res = true;
     }
     else {
@@ -1446,8 +1482,6 @@ next_level:
     // 3.1 if it is leaf, check & save result
     if (si[i].e.is_leaf) {
       Leaf *leaf = (Leaf *)(range_buffer + i * define::allocationPageSize);
-      auto k = leaf->get_key();
-
       if (!leaf->is_valid(si[i].e_ptr, si[i].from_cache)) {
         // invalidate the old leaf entry cache
 #ifdef TREE_ENABLE_CACHE
@@ -1467,9 +1501,13 @@ next_level:
         survivors.push_back(si[i]);
       }
 
-      if (k >= from && k < to) {  // [from, to)
-        ret[k] = leaf->get_value();
-        // TODO: cache hit ratio
+      auto n = leaf->size();
+      for (uint16_t s = 0; s < n; ++ s) {
+        auto k = leaf->keys[s];
+        if (k >= from && k < to) {  // [from, to)
+          ret[k] = leaf->values[s];
+          // TODO: cache hit ratio
+        }
       }
     }
     // 3.2 if it is node, check & choose in-range entry in it

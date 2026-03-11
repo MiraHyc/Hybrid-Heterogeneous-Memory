@@ -106,6 +106,12 @@ public:
   bool cas_sync(GlobalAddress gaddr, uint64_t equal, uint64_t val,
                 uint64_t *rdma_buffer, CoroContext *ctx = nullptr);
 
+  // 原子加（Fetch-and-Add）
+  void faa(GlobalAddress gaddr, int64_t add_val, uint64_t *rdma_buffer,
+           bool signal = true, CoroContext *ctx = nullptr);
+  void faa_sync(GlobalAddress gaddr, int64_t add_val, uint64_t *rdma_buffer,
+                CoroContext *ctx = nullptr);
+
   // CAS成功后读
   void cas_read(RdmaOpRegion &cas_ror, RdmaOpRegion &read_ror, uint64_t equal,
                 uint64_t val, bool signal = true, CoroContext *ctx = nullptr);

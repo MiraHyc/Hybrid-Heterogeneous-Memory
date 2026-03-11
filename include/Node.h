@@ -23,56 +23,152 @@ static CRCProcessor crc_processor;
 */
 class Leaf {
 public:
+  static constexpr uint16_t kLeafCardinality = 4;
+  static constexpr int rev_ptr_offset = 0;
+  static constexpr int head_offset = sizeof(uint64_t) * 2 + sizeof(Key) * 2 + sizeof(GlobalAddress);
+  static constexpr int lock_offset = head_offset + kLeafCardinality * (sizeof(Key) + sizeof(Value));
+
   // for invalidation
   GlobalAddress rev_ptr;
-  // TODO: add key len & value len for out-of-place updates
-
-  union {
-  struct {
-  uint8_t f_padding   : 7;
-  uint8_t valid       : 1;
-  };
+  uint8_t front_version;
   uint8_t valid_byte;
-  };
+  uint32_t node_id;
+  uint16_t last_index;
 
-  uint64_t checksum;  // checksum(kv)
+  // leaf key range metadata
+  Key min;
+  Key max;
 
-  // kv
-  Key key;
+  // B+Tree-style payload
+  Key keys[kLeafCardinality];
   union {
-  Value value;
-  uint8_t _padding[define::simulatedValLen];
+    Value values[kLeafCardinality];
+    uint8_t _padding[kLeafCardinality][define::simulatedValLen];
   };
 
-  union {
-  struct {
-    uint8_t w_lock    : 1;
-    uint8_t r_padding : 7;
-  };
-  uint8_t lock_byte;
-  };
+  // sibling pointer at leaf level
+  GlobalAddress next_leaf;
+
+  // ternary-state node lock (IDU/SMO)
+  int64_t lock;
+
+  uint8_t rear_version;
+  uint64_t checksum;
 
 public:
-  Leaf() {}
-  Leaf(const Key& key, const Value& value, const GlobalAddress& rev_ptr) : rev_ptr(rev_ptr), f_padding(0), valid(1), key(key), value(value), lock_byte(0) { set_consistent(); }
+  Leaf()
+      : rev_ptr(GlobalAddress::Null()), front_version(0), valid_byte(0), node_id(0), last_index(0),
+        min(), max(), next_leaf(GlobalAddress::Null()), lock(0), rear_version(0), checksum(0) {}
 
-  const Key& get_key() const { return key; }
-  Value get_value() const { return value; }
-  bool is_valid(const GlobalAddress& p_ptr, bool from_cache) const { return valid && (!from_cache || p_ptr == rev_ptr); }
+  Leaf(const Key& key, const Value& value, const GlobalAddress& rev_ptr)
+      : rev_ptr(rev_ptr), front_version(1), valid_byte(1), node_id(0), last_index(0),
+        min(key), max(key), next_leaf(GlobalAddress::Null()), lock(0), rear_version(1), checksum(0) {
+    keys[0] = key;
+    values[0] = value;
+    for (uint16_t i = 1; i < kLeafCardinality; ++ i) {
+      keys[i] = Key();
+      values[i] = Value();
+    }
+    set_consistent();
+  }
+
+  bool is_valid(const GlobalAddress& p_ptr, bool from_cache) const {
+    return valid_byte != 0 && (!from_cache || p_ptr == rev_ptr);
+  }
+  uint16_t size() const { return valid_byte == 0 ? 0 : static_cast<uint16_t>(last_index + 1); }
+
+  const Key& get_key() const { return keys[0]; }
+  Value get_value() const { return values[0]; }
+  bool find_value(const Key& k, Value& v) const {
+    auto n = size();
+    for (uint16_t i = 0; i < n; ++ i) {
+      if (keys[i] == k) {
+        v = values[i];
+        return true;
+      }
+    }
+    return false;
+  }
+  bool is_full() const { return size() >= kLeafCardinality; }
+
+  bool insert_by_order(const Key& k, const Value& v) {
+    auto n = size();
+    if (n >= kLeafCardinality) return false;
+
+    uint16_t pos = 0;
+    while (pos < n && keys[pos] < k) ++ pos;
+
+    if (pos < n && keys[pos] == k) {
+      values[pos] = v;
+      return true;
+    }
+
+    for (uint16_t i = n; i > pos; -- i) {
+      keys[i] = keys[i - 1];
+      values[i] = values[i - 1];
+    }
+    keys[pos] = k;
+    values[pos] = v;
+
+    valid_byte = 1;
+    last_index = n;
+    return true;
+  }
+
+  bool set_value_by_key(const Key& k, const Value& v) {
+    auto n = size();
+    for (uint16_t i = 0; i < n; ++ i) {
+      if (keys[i] == k) {
+        values[i] = v;
+        return true;
+      }
+    }
+    return false;
+  }
+  void set_value(const Value& val) { values[0] = val; }
+
   bool is_consistent() const {
     crc_processor.reset();
-    crc_processor.process_bytes((char *)&key, sizeof(Key) + sizeof(uint8_t) * define::simulatedValLen);
+    crc_processor.process_bytes((char *)&front_version, sizeof(front_version));
+    crc_processor.process_bytes((char *)&valid_byte, sizeof(valid_byte));
+    crc_processor.process_bytes((char *)&node_id, sizeof(node_id));
+    crc_processor.process_bytes((char *)&last_index, sizeof(last_index));
+    crc_processor.process_bytes((char *)&next_leaf, sizeof(next_leaf));
+
+    auto n = size();
+    crc_processor.process_bytes((char *)&min, sizeof(min));
+    crc_processor.process_bytes((char *)&max, sizeof(max));
+    crc_processor.process_bytes((char *)keys, sizeof(Key) * n);
+    crc_processor.process_bytes((char *)values, sizeof(uint8_t) * define::simulatedValLen * n);
+    crc_processor.process_bytes((char *)&rear_version, sizeof(rear_version));
     return crc_processor.checksum() == checksum;
   }
 
-  void set_value(const Value& val) { value = val; }
   void set_consistent() {
     crc_processor.reset();
-    crc_processor.process_bytes((char *)&key, sizeof(Key) + sizeof(uint8_t) * define::simulatedValLen);
+    crc_processor.process_bytes((char *)&front_version, sizeof(front_version));
+    crc_processor.process_bytes((char *)&valid_byte, sizeof(valid_byte));
+    crc_processor.process_bytes((char *)&node_id, sizeof(node_id));
+    crc_processor.process_bytes((char *)&last_index, sizeof(last_index));
+    crc_processor.process_bytes((char *)&next_leaf, sizeof(next_leaf));
+
+    auto n = size();
+    if (n > 0) {
+      min = keys[0];
+      max = keys[n - 1];
+    }
+    crc_processor.process_bytes((char *)&min, sizeof(min));
+    crc_processor.process_bytes((char *)&max, sizeof(max));
+    crc_processor.process_bytes((char *)keys, sizeof(Key) * n);
+    crc_processor.process_bytes((char *)values, sizeof(uint8_t) * define::simulatedValLen * n);
+    rear_version = front_version;
+    crc_processor.process_bytes((char *)&rear_version, sizeof(rear_version));
     checksum = crc_processor.checksum();
   }
-  void unlock() { w_lock = 0; };
-  void lock() { w_lock = 1; };
+
+  bool has_next() const { return next_leaf != GlobalAddress::Null(); }
+  void unlock_exclusive() { lock -= define::normalOp; }
+  void lock_exclusive() { lock += define::normalOp; }
 
   static uint8_t get_partial(const Key& key, int depth);
   static Key get_leftmost(const Key& key, int depth);
